@@ -175,7 +175,7 @@ public partial class Default : System.Web.UI.Page
       else
         cbRadioGroups.SelectedIndex = allIndex;
     }
-    List<WebMiniEPG> epgs = server.GetTvMiniEPGForGroup(Int32.Parse(cbRadioGroups.SelectedValue));
+    List<WebMiniEPG> epgs = server.GetRadioMiniEPGForGroup(Int32.Parse(cbRadioGroups.SelectedValue));
     DataTable dt = new DataTable();
     dt.Columns.Add("channel", typeof(string));
     dt.Columns.Add("now_next", typeof(string));
@@ -196,7 +196,7 @@ public partial class Default : System.Web.UI.Page
   {
     if (e.CommandName == "play")
     {
-      int idx = (int)gridTv.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
+      int idx = (int)gridRadio.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
       CreateStreamBatch("idChannel=" + idx.ToString() + "&idProfile=" + cbRadioProfiles.SelectedIndex);
     }
   }
