@@ -686,8 +686,8 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public WebTvResult StartTimeShifting(int idChannel)
     {
-      
-      ConnectToDatabase();
+      if (!ConnectToDatabase())
+        return new WebTvResult();
       VirtualCard vcard;
       TvResult result;
       string rtspURL="";
@@ -713,7 +713,8 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public bool StopTimeShifting(int idChannel,int idCard,string userName)
     {
-      ConnectToDatabase();
+      if (!ConnectToDatabase())
+        return false;
       User user = new User(userName, false, idCard);
       user.IdChannel = idChannel;
       return RemoteControl.Instance.StopTimeShifting(ref user);
@@ -721,7 +722,8 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public bool StopRecording(int idChannel, int idCard, string userName)
     {
-      ConnectToDatabase();
+      if (!ConnectToDatabase())
+        return false;
       User user = new User(userName, false, idCard);
       user.IdChannel = idChannel;
       return RemoteControl.Instance.StopRecording(ref user);
@@ -729,10 +731,17 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public void SendHeartBeat(int idChannel,int idCard,string userName)
     {
-      ConnectToDatabase();
+      if (!ConnectToDatabase())
+        return;
       User user = new User(userName, false, idCard);
       user.IdChannel = idChannel;
-      RemoteControl.Instance.HeartBeat(user);
+      try
+      {
+        RemoteControl.Instance.HeartBeat(user);
+      }
+      catch (Exception)
+      {
+      }
     }
     #endregion
   }

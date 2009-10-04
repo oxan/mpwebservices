@@ -26,7 +26,18 @@ public partial class Default : System.Web.UI.Page
   {
     string url = Request.Url.ToString();
     string baseUrl = url.Substring(0, url.Length - Request.Url.AbsolutePath.Length);
-    string str = "\"c:\\program files\\videolan\\vlc\\vlc.exe\" \"" + baseUrl + "/Streamer.aspx?" + queryString + "\"";
+    string player = Utils.GetClientPlayerPath();
+    string str = "\"" + player + "\"";
+    string rtspProfile = "idProfile="+(cbRecordingProfiles.Items.Count - 1).ToString();
+    if (queryString.Contains("idRecording") && queryString.Contains(rtspProfile))
+    {
+      ServiceInterface server = new ServiceInterface();
+      string idRecording = queryString.Substring(0, queryString.IndexOf('&'));
+      idRecording = idRecording.Remove(0, 12);
+      str += " " + server.GetRecordingURL(Int32.Parse(idRecording));
+    }
+    else
+      str += " \"" + baseUrl + "/Streamer.aspx?" + queryString + "\"";
     Response.Clear();
     Response.AddHeader("Content-Disposition", "attachment;filename=StartStreaming.bat; charset=ASCII");
     Response.ContentType = "application/bat";
@@ -219,6 +230,7 @@ public partial class Default : System.Web.UI.Page
     gridRecordings.DataSource = dt;
     gridRecordings.DataBind();
     LoadStreamingProfiles(cbRecordingProfiles);
+    cbRecordingProfiles.Items.Add(new ListItem("[TvServer RTSP]"));
   }
   protected void gridRecordings_RowCommand(object sender, GridViewCommandEventArgs e)
   {
@@ -353,6 +365,8 @@ public partial class Default : System.Web.UI.Page
   {
     ServiceInterface server = new ServiceInterface();
     List<WebPicture> pics = server.GetAllPicturesByPath(cbPicturePath.SelectedValue);
+    int width; int height;
+    Utils.GetThumbDimensions(out width, out height);
     foreach (WebPicture pic in pics)
     {
       Image thumb = new Image();
@@ -361,8 +375,9 @@ public partial class Default : System.Web.UI.Page
       thumb.AlternateText = System.IO.Path.GetFileNameWithoutExtension(pic.file) + Environment.NewLine + pic.taken.ToString();
       thumb.BorderStyle = BorderStyle.Outset;
       thumb.BorderWidth = new Unit(1);
-      thumb.Width = new Unit(50);
-      thumb.Height = new Unit(50);
+      
+      thumb.Width = new Unit(width);
+      thumb.Height = new Unit(height);
       thumb.Attributes.Add("hspace", "4");
       thumb.Attributes.Add("vspace", "4");
       thumb.Attributes.Add("onclick", "window.open('PictureViewer.aspx?picture=" + Server.UrlEncode(pic.file) + "');");

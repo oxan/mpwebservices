@@ -27,6 +27,8 @@ namespace MediaPortal.TvServer.WebServices
         public EncoderWrapper(Stream input,EncoderConfig encCfg)
         {
           this.encCfg = encCfg;
+          if (!encCfg.useTranscoding)
+            return;
           SetupPipes();
           media = input;
           Start();

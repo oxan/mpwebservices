@@ -48,9 +48,17 @@
       this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
       this.label4 = new System.Windows.Forms.Label();
       this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+      this.label5 = new System.Windows.Forms.Label();
+      this.nudWidth = new System.Windows.Forms.NumericUpDown();
+      this.nudHeight = new System.Windows.Forms.NumericUpDown();
+      this.label6 = new System.Windows.Forms.Label();
+      this.label7 = new System.Windows.Forms.Label();
+      this.edPlayer = new System.Windows.Forms.TextBox();
       ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
       this.statusStrip1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).BeginInit();
       this.SuspendLayout();
       // 
       // btnSave
@@ -108,9 +116,9 @@
             this.Column4,
             this.Column5,
             this.Column7});
-      this.grid.Location = new System.Drawing.Point(16, 76);
+      this.grid.Location = new System.Drawing.Point(16, 117);
       this.grid.Name = "grid";
-      this.grid.Size = new System.Drawing.Size(662, 179);
+      this.grid.Size = new System.Drawing.Size(662, 120);
       this.grid.TabIndex = 6;
       // 
       // Column1
@@ -198,7 +206,7 @@
       // 
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 267);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 249);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(690, 22);
       this.statusStrip1.TabIndex = 11;
@@ -231,11 +239,65 @@
       this.linkLabel2.Visible = false;
       this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
       // 
+      // label5
+      // 
+      this.label5.AutoSize = true;
+      this.label5.Location = new System.Drawing.Point(13, 68);
+      this.label5.Name = "label5";
+      this.label5.Size = new System.Drawing.Size(74, 13);
+      this.label5.TabIndex = 14;
+      this.label5.Text = "Thumb Width:";
+      // 
+      // nudWidth
+      // 
+      this.nudWidth.Location = new System.Drawing.Point(122, 64);
+      this.nudWidth.Name = "nudWidth";
+      this.nudWidth.Size = new System.Drawing.Size(53, 20);
+      this.nudWidth.TabIndex = 15;
+      // 
+      // nudHeight
+      // 
+      this.nudHeight.Location = new System.Drawing.Point(122, 90);
+      this.nudHeight.Name = "nudHeight";
+      this.nudHeight.Size = new System.Drawing.Size(53, 20);
+      this.nudHeight.TabIndex = 17;
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new System.Drawing.Point(13, 94);
+      this.label6.Name = "label6";
+      this.label6.Size = new System.Drawing.Size(77, 13);
+      this.label6.TabIndex = 16;
+      this.label6.Text = "Thumb Height:";
+      // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.Location = new System.Drawing.Point(181, 94);
+      this.label7.Name = "label7";
+      this.label7.Size = new System.Drawing.Size(118, 13);
+      this.label7.TabIndex = 19;
+      this.label7.Text = "Client Streaming Player:";
+      // 
+      // edPlayer
+      // 
+      this.edPlayer.Location = new System.Drawing.Point(301, 91);
+      this.edPlayer.Name = "edPlayer";
+      this.edPlayer.Size = new System.Drawing.Size(379, 20);
+      this.edPlayer.TabIndex = 18;
+      // 
       // frmMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(690, 289);
+      this.ClientSize = new System.Drawing.Size(690, 271);
+      this.Controls.Add(this.label7);
+      this.Controls.Add(this.edPlayer);
+      this.Controls.Add(this.nudHeight);
+      this.Controls.Add(this.label6);
+      this.Controls.Add(this.nudWidth);
+      this.Controls.Add(this.label5);
       this.Controls.Add(this.label4);
       this.Controls.Add(this.linkLabel2);
       this.Controls.Add(this.statusStrip1);
@@ -255,6 +317,8 @@
       ((System.ComponentModel.ISupportInitialize)(this.grid)).EndInit();
       this.statusStrip1.ResumeLayout(false);
       this.statusStrip1.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.nudWidth)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.nudHeight)).EndInit();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -282,6 +346,12 @@
     private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     private System.Windows.Forms.Label label4;
     private System.Windows.Forms.LinkLabel linkLabel2;
+    private System.Windows.Forms.Label label5;
+    private System.Windows.Forms.NumericUpDown nudWidth;
+    private System.Windows.Forms.NumericUpDown nudHeight;
+    private System.Windows.Forms.Label label6;
+    private System.Windows.Forms.Label label7;
+    private System.Windows.Forms.TextBox edPlayer;
   }
 }
 

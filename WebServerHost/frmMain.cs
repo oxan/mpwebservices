@@ -16,6 +16,9 @@ namespace WebServerHost
   {
     int httpPort;
     string tvServerHost;
+    int thumbWidth;
+    int thumbHeight;
+    string clientPlayer;
     List<EncoderConfig> encCfgs;
     Cassini.Server webServer;
 
@@ -25,6 +28,9 @@ namespace WebServerHost
       LoadConfig();
       nudPort.Value = (Decimal)httpPort;
       edHost.Text = tvServerHost;
+      nudWidth.Value = thumbWidth;
+      nudHeight.Value = thumbHeight;
+      edPlayer.Text = clientPlayer;
       foreach (EncoderConfig cfg in encCfgs)
       {
         DataGridViewRow row = new DataGridViewRow();
@@ -50,6 +56,9 @@ namespace WebServerHost
       tvServerHost = gNode.Attributes["tvserverhost"].Value;
       if (tvServerHost == "")
         tvServerHost = Environment.MachineName;
+      thumbHeight = Int32.Parse(gNode.Attributes["thumbheight"].Value);
+      thumbWidth = Int32.Parse(gNode.Attributes["thumbwidth"].Value);
+      clientPlayer = gNode.Attributes["clientplayerpath"].Value;
       XmlNodeList nodes=doc.SelectNodes("/appconfig/transcoders/transcoder");
       encCfgs=new List<EncoderConfig>();
       foreach (XmlNode node in nodes)
@@ -88,6 +97,9 @@ namespace WebServerHost
       XmlNode gNode = doc.CreateElement("config");
       NewAttribute(gNode, "httpport", httpPort);
       NewAttribute(gNode, "tvserverhost", tvServerHost);
+      NewAttribute(gNode, "thumbwidth", thumbWidth);
+      NewAttribute(gNode, "thumbheight", thumbHeight);
+      NewAttribute(gNode, "clientplayerpath", clientPlayer);
 
       XmlNode transcoders = doc.CreateElement("transcoders");
       foreach (EncoderConfig cfg in encCfgs)
@@ -126,6 +138,9 @@ namespace WebServerHost
     {
       httpPort = (int)nudPort.Value;
       tvServerHost = edHost.Text;
+      thumbWidth = (int)nudWidth.Value;
+      thumbHeight = (int)nudHeight.Value;
+      clientPlayer = edPlayer.Text;
       encCfgs.Clear();
       foreach (DataGridViewRow row in grid.Rows)
       {

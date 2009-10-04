@@ -40,5 +40,20 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["tvserverhost"].Value;
     }
+    public static void GetThumbDimensions(out int width,out int height)
+    {
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
+      width=Int32.Parse(gNode.Attributes["thumbwidth"].Value);
+      height = Int32.Parse(gNode.Attributes["thumbheight"].Value);
+    }
+    public static string GetClientPlayerPath()
+    {
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
+      return gNode.Attributes["clientplayerpath"].Value;
+    }
   }
 }

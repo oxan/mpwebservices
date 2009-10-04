@@ -22,7 +22,7 @@ using System.IO;
     int usedChannel = -1;
     string tvServerUsername = "";
 
-    const int bufferSize = 524288;
+    const int bufferSize = 124288;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -44,7 +44,7 @@ using System.IO;
       }
       else if (Request.QueryString["idRecording"]!=null)
       {
-        WebRecording rec=server.GetRecording(Int32.Parse(Request.QueryString["idMovie"]));
+        WebRecording rec=server.GetRecording(Int32.Parse(Request.QueryString["idRecording"]));
         filename = rec.fileName;
       }
       else if (Request.QueryString["idMovie"]!=null)
@@ -59,14 +59,17 @@ using System.IO;
       }
       if (!File.Exists(filename))
         return;
+      Response.Clear();
+      Response.Buffer=false;
+      Response.BufferOutput=false;
+      Response.AppendHeader("Connection","Keep-Alive");
       List<EncoderConfig> cfgs = Utils.LoadConfig();
       EncoderConfig cfg = cfgs[Int32.Parse(Request.QueryString["idProfile"])];
-      if (!cfg.useTranscoding)
-        Response.TransmitFile(filename);
-      else
-      {
+
+        Response.ContentType="video/x-msvideo";
+        Response.StatusCode=200;
         Stream mediaStream;
-        if (Request.QueryString["idChannel"]!=null)
+        if (Request.QueryString["idChannel"] != null)
           mediaStream = new TsBuffer(filename);
         else
           mediaStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -83,12 +86,14 @@ using System.IO;
           {
             break; // stream is closed
           }
-          server.SendHeartBeat(usedChannel, usedCard, tvServerUsername);
+          if (Request.QueryString["idChannel"] != null)
+            server.SendHeartBeat(usedChannel, usedCard, tvServerUsername);
         }
+        mediaStream.Close();
         if (Request.QueryString["idChannel"] != null)
           server.StopTimeShifting(usedChannel, usedCard, tvServerUsername);
         encoder.StopProcess();
-      }
+	Response.End();
     }
   }
 

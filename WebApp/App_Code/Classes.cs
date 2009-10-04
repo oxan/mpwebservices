@@ -176,7 +176,12 @@ namespace MediaPortal.TvServer.WebServices.Classes
       this.stopTime = rec.StopTime;
       this.timesWatched = rec.TimesWatched;
       this.title = rec.Title;
-      this.channelName = Channel.Retrieve(rec.IdChannel).DisplayName;
+      try
+      {
+        this.channelName = Channel.Retrieve(rec.IdChannel).DisplayName;
+      }
+      catch (Exception)
+      { }
     }
   }
   public class WebReceptionDetails

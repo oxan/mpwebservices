@@ -1,5 +1,6 @@
 <appconfig>
-  <config httpport="81" tvserverhost="192.168.1.20" />
+  <config httpport="81" tvserverhost="KWASISERV" thumbheight="70" thumbwidth="70" clientplayerpath="c:\program files\Videolan\VLC\vlc.exe" />
+                                               
   <transcoders>
     <transcoder name="direct" usetranscoding="0" filename=" " args="" inputmethod="0" outputmethod="2" />
     <transcoder name="mencoder" usetranscoding="1" filename="c:\mencoder.exe" args="{0} -quiet -cache 8192 -oac lavc -of lavf -lavfopts format=dvd -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=4096:threads=2:acodec=ac3:abitrate=128 -ofps 24000/1001 -o {1}" inputmethod="0" outputmethod="0" />
