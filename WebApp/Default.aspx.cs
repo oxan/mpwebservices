@@ -44,6 +44,14 @@ public partial class Default : System.Web.UI.Page
     Response.Write(str);
     Response.End();
   }
+  protected void StartPlayer(string queryString, string mediafile)
+  {
+    int playerType = Utils.GetPlayerType();
+    if (playerType == 0)
+      CreateStreamBatch(queryString);
+    else
+      RegisterStartupScript("firefoxvlc", "<script>window.open('VLCFirefox.htm?url=" + queryString.Replace('&',',') + "&media=" + Server.HtmlEncode(mediafile) + "');</script>");
+  }
   protected void LoadStreamingProfiles(DropDownList cb)
   {
     List<EncoderConfig> cfgs = Utils.LoadConfig();
@@ -141,8 +149,9 @@ public partial class Default : System.Web.UI.Page
   {
     if (e.CommandName == "play")
     {
-      int idx = (int)gridTv.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
-      CreateStreamBatch("idChannel=" + idx.ToString() + "&idProfile=" + cbTvProfiles.SelectedIndex);
+      int rowIndex = Int32.Parse((string)e.CommandArgument);
+      int idx = (int)gridTv.DataKeys[rowIndex].Value;
+      StartPlayer("idChannel=" + idx.ToString() + "&idProfile=" + cbTvProfiles.SelectedIndex, gridTv.Rows[rowIndex].Cells[0].Text);
     }
   }
   protected void cbTvGroups_SelectedIndexChanged(object sender, EventArgs e)
@@ -196,8 +205,9 @@ public partial class Default : System.Web.UI.Page
   {
     if (e.CommandName == "play")
     {
-      int idx = (int)gridRadio.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
-      CreateStreamBatch("idChannel=" + idx.ToString() + "&idProfile=" + cbRadioProfiles.SelectedIndex);
+      int rowIndex=Int32.Parse((string)e.CommandArgument);
+      int idx = (int)gridRadio.DataKeys[rowIndex].Value;
+      StartPlayer("idChannel=" + idx.ToString() + "&idProfile=" + cbRadioProfiles.SelectedIndex, gridRadio.Rows[rowIndex].Cells[0].Text);
     }
   }
   protected void cbRadioGroups_SelectedIndexChanged(object sender, EventArgs e)
@@ -236,8 +246,9 @@ public partial class Default : System.Web.UI.Page
   {
     if (e.CommandName != "play")
       return;
-    int idx = (int)gridRecordings.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
-    CreateStreamBatch("idRecording=" + idx.ToString() + "&idProfile=" + cbRecordingProfiles.SelectedIndex);
+    int rowIndex = Int32.Parse((string)e.CommandArgument);
+    int idx = (int)gridRecordings.DataKeys[rowIndex].Value;
+    StartPlayer("idRecording=" + idx.ToString() + "&idProfile=" + cbRecordingProfiles.SelectedIndex, gridRecordings.Rows[rowIndex].Cells[4].Text);
   }
   #endregion
 
@@ -314,8 +325,9 @@ public partial class Default : System.Web.UI.Page
   }
   protected void gridMovies_RowCommand(object sender, GridViewCommandEventArgs e)
   {
-    int idx = (int)gridMovies.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
-    CreateStreamBatch("idMovie=" + idx.ToString() + "&idProfile=" + cbMovieProfiles.SelectedIndex);
+    int rowIndex = Int32.Parse((string)e.CommandArgument);
+    int idx = (int)gridMovies.DataKeys[rowIndex].Value;
+    StartPlayer("idMovie=" + idx.ToString() + "&idProfile=" + cbMovieProfiles.SelectedIndex, gridMovies.Rows[rowIndex].Cells[2].Text);
   }
   #endregion
 
@@ -346,8 +358,9 @@ public partial class Default : System.Web.UI.Page
   }
   protected void gridMusic_RowCommand(object sender, GridViewCommandEventArgs e)
   {
-    int idx = (int)gridMusic.DataKeys[Int32.Parse((string)e.CommandArgument)].Value;
-    CreateStreamBatch("idMusicTrack=" + idx.ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex);
+    int rowIndex = Int32.Parse((string)e.CommandArgument);
+    int idx = (int)gridMusic.DataKeys[rowIndex].Value;
+    StartPlayer("idMusicTrack=" + idx.ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex, gridMusic.Rows[rowIndex].Cells[4].Text);
   }
   #endregion
 

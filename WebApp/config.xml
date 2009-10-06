@@ -1,5 +1,5 @@
 <appconfig>
-  <config httpport="81" tvserverhost="KWASISERV" thumbheight="70" thumbwidth="70" clientplayerpath="c:\program files\Videolan\VLC\vlc.exe" />
+  <config httpport="81" tvserverhost="KWASISERV" thumbheight="70" thumbwidth="70" playertype="1" clientplayerpath="c:\program files\Videolan\VLC\vlc.exe" />
                                                
   <transcoders>
     <transcoder name="direct" usetranscoding="0" filename=" " args="" inputmethod="0" outputmethod="2" />

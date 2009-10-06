@@ -1,0 +1,35 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Untitled Page</title>
+    <script language=javascript>
+      function getQuerystring(key, default_)
+      {
+        if (default_==null) default_=""; 
+        key = key.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+        var regex = new RegExp("[\\?&]"+key+"=([^&#]*)");
+        var qs = regex.exec(window.location.href);
+        if(qs == null)
+          return default_;
+        else
+          return qs[1];
+      }
+      function Init()
+      {
+        document.getElementById('medianame').innerHTML=getQuerystring("media","");
+        var qUrl=getQuerystring("url","");
+        url="Streamer.aspx?"+qUrl.replace(",","&");
+        var vlc=document.getElementById('vlcplayer');
+        vlc.playlist.add(url);
+        vlc.playlist.play();
+      }
+</script>
+</head>
+<body onload="Init()">
+  <b>Media:</b> <span id="medianame"></span><br /><br />
+  <input type="button" value="play" onclick="document.getElementById('vlcplayer').playlist.play();" />&nbsp; <input type="button" value="pause" onclick="document.getElementById('vlcplayer').playlist.togglePause();" />&nbsp; <input type="button" value="stop" onclick="document.getElementById('vlcplayer').playlist.stop();" />&nbsp; <input type="button" value="switch fullscreen" onclick="document.getElementById('vlcplayer').video.fullscreen=true;" />
+  <hr style="border: solid 1px black" />
+  <embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2" id="vlcplayer" autoplay="no" loop="no" width="400" height="300" />
+</body>
+</html>

@@ -19,6 +19,7 @@ namespace WebServerHost
     int thumbWidth;
     int thumbHeight;
     string clientPlayer;
+    int playerType;
     List<EncoderConfig> encCfgs;
     Cassini.Server webServer;
 
@@ -31,6 +32,7 @@ namespace WebServerHost
       nudWidth.Value = thumbWidth;
       nudHeight.Value = thumbHeight;
       edPlayer.Text = clientPlayer;
+      cbPlayerType.SelectedIndex = playerType;
       foreach (EncoderConfig cfg in encCfgs)
       {
         DataGridViewRow row = new DataGridViewRow();
@@ -59,6 +61,7 @@ namespace WebServerHost
       thumbHeight = Int32.Parse(gNode.Attributes["thumbheight"].Value);
       thumbWidth = Int32.Parse(gNode.Attributes["thumbwidth"].Value);
       clientPlayer = gNode.Attributes["clientplayerpath"].Value;
+      playerType = Int32.Parse(gNode.Attributes["playertype"].Value);
       XmlNodeList nodes=doc.SelectNodes("/appconfig/transcoders/transcoder");
       encCfgs=new List<EncoderConfig>();
       foreach (XmlNode node in nodes)
@@ -100,6 +103,7 @@ namespace WebServerHost
       NewAttribute(gNode, "thumbwidth", thumbWidth);
       NewAttribute(gNode, "thumbheight", thumbHeight);
       NewAttribute(gNode, "clientplayerpath", clientPlayer);
+      NewAttribute(gNode, "playertype", playerType);
 
       XmlNode transcoders = doc.CreateElement("transcoders");
       foreach (EncoderConfig cfg in encCfgs)
@@ -141,6 +145,7 @@ namespace WebServerHost
       thumbWidth = (int)nudWidth.Value;
       thumbHeight = (int)nudHeight.Value;
       clientPlayer = edPlayer.Text;
+      playerType = cbPlayerType.SelectedIndex;
       encCfgs.Clear();
       foreach (DataGridViewRow row in grid.Rows)
       {

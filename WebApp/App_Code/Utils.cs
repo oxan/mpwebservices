@@ -55,5 +55,12 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["clientplayerpath"].Value;
     }
+    public static int GetPlayerType()
+    {
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
+      return Int32.Parse(gNode.Attributes["playertype"].Value);
+    }
   }
 }

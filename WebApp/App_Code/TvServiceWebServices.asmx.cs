@@ -32,6 +32,46 @@ namespace MediaPortal.TvServer.WebServices
     public string gentleConfig;
     public string connStr;
 
+    /// <summary>
+    /// gets a value from the database table "Setting"
+    /// </summary>
+    /// <returns>A Setting object with the stored value, if it doesnt exist the given default string will be the value</returns>
+    private Setting GetSetting(string tagName, string defaultValue)
+    {
+      if (defaultValue == null)
+      {
+        return null;
+      }
+      if (tagName == null)
+      {
+        return null;
+      }
+      if (tagName == "")
+      {
+        return null;
+      }
+      SqlBuilder sb;
+      try
+      {
+        sb = new SqlBuilder(Gentle.Framework.StatementType.Select, typeof(Setting));
+      }
+      catch (TypeInitializationException)
+      {
+        return new Setting(tagName,defaultValue);
+      }
+
+      sb.AddConstraint(Operator.Equals, "tag", tagName);
+      SqlStatement stmt = sb.GetStatement(true);
+      IList<Setting> settingsFound = ObjectFactory.GetCollection<Setting>(stmt.Execute());
+      if (settingsFound.Count == 0)
+      {
+        Setting set = new Setting(tagName, defaultValue);
+        set.Persist();
+        return set;
+      }
+      return settingsFound[0];
+    }
+
     #region Utils
     public bool ConnectToDatabase()
     {
@@ -283,9 +323,8 @@ namespace MediaPortal.TvServer.WebServices
       if (!ConnectToDatabase())
         return false;
       Schedule sched = new Schedule(idChannel, programName, startTime, endTime);
-      TvBusinessLayer layer = new TvBusinessLayer();
-      sched.PreRecordInterval = Int32.Parse(layer.GetSetting("preRecordInterval", "5").Value);
-      sched.PostRecordInterval = Int32.Parse(layer.GetSetting("postRecordInterval", "5").Value);
+      sched.PreRecordInterval = Int32.Parse(GetSetting("preRecordInterval", "5").Value);
+      sched.PostRecordInterval = Int32.Parse(GetSetting("postRecordInterval", "5").Value);
       sched.ScheduleType = scheduleType;
       sched.Persist();
       RemoteControl.Instance.OnNewSchedule();

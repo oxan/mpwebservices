@@ -54,6 +54,8 @@
       this.label6 = new System.Windows.Forms.Label();
       this.label7 = new System.Windows.Forms.Label();
       this.edPlayer = new System.Windows.Forms.TextBox();
+      this.cbPlayerType = new System.Windows.Forms.ComboBox();
+      this.label8 = new System.Windows.Forms.Label();
       ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
       this.statusStrip1.SuspendLayout();
@@ -83,6 +85,11 @@
       // nudPort
       // 
       this.nudPort.Location = new System.Drawing.Point(122, 12);
+      this.nudPort.Maximum = new decimal(new int[] {
+            65534,
+            0,
+            0,
+            0});
       this.nudPort.Name = "nudPort";
       this.nudPort.Size = new System.Drawing.Size(53, 20);
       this.nudPort.TabIndex = 3;
@@ -116,9 +123,9 @@
             this.Column4,
             this.Column5,
             this.Column7});
-      this.grid.Location = new System.Drawing.Point(16, 117);
+      this.grid.Location = new System.Drawing.Point(16, 144);
       this.grid.Name = "grid";
-      this.grid.Size = new System.Drawing.Size(662, 120);
+      this.grid.Size = new System.Drawing.Size(662, 143);
       this.grid.TabIndex = 6;
       // 
       // Column1
@@ -206,7 +213,7 @@
       // 
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 249);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 299);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(690, 22);
       this.statusStrip1.TabIndex = 11;
@@ -287,11 +294,34 @@
       this.edPlayer.Size = new System.Drawing.Size(379, 20);
       this.edPlayer.TabIndex = 18;
       // 
+      // cbPlayerType
+      // 
+      this.cbPlayerType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+      this.cbPlayerType.FormattingEnabled = true;
+      this.cbPlayerType.Items.AddRange(new object[] {
+            "Player installed on client",
+            "VLC Browser plugin"});
+      this.cbPlayerType.Location = new System.Drawing.Point(122, 117);
+      this.cbPlayerType.Name = "cbPlayerType";
+      this.cbPlayerType.Size = new System.Drawing.Size(177, 21);
+      this.cbPlayerType.TabIndex = 20;
+      // 
+      // label8
+      // 
+      this.label8.AutoSize = true;
+      this.label8.Location = new System.Drawing.Point(13, 121);
+      this.label8.Name = "label8";
+      this.label8.Size = new System.Drawing.Size(62, 13);
+      this.label8.TabIndex = 21;
+      this.label8.Text = "Player type:";
+      // 
       // frmMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(690, 271);
+      this.ClientSize = new System.Drawing.Size(690, 321);
+      this.Controls.Add(this.label8);
+      this.Controls.Add(this.cbPlayerType);
       this.Controls.Add(this.label7);
       this.Controls.Add(this.edPlayer);
       this.Controls.Add(this.nudHeight);
@@ -352,6 +382,8 @@
     private System.Windows.Forms.Label label6;
     private System.Windows.Forms.Label label7;
     private System.Windows.Forms.TextBox edPlayer;
+    private System.Windows.Forms.ComboBox cbPlayerType;
+    private System.Windows.Forms.Label label8;
   }
 }
 
