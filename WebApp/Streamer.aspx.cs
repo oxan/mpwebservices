@@ -22,7 +22,7 @@ using System.IO;
     int usedChannel = -1;
     string tvServerUsername = "";
 
-    const int bufferSize = 124288;
+    int bufferSize = 524288;
 
     protected void Page_Load(object sender, EventArgs e)
     {
@@ -30,6 +30,8 @@ using System.IO;
       ServiceInterface server = new ServiceInterface();
       if (Request.QueryString["idChannel"]!=null)
       {
+        if (server.GetChannel(Int32.Parse(Request.QueryString["idChannel"])).isRadio)
+          bufferSize = 2560;
         WebTvResult res = server.StartTimeShifting(Int32.Parse(Request.QueryString["idChannel"]));
         if (res.result != 0)
         {
@@ -76,7 +78,12 @@ using System.IO;
         EncoderWrapper encoder = new EncoderWrapper(mediaStream, cfg);
         byte[] buffer = new byte[bufferSize];
         int read;
-        while ((read = mediaStream.Read(buffer, 0, buffer.Length)) > 0)
+        Stream outputStream;
+        if (cfg.useTranscoding)
+          outputStream = encoder;
+        else
+          outputStream = mediaStream;
+        while ((read = outputStream.Read(buffer, 0, buffer.Length)) > 0)
         {
           try
           {
@@ -93,7 +100,7 @@ using System.IO;
         if (Request.QueryString["idChannel"] != null)
           server.StopTimeShifting(usedChannel, usedCard, tvServerUsername);
         encoder.StopProcess();
-	Response.End();
+	      Response.End();
     }
   }
 
