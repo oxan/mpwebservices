@@ -17,6 +17,8 @@ using MediaPortal.TvServer.WebServices.Classes;
   {
     protected void Page_Load(object sender, EventArgs e)
     {
+      if (Session["authenticated"] == null)
+        Response.Redirect("Login.aspx");
       ServiceInterface server = new ServiceInterface();
       Label1.Text = Request.QueryString["channelName"];
       List<WebProgram> progs=server.GetTodayEPGForChannel(Int32.Parse(Request.QueryString["idChannel"]));

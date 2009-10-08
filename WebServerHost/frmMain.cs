@@ -20,6 +20,8 @@ namespace WebServerHost
     int thumbHeight;
     string clientPlayer;
     int playerType;
+    string uid;
+    string pwd;
     List<EncoderConfig> encCfgs;
     Cassini.Server webServer;
 
@@ -32,6 +34,8 @@ namespace WebServerHost
       nudWidth.Value = thumbWidth;
       nudHeight.Value = thumbHeight;
       edPlayer.Text = clientPlayer;
+      edUid.Text = uid;
+      edPwd.Text = pwd;
       cbPlayerType.SelectedIndex = playerType;
       foreach (EncoderConfig cfg in encCfgs)
       {
@@ -62,6 +66,8 @@ namespace WebServerHost
       thumbWidth = Int32.Parse(gNode.Attributes["thumbwidth"].Value);
       clientPlayer = gNode.Attributes["clientplayerpath"].Value;
       playerType = Int32.Parse(gNode.Attributes["playertype"].Value);
+      uid = gNode.Attributes["username"].Value;
+      pwd = gNode.Attributes["password"].Value;
       XmlNodeList nodes=doc.SelectNodes("/appconfig/transcoders/transcoder");
       encCfgs=new List<EncoderConfig>();
       foreach (XmlNode node in nodes)
@@ -104,7 +110,8 @@ namespace WebServerHost
       NewAttribute(gNode, "thumbheight", thumbHeight);
       NewAttribute(gNode, "clientplayerpath", clientPlayer);
       NewAttribute(gNode, "playertype", playerType);
-
+      NewAttribute(gNode, "username", uid);
+      NewAttribute(gNode, "password", pwd);
       XmlNode transcoders = doc.CreateElement("transcoders");
       foreach (EncoderConfig cfg in encCfgs)
       {
@@ -129,6 +136,8 @@ namespace WebServerHost
     {
       switch (s)
       {
+        case "Filename":
+          return TransportMethod.Filename;
         case "NamedPipes":
           return TransportMethod.NamedPipe;
         case "StandardIn":
@@ -146,6 +155,8 @@ namespace WebServerHost
       thumbHeight = (int)nudHeight.Value;
       clientPlayer = edPlayer.Text;
       playerType = cbPlayerType.SelectedIndex;
+      uid = edUid.Text;
+      pwd = edPwd.Text;
       encCfgs.Clear();
       foreach (DataGridViewRow row in grid.Rows)
       {

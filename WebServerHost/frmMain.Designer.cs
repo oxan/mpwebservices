@@ -56,6 +56,10 @@
       this.edPlayer = new System.Windows.Forms.TextBox();
       this.cbPlayerType = new System.Windows.Forms.ComboBox();
       this.label8 = new System.Windows.Forms.Label();
+      this.label9 = new System.Windows.Forms.Label();
+      this.edUid = new System.Windows.Forms.TextBox();
+      this.label10 = new System.Windows.Forms.Label();
+      this.edPwd = new System.Windows.Forms.TextBox();
       ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
       this.statusStrip1.SuspendLayout();
@@ -123,9 +127,9 @@
             this.Column4,
             this.Column5,
             this.Column7});
-      this.grid.Location = new System.Drawing.Point(16, 144);
+      this.grid.Location = new System.Drawing.Point(16, 186);
       this.grid.Name = "grid";
-      this.grid.Size = new System.Drawing.Size(662, 143);
+      this.grid.Size = new System.Drawing.Size(662, 178);
       this.grid.TabIndex = 6;
       // 
       // Column1
@@ -152,9 +156,9 @@
       // 
       this.Column5.HeaderText = "InputMethod";
       this.Column5.Items.AddRange(new object[] {
+            "Filename",
             "NamedPipe",
-            "StandardIn",
-            "StandardOut"});
+            "StandardIn"});
       this.Column5.Name = "Column5";
       this.Column5.Resizable = System.Windows.Forms.DataGridViewTriState.True;
       this.Column5.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
@@ -164,7 +168,6 @@
       this.Column7.HeaderText = "OutputMethod";
       this.Column7.Items.AddRange(new object[] {
             "NamedPipe",
-            "StandardIn",
             "StandardOut"});
       this.Column7.Name = "Column7";
       // 
@@ -213,7 +216,7 @@
       // 
       this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-      this.statusStrip1.Location = new System.Drawing.Point(0, 299);
+      this.statusStrip1.Location = new System.Drawing.Point(0, 376);
       this.statusStrip1.Name = "statusStrip1";
       this.statusStrip1.Size = new System.Drawing.Size(690, 22);
       this.statusStrip1.TabIndex = 11;
@@ -315,11 +318,47 @@
       this.label8.TabIndex = 21;
       this.label8.Text = "Player type:";
       // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new System.Drawing.Point(13, 147);
+      this.label9.Name = "label9";
+      this.label9.Size = new System.Drawing.Size(58, 13);
+      this.label9.TabIndex = 23;
+      this.label9.Text = "Username:";
+      // 
+      // edUid
+      // 
+      this.edUid.Location = new System.Drawing.Point(122, 144);
+      this.edUid.Name = "edUid";
+      this.edUid.Size = new System.Drawing.Size(140, 20);
+      this.edUid.TabIndex = 22;
+      // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new System.Drawing.Point(263, 147);
+      this.label10.Name = "label10";
+      this.label10.Size = new System.Drawing.Size(56, 13);
+      this.label10.TabIndex = 25;
+      this.label10.Text = "Password:";
+      // 
+      // edPwd
+      // 
+      this.edPwd.Location = new System.Drawing.Point(325, 144);
+      this.edPwd.Name = "edPwd";
+      this.edPwd.Size = new System.Drawing.Size(140, 20);
+      this.edPwd.TabIndex = 24;
+      // 
       // frmMain
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(690, 321);
+      this.ClientSize = new System.Drawing.Size(690, 398);
+      this.Controls.Add(this.label10);
+      this.Controls.Add(this.edPwd);
+      this.Controls.Add(this.label9);
+      this.Controls.Add(this.edUid);
       this.Controls.Add(this.label8);
       this.Controls.Add(this.cbPlayerType);
       this.Controls.Add(this.label7);
@@ -362,12 +401,6 @@
     private System.Windows.Forms.TextBox edHost;
     private System.Windows.Forms.Label label2;
     private System.Windows.Forms.DataGridView grid;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
-    private System.Windows.Forms.DataGridViewCheckBoxColumn Column2;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
-    private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
-    private System.Windows.Forms.DataGridViewComboBoxColumn Column5;
-    private System.Windows.Forms.DataGridViewComboBoxColumn Column7;
     private System.Windows.Forms.Button btnStartServer;
     private System.Windows.Forms.Button btnStopServer;
     private System.Windows.Forms.LinkLabel linkLabel1;
@@ -384,6 +417,16 @@
     private System.Windows.Forms.TextBox edPlayer;
     private System.Windows.Forms.ComboBox cbPlayerType;
     private System.Windows.Forms.Label label8;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+    private System.Windows.Forms.DataGridViewCheckBoxColumn Column2;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+    private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
+    private System.Windows.Forms.DataGridViewComboBoxColumn Column5;
+    private System.Windows.Forms.DataGridViewComboBoxColumn Column7;
+    private System.Windows.Forms.Label label9;
+    private System.Windows.Forms.TextBox edUid;
+    private System.Windows.Forms.Label label10;
+    private System.Windows.Forms.TextBox edPwd;
   }
 }
 

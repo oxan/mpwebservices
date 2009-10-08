@@ -29,7 +29,13 @@
 &nbsp;
       <asp:Button ID="btnPictures" runat="server" onclick="btnPictures_Click" Text="Pictures" 
         Width="70px" />
-      &nbsp;   <a href="TvServerStatus.aspx" target="_blank">Tv Server Status</a>
+      &nbsp;
+      <asp:Button ID="btnTvSeries" runat="server" Text="TvSeries" 
+        Width="70px" onclick="btnTvSeries_Click" />
+      &nbsp;
+      <asp:Button ID="btnMovingPictures" runat="server" Text="Moving Pictures" 
+        Width="100px" onclick="btnMovingPictures_Click" />
+      &nbsp;<a href="TvServerStatus.aspx" target="_blank">Tv Server Status</a>
       
 
     </div>
@@ -251,6 +257,67 @@
           onclick="btnShowPictures_Click" />
       <hr style="border: 1px solid #000000" />
         <asp:PlaceHolder ID="picBox" runat="server"></asp:PlaceHolder>
+      </asp:View>
+      <asp:View ID="vTvSeries" runat="server">
+        <h3>
+          TvSeries</h3>
+        Streaming Profile:
+        <asp:DropDownList ID="cbTvSeriesProfiles" runat="server">
+        </asp:DropDownList>
+        <hr style="border: 1px solid #000000" />
+        <asp:GridView ID="gridTvSeries" runat="server" AutoGenerateColumns="False" 
+          CellPadding="4" DataKeyNames="compositeId" ForeColor="#333333" GridLines="None" 
+          onrowcommand="gridTvSeries_RowCommand">
+          <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+          <Columns>
+            <asp:BoundField DataField="series" HeaderText="Series" >
+              <ItemStyle VerticalAlign="Top" />
+            </asp:BoundField>
+            <asp:ButtonField ButtonType="Image" CommandName="play" 
+              ImageUrl="~/pics/play_enabled.gif" Text="play" >
+              <ItemStyle VerticalAlign="Top" />
+            </asp:ButtonField>
+            <asp:BoundField DataField="episode" HeaderText="Episode" HtmlEncode="False" />
+          </Columns>
+          <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+          <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+          <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+          <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+          <EditRowStyle BackColor="#999999" />
+          <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+        </asp:GridView>
+      </asp:View>
+            <asp:View ID="vMovingPictures" runat="server">
+        <h3>
+          Moving Pictures</h3>
+        Streaming Profile:
+        <asp:DropDownList ID="cbMovingPicturesProfiles" runat="server">
+        </asp:DropDownList>
+        <hr style="border: 1px solid #000000" />
+        <asp:GridView ID="gridMovingPictures" runat="server" AutoGenerateColumns="False" 
+          CellPadding="4" DataKeyNames="id" ForeColor="#333333" GridLines="None" 
+          onrowcommand="gridMovingPictures_RowCommand">
+          <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+          <Columns>
+            <asp:BoundField DataField="genre" HeaderText="Genre" >
+              <ItemStyle VerticalAlign="Top" />
+            </asp:BoundField>
+            <asp:BoundField DataField="parentalRating" HeaderText="Parental Rating">
+              <ItemStyle VerticalAlign="Top" />
+            </asp:BoundField>
+            <asp:ButtonField ButtonType="Image" CommandName="play" 
+              ImageUrl="~/pics/play_enabled.gif" Text="play" >
+              <ItemStyle VerticalAlign="Top" />
+            </asp:ButtonField>
+            <asp:BoundField DataField="movie" HeaderText="Movie" HtmlEncode="False" />
+          </Columns>
+          <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+          <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+          <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+          <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+          <EditRowStyle BackColor="#999999" />
+          <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+        </asp:GridView>
       </asp:View>
     </asp:MultiView>
     </form>

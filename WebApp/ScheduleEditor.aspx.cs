@@ -16,6 +16,8 @@ public partial class ScheduleEditor : System.Web.UI.Page
 {
   protected void Page_Load(object sender, EventArgs e)
   {
+    if (Session["authenticated"] == null)
+      Response.Redirect("Login.aspx");
     if (IsPostBack)
       return;
     if (Request.QueryString["idSchedule"] != null)

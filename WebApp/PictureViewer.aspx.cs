@@ -14,6 +14,8 @@ using System.Web.UI.WebControls.WebParts;
   {
     protected void Page_Load(object sender, EventArgs e)
     {
+      if (Session["authenticated"] == null)
+        Response.Redirect("Login.aspx");
       Image img = new Image();
       img.ImageUrl = "PictureStreamer.aspx?picture=" + Request.QueryString["picture"];
       img.AlternateText = System.IO.Path.GetFileNameWithoutExtension(Server.UrlDecode(Request.QueryString["picture"]));

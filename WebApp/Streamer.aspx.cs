@@ -27,6 +27,10 @@ using System.IO;
     protected void Page_Load(object sender, EventArgs e)
     {
       string filename="";
+      
+      List<EncoderConfig> cfgs = Utils.LoadConfig();
+      EncoderConfig cfg = cfgs[Int32.Parse(Request.QueryString["idProfile"])];
+
       ServiceInterface server = new ServiceInterface();
       if (Request.QueryString["idChannel"]!=null)
       {
@@ -42,7 +46,10 @@ using System.IO;
         usedCard = res.user.idCard;
         usedChannel = res.user.idChannel;
         tvServerUsername = res.user.name;
-        filename = res.timeshiftFile;
+        if (cfg.inputMethod == TransportMethod.Filename)
+          filename = res.rtspURL;
+        else
+          filename = res.timeshiftFile;
       }
       else if (Request.QueryString["idRecording"]!=null)
       {
@@ -59,31 +66,52 @@ using System.IO;
         WebMusicTrack track = server.GetMusicTrack(Int32.Parse(Request.QueryString["idMusicTrack"]));
         filename = track.file;
       }
-      if (!File.Exists(filename))
+      else if (Request.QueryString["idTvSeries"] != null)
+      {
+        WebSeries series = server.GetTvSeries(Request.QueryString["idTvSeries"]);
+        filename = series.filename;
+      }
+      else if (Request.QueryString["idMovingPicture"] != null)
+      {
+        WebMovingPicture pic = server.GetMovingPicture(Int32.Parse(Request.QueryString["idMovingPicture"]));
+        filename = pic.filename;
+      }
+      if (!File.Exists(filename) && !filename.StartsWith("rtsp://"))
         return;
       Response.Clear();
       Response.Buffer=false;
       Response.BufferOutput=false;
       Response.AppendHeader("Connection","Keep-Alive");
-      List<EncoderConfig> cfgs = Utils.LoadConfig();
-      EncoderConfig cfg = cfgs[Int32.Parse(Request.QueryString["idProfile"])];
+      Response.ContentType="video/x-msvideo";
+      Response.StatusCode=200;
 
-        Response.ContentType="video/x-msvideo";
-        Response.StatusCode=200;
-        Stream mediaStream;
+      Stream mediaStream=null;
+      EncoderWrapper encoder=null;
+      Stream outStream = null;
+
+      if (cfg.inputMethod != TransportMethod.Filename)
+      {
         if (Request.QueryString["idChannel"] != null)
+        {
           mediaStream = new TsBuffer(filename);
+        }
         else
           mediaStream = new FileStream(filename, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
-        EncoderWrapper encoder = new EncoderWrapper(mediaStream, cfg);
-        byte[] buffer = new byte[bufferSize];
-        int read;
-        Stream outputStream;
-        if (cfg.useTranscoding)
-          outputStream = encoder;
-        else
-          outputStream = mediaStream;
-        while ((read = outputStream.Read(buffer, 0, buffer.Length)) > 0)
+        encoder=new EncoderWrapper(mediaStream,cfg);
+      }
+      else
+        encoder=new EncoderWrapper(filename,cfg);
+      
+      if (cfg.useTranscoding)
+        outStream = encoder;
+      else
+        outStream = mediaStream;
+
+      byte[] buffer = new byte[bufferSize];
+      int read;
+      try
+      {
+        while ((read = outStream.Read(buffer, 0, buffer.Length)) > 0)
         {
           try
           {
@@ -96,11 +124,16 @@ using System.IO;
           if (Request.QueryString["idChannel"] != null)
             server.SendHeartBeat(usedChannel, usedCard, tvServerUsername);
         }
+      }
+      catch (Exception)
+      {
+      }
+      if (mediaStream!=null)
         mediaStream.Close();
-        if (Request.QueryString["idChannel"] != null)
-          server.StopTimeShifting(usedChannel, usedCard, tvServerUsername);
-        encoder.StopProcess();
-	      Response.End();
+      if (Request.QueryString["idChannel"] != null)
+        server.StopTimeShifting(usedChannel, usedCard, tvServerUsername);
+      encoder.StopProcess();
+	    Response.End();
     }
   }
 

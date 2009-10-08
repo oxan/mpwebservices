@@ -62,5 +62,13 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return Int32.Parse(gNode.Attributes["playertype"].Value);
     }
+    public static void GetLogin(out string uid,out string pwd)
+    {
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
+      uid=gNode.Attributes["username"].Value;
+      pwd=gNode.Attributes["password"].Value;
+    }
   }
 }

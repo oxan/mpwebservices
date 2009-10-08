@@ -347,4 +347,65 @@ namespace MediaPortal.TvServer.WebServices.Classes
       this.taken = taken;
     }
   }
+  public class WebSeries
+  {
+    public int season;
+    public int episode;
+    public string seriesName;
+    public string episodeName;
+    public string episodePlot;
+    public string filename;
+    public string compositeId;
+
+    public WebSeries() { }
+    public WebSeries(int season, int episode, string seriesName, string episodeName, string episodePlot, string filename,string compositeId)
+    {
+      this.season = season;
+      this.episode = episode;
+      this.seriesName = seriesName;
+      this.episodeName = episodeName;
+      this.episodePlot = episodePlot;
+      this.filename = filename;
+      this.compositeId = compositeId;
+    }
+  }
+  public class WebMovingPicture
+  {
+    public int id;
+    public string title;
+    public string plot;
+    public string filename;
+    public string genre;
+    public string parentalRating;
+    public int year;
+
+    public WebMovingPicture() { }
+    public WebMovingPicture(int id,string title, string plot, string filename, string genre, string parentalRating, int year)
+    {
+      this.id = id;
+      this.title = title;
+      this.plot = plot;
+      this.filename = filename;
+      this.genre = genre;
+      this.parentalRating = parentalRating;
+      this.year = year;
+    }
+  }
+  public class SupportedMPFunctions
+  {
+    public bool myVideos;
+    public bool myMusic;
+    public bool myPictures;
+    public bool myTvSeries;
+    public bool movingPictures;
+
+    public SupportedMPFunctions()
+    {
+      myVideos = false;
+      myMusic = false;
+      myPictures = false;
+      myTvSeries = false;
+      movingPictures = false;
+    }
+  }
 }

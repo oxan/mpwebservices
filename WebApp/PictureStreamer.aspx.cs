@@ -27,6 +27,8 @@ using MediaPortal.Util;
 
     protected void Page_Load(object sender, EventArgs e)
     {
+      if (Session["authenticated"] == null)
+        Response.Redirect("Login.aspx");
       string filename = "";
       string thumb = "";
       if (Request.QueryString["thumb"] != null)

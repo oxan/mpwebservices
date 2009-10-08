@@ -4,10 +4,11 @@ using System.Text;
 
 namespace MediaPortal.TvServer.WebServices
 {
-    public enum TransportMethod
-    {
-        NamedPipe,
-        StandardIn,
-        StandardOut
-    }
+  public enum TransportMethod
+  {
+    Filename,
+    NamedPipe,
+    StandardIn,
+    StandardOut
+  }
 }

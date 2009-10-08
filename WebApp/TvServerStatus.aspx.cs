@@ -16,6 +16,8 @@ using MediaPortal.TvServer.WebServices.Classes;
   {
     protected void Page_Load(object sender, EventArgs e)
     {
+      if (Session["authenticated"] == null)
+        Response.Redirect("Login.aspx");
       ServiceInterface server = new ServiceInterface();
       if (hfAction.Value != "")
       {

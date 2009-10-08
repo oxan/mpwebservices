@@ -19,7 +19,18 @@ public partial class Default : System.Web.UI.Page
 {
   protected void Page_Load(object sender, EventArgs e)
   {
-
+    if (Session["authenticated"] == null)
+      Response.Redirect("Login.aspx");
+    if (!IsPostBack)
+    {
+      ServiceInterface server = new ServiceInterface();
+      SupportedMPFunctions f=server.GetSupportedMPFunctions();
+      btnMovie.Visible = f.myVideos;
+      btnMusic.Visible = f.myMusic;
+      btnPictures.Visible = f.myPictures;
+      btnTvSeries.Visible = f.myTvSeries;
+      btnMovingPictures.Visible = f.movingPictures;
+    }
   }
 
   protected void CreateStreamBatch(string queryString)
@@ -100,6 +111,16 @@ public partial class Default : System.Web.UI.Page
   {
     MultiView1.ActiveViewIndex = 6;
     RefreshPictures();
+  }
+  protected void btnTvSeries_Click(object sender, EventArgs e)
+  {
+    MultiView1.ActiveViewIndex = 7;
+    RefreshTvSeries();
+  }
+  protected void btnMovingPictures_Click(object sender, EventArgs e)
+  {
+    MultiView1.ActiveViewIndex = 8;
+    RefreshMovingPictures();
   }
   #endregion
 
@@ -399,4 +420,68 @@ public partial class Default : System.Web.UI.Page
     }
   }
   #endregion
+
+  #region TvSeries
+  protected void RefreshTvSeries()
+  {
+    ServiceInterface server = new ServiceInterface();
+    List<WebSeries> series = server.GetAllTvSeries();
+    DataTable dt = new DataTable();
+    dt.Columns.Add("compositeId", typeof(string));
+    dt.Columns.Add("series", typeof(string));
+    dt.Columns.Add("episode", typeof(string));
+    foreach (WebSeries s in series)
+    {
+      DataRow row = dt.NewRow();
+      row["compositeId"] = s.compositeId;
+      row["series"] = s.seriesName;
+      row["episode"] = "<b>S" + s.season.ToString() + "E" + s.episode.ToString() + " " + s.episodeName + "</b><br/>" + s.episodePlot;
+      dt.Rows.Add(row);
+    }
+    gridTvSeries.DataSource = dt;
+    gridTvSeries.DataBind();
+    LoadStreamingProfiles(cbTvSeriesProfiles);
+  }
+  protected void gridTvSeries_RowCommand(object sender, GridViewCommandEventArgs e)
+  {
+    int rowIndex = Int32.Parse((string)e.CommandArgument);
+    StartPlayer("idTvSeries=" + gridTvSeries.DataKeys[rowIndex].Value + "&idProfile=" + cbTvSeriesProfiles.SelectedIndex, gridTvSeries.Rows[rowIndex].Cells[2].Text);
+  }
+  #endregion
+
+  #region MovingPictures
+  protected void RefreshMovingPictures()
+  {
+    ServiceInterface server = new ServiceInterface();
+    List<WebMovingPicture> pics = server.GetAllMovingPictures();
+    DataTable dt = new DataTable();
+    dt.Columns.Add("id", typeof(int));
+    dt.Columns.Add("genre", typeof(string));
+    dt.Columns.Add("parentalRating", typeof(string));
+    dt.Columns.Add("movie", typeof(string));
+    foreach (WebMovingPicture p in pics)
+    {
+      DataRow row = dt.NewRow();
+      row["id"] = p.id;
+      row["genre"] = p.genre;
+      row["parentalRating"] = p.parentalRating;
+      string s = "<b>" + p.title;
+      if (p.year > 0)
+        s += " (" + p.year.ToString() + ")";
+      s += "</b><br/>" + p.plot;
+      row["movie"] = s;
+      dt.Rows.Add(row);
+    }
+    gridMovingPictures.DataSource = dt;
+    gridMovingPictures.DataBind();
+    LoadStreamingProfiles(cbMovingPicturesProfiles);
+  }
+  protected void gridMovingPictures_RowCommand(object sender, GridViewCommandEventArgs e)
+  {
+    int rowIndex = Int32.Parse((string)e.CommandArgument);
+    int idx = (int)gridMovingPictures.DataKeys[rowIndex].Value;
+    StartPlayer("idMovingPicture=" + idx.ToString() + "&idProfile=" + cbMovingPicturesProfiles.SelectedIndex, gridMovingPictures.Rows[rowIndex].Cells[3].Text);
+  }
+  #endregion
+
 }
