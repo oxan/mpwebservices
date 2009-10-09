@@ -39,6 +39,14 @@ public partial class ScheduleEditor : System.Web.UI.Page
       edTitle.Text = sched.programName;
       cbScheduleType.SelectedValue = sched.scheduleType.ToString();
     }
+    else if (Request.QueryString["idChannel"] != null)
+    {
+      cbChannelType.SelectedIndex = 0;
+      cbChannelType_SelectedIndexChanged(null, new EventArgs());
+      cbGroup.SelectedIndex = 0;
+      cbGroup_SelectedIndexChanged(null, new EventArgs());
+      cbChannel.SelectedValue = Request.QueryString["idChannel"];
+    }
     else
     {
       cbChannelType.SelectedIndex = 0;

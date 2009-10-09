@@ -49,7 +49,10 @@
         &nbsp;Streaming Profile:
         <asp:DropDownList ID="cbTvProfiles" runat="server">
         </asp:DropDownList>
-        <hr style="border: 1px solid #000000" />
+        &nbsp;&nbsp;
+        <asp:ImageButton ID="btnTvRSS" runat="server" AlternateText="RSS Feed" 
+          ImageUrl="~/pics/rss-icon.gif" onclick="btnTvRSS_Click" />
+        &nbsp;<hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridTv" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" 
           DataKeyNames="idChannel" onrowcommand="gridTv_RowCommand">
@@ -88,6 +91,9 @@
         &nbsp;Streaming Profile:
         <asp:DropDownList ID="cbRadioProfiles" runat="server">
         </asp:DropDownList>
+        &nbsp;
+        <asp:ImageButton ID="btnRadioRSS" runat="server" AlternateText="RSS Feed" 
+          ImageUrl="~/pics/rss-icon.gif" onclick="btnRadioRSS_Click" />
         <hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridRadio" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" 
@@ -121,6 +127,9 @@
         Streaming Profile:
         <asp:DropDownList ID="cbRecordingProfiles" runat="server">
         </asp:DropDownList>
+        &nbsp;&nbsp;<asp:ImageButton ID="btnRecordingsRSS" runat="server" 
+          AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" 
+          onclick="btnRecordingsRSS_Click" />
         <hr style="border: 1px solid #000000" />
         &nbsp;<asp:GridView ID="gridRecordings" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" 
@@ -193,6 +202,9 @@
         Streaming Profile:
         <asp:DropDownList ID="cbMovieProfiles" runat="server">
         </asp:DropDownList>
+        &nbsp;
+        <asp:ImageButton ID="btnMovieRSS" runat="server" AlternateText="RSS Feed" 
+          ImageUrl="~/pics/rss-icon.gif" onclick="btnMovieRSS_Click" />
         <hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridMovies" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" DataKeyNames="idMovie" ForeColor="#333333" GridLines="None" 
@@ -229,6 +241,9 @@
         Streaming Profile:
         <asp:DropDownList ID="cbMusicProfiles" runat="server">
         </asp:DropDownList>
+        &nbsp;
+        <asp:ImageButton ID="btnMusicRSS" runat="server" AlternateText="RSS Feed" 
+          ImageUrl="~/pics/rss-icon.gif" onclick="btnMusicRSS_Click" />
         <hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridMusic" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" DataKeyNames="idTrack" 
@@ -264,6 +279,9 @@
         Streaming Profile:
         <asp:DropDownList ID="cbTvSeriesProfiles" runat="server">
         </asp:DropDownList>
+        &nbsp;
+        <asp:ImageButton ID="btnSeriesRSS" runat="server" AlternateText="RSS Feed" 
+          ImageUrl="~/pics/rss-icon.gif" onclick="btnSeriesRSS_Click" />
         <hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridTvSeries" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" DataKeyNames="compositeId" ForeColor="#333333" GridLines="None" 
@@ -293,6 +311,10 @@
         Streaming Profile:
         <asp:DropDownList ID="cbMovingPicturesProfiles" runat="server">
         </asp:DropDownList>
+              &nbsp;
+              <asp:ImageButton ID="btnMovingPicturesRSS" runat="server" 
+                AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" 
+                onclick="btnMovingPicturesRSS_Click" />
         <hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridMovingPictures" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" DataKeyNames="id" ForeColor="#333333" GridLines="None" 

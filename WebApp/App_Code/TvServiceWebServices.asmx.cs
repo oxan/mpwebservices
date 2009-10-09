@@ -31,7 +31,6 @@ namespace MediaPortal.TvServer.WebServices
     private static bool isDBConnected=false;
     public string gentleConfig;
     public string connStr;
-    private string mpDbDir=Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Team MediaPortal\MediaPortal\database\";
 
     /// <summary>
     /// gets a value from the database table "Setting"
@@ -74,7 +73,7 @@ namespace MediaPortal.TvServer.WebServices
     }
     private string SQLiteConnStr(string dbName)
     {
-      return "Data Source=" + mpDbDir + dbName + ".db3;Pooling=true;Read Only=false";
+      return "Data Source=" + dbName + ";Pooling=true;Read Only=false";
     }
 
 
@@ -85,7 +84,7 @@ namespace MediaPortal.TvServer.WebServices
         return true;
       
       string provider = "";
-      RemoteControl.HostName = Utils.GetTvServerHostFromConfig();
+      RemoteControl.HostName = Environment.MachineName;
       try
       {
         RemoteControl.Instance.GetDatabaseConnectionString(out connStr, out provider);
@@ -110,6 +109,13 @@ namespace MediaPortal.TvServer.WebServices
         return "";
       else
         return reader.GetString(idx);
+    }
+    private Int32 SafeInt32(SQLiteDataReader reader, int idx)
+    {
+      if (reader.IsDBNull(idx))
+        return 0;
+      else
+        return reader.GetInt32(idx);
     }
     #endregion
 
@@ -546,12 +552,13 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public SupportedMPFunctions GetSupportedMPFunctions()
     {
+      DBLocations db = Utils.GetMPDbLocations();
       SupportedMPFunctions f = new SupportedMPFunctions();
-      f.myVideos = File.Exists(mpDbDir + "VideoDatabaseV5.db3");
-      f.myMusic = File.Exists(mpDbDir + "MusicDatabaseV11.db3");
-      f.myPictures = File.Exists(mpDbDir + "PictureDatabase.db3");
-      f.myTvSeries = File.Exists(mpDbDir + "TvSeriesDatabase4.db3");
-      f.movingPictures = File.Exists(mpDbDir + "movingpictures.db3");
+      f.myVideos = File.Exists(db.db_movies);
+      f.myMusic = File.Exists(db.db_music);
+      f.myPictures = File.Exists(db.db_pictures);
+      f.myTvSeries = File.Exists(db.db_tvseries);
+      f.movingPictures = File.Exists(db.db_movingpictures);
       return f;
     }
     #endregion
@@ -561,7 +568,8 @@ namespace MediaPortal.TvServer.WebServices
     public WebMovie GetMovie(int idMovie)
     {
       WebMovie movie = new WebMovie();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("VideoDatabaseV5"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_movies));
       try
       {
         db.Open();
@@ -582,7 +590,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<WebMovie> GetAllMovies()
     {
       List<WebMovie> movies = new List<WebMovie>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("VideoDatabaseV5"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_movies));
       try
       {
         db.Open();
@@ -606,7 +615,8 @@ namespace MediaPortal.TvServer.WebServices
     public WebMusicTrack GetMusicTrack(int idTrack)
     {
       WebMusicTrack track = new WebMusicTrack();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("MusicDatabaseV11"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_music));
       try
       {
         db.Open();
@@ -627,7 +637,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<WebMusicTrack> GetAllMusicTracks()
     {
       List<WebMusicTrack> tracks = new List<WebMusicTrack>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("MusicDatabaseV11"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_music));
       try
       {
         db.Open();
@@ -651,7 +662,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<string> GetAllPicturePaths()
     {
       List<string> paths = new List<string>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("PictureDatabase"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_pictures));
       try
       {
         db.Open();
@@ -675,7 +687,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<WebPicture> GetAllPictures()
     {
       List<WebPicture> pics = new List<WebPicture>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("PictureDatabase"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_pictures));
       try
       {
         db.Open();
@@ -696,7 +709,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<WebPicture> GetAllPicturesByPath(string path)
     {
       List<WebPicture> pics = new List<WebPicture>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("PictureDatabase"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_pictures));
       try
       {
         db.Open();
@@ -746,7 +760,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<WebSeries> GetAllTvSeries()
     {
       List<WebSeries> series = new List<WebSeries>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("TvSeriesDatabase4"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_tvseries));
       try
       {
         db.Open();
@@ -755,11 +770,11 @@ namespace MediaPortal.TvServer.WebServices
       {
         return series;
       }
-            SQLiteCommand cmd = db.CreateCommand();
+      SQLiteCommand cmd = db.CreateCommand();
       cmd.CommandText = "SELECT online_episodes.SeasonIndex,online_episodes.EpisodeIndex,online_series.pretty_name,online_episodes.EpisodeName,online_episodes.Summary,local_episodes.EpisodeFilename,local_episodes.CompositeID FROM online_series,online_episodes,local_episodes WHERE online_series.ID=online_episodes.SeriesID AND online_episodes.CompositeID=local_episodes.CompositeID ORDER BY online_series.pretty_name,online_episodes.SeasonIndex,online_episodes.EpisodeIndex";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
-        series.Add(new WebSeries(reader.GetInt32(0),reader.GetInt32(1),reader.GetString(2),reader.GetString(3),reader.GetString(4),reader.GetString(5),reader.GetString(6)));
+        series.Add(new WebSeries(SafeInt32(reader,0),SafeInt32(reader,1),SafeStr(reader,2),SafeStr(reader,3),SafeStr(reader,4),SafeStr(reader,5),SafeStr(reader,6)));
       reader.Close(); reader.Dispose(); cmd.Dispose(); db.Close(); db.Dispose();
       return series;
     }
@@ -767,7 +782,8 @@ namespace MediaPortal.TvServer.WebServices
     public WebSeries GetTvSeries(string compositeId)
     {
       WebSeries series = new WebSeries();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("TvSeriesDatabase4"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_tvseries));
       try
       {
         db.Open();
@@ -780,7 +796,7 @@ namespace MediaPortal.TvServer.WebServices
       cmd.CommandText = "SELECT online_episodes.SeasonIndex,online_episodes.EpisodeIndex,online_series.pretty_name,online_episodes.EpisodeName,online_episodes.Summary,local_episodes.EpisodeFilename,local_episodes.CompositeID FROM online_series,online_episodes,local_episodes WHERE online_series.ID=online_episodes.SeriesID AND online_episodes.CompositeID=local_episodes.CompositeID AND local_episodes.CompositeID='"+compositeId+"' ORDER BY online_series.pretty_name,online_episodes.SeasonIndex,online_episodes.EpisodeIndex";
       SQLiteDataReader reader = cmd.ExecuteReader();
       if (reader.Read())
-        series=new WebSeries(reader.GetInt32(0), reader.GetInt32(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetString(6));
+        series=new WebSeries(SafeInt32(reader,0),SafeInt32(reader,1),SafeStr(reader,2),SafeStr(reader,3),SafeStr(reader,4),SafeStr(reader,5),SafeStr(reader,6));
       reader.Close(); reader.Dispose(); cmd.Dispose(); db.Close(); db.Dispose();
       return series;
     }
@@ -791,7 +807,8 @@ namespace MediaPortal.TvServer.WebServices
     public List<WebMovingPicture> GetAllMovingPictures()
     {
       List<WebMovingPicture> pics = new List<WebMovingPicture>();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("movingpictures"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_movingpictures));
       try
       {
         db.Open();
@@ -804,14 +821,15 @@ namespace MediaPortal.TvServer.WebServices
       cmd.CommandText = "SELECT local_media.id,title,summary,fullpath,genres,certification,year FROM local_media,local_media__movie_info,movie_info WHERE local_media.id=local_media__movie_info.local_media_id AND local_media__movie_info.movie_info_id=movie_info.id";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
-        pics.Add(new WebMovingPicture(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(6)));
+        pics.Add(new WebMovingPicture(SafeInt32(reader,0),SafeStr(reader,1),SafeStr(reader,2),SafeStr(reader,3),SafeStr(reader,4),SafeStr(reader,5),SafeInt32(reader,6)));
       reader.Close(); reader.Dispose(); cmd.Dispose(); db.Close(); db.Dispose();
       return pics;
     }
     public WebMovingPicture GetMovingPicture(int id)
     {
       WebMovingPicture pic = new WebMovingPicture();
-      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr("movingpictures"));
+      DBLocations dbs = Utils.GetMPDbLocations();
+      SQLiteConnection db = new SQLiteConnection(SQLiteConnStr(dbs.db_movingpictures));
       try
       {
         db.Open();
@@ -824,7 +842,7 @@ namespace MediaPortal.TvServer.WebServices
       cmd.CommandText = "SELECT local_media.id,title,summary,fullpath,genres,certification,year FROM local_media,local_media__movie_info,movie_info WHERE local_media.id=local_media__movie_info.local_media_id AND local_media__movie_info.movie_info_id=movie_info.id AND local_media.id="+id.ToString();
       SQLiteDataReader reader = cmd.ExecuteReader();
       if (reader.Read())
-        pic=new WebMovingPicture(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetString(4), reader.GetString(5), reader.GetInt32(6));
+        pic = new WebMovingPicture(SafeInt32(reader, 0), SafeStr(reader, 1), SafeStr(reader, 2), SafeStr(reader, 3), SafeStr(reader, 4), SafeStr(reader, 5), SafeInt32(reader, 6));
       reader.Close(); reader.Dispose(); cmd.Dispose(); db.Close(); db.Dispose();
       return pic;
     }

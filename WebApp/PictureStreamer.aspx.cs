@@ -33,14 +33,14 @@ using MediaPortal.Util;
       string thumb = "";
       if (Request.QueryString["thumb"] != null)
       {
-        filename = Request.QueryString["thumb"];
+        filename = Server.HtmlDecode(Request.QueryString["thumb"]);
         thumb = filename;
         thumb = EncryptLine(thumb);
         thumb = String.Format(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Team MediaPortal\MediaPortal\thumbs\Pictures\" + thumb + Path.GetExtension(filename));
       }
       else
       {
-        filename = Request.QueryString["picture"];
+        filename = Server.HtmlDecode(Request.QueryString["picture"]);
         thumb = filename;
         Response.AddHeader("Content-Disposition", "attachment;filename="+Path.GetFileName(filename)+";");
       }

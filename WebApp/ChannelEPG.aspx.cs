@@ -26,16 +26,24 @@ using MediaPortal.TvServer.WebServices.Classes;
       dt.Columns.Add("time",typeof(string));
       dt.Columns.Add("genre", typeof(string));
       dt.Columns.Add("program",typeof(string));
+      dt.Columns.Add("idChannel", typeof(int));
       foreach (WebProgram p in progs)
       {
         DataRow row = dt.NewRow();
         row["time"] = p.startTime.ToString() + "-" + p.endTime.ToShortTimeString();
         row["genre"] = p.genre;
         row["program"] = "<b>" + p.Title + "</b><br/>" + p.description;
+        row["idChannel"] = p.idChannel;
         dt.Rows.Add(row);
       }
       grid.DataSource = dt;
       grid.DataBind();
     }
-  }
+    protected void grid_RowCommand(object sender, GridViewCommandEventArgs e)
+    {
+      int rowIndex = Int32.Parse((string)e.CommandArgument);
+      int idx = (int)grid.DataKeys[rowIndex].Value;
+      RegisterStartupScript("newschedule", "<script>window.open('" + Utils.GetStreamURL()+"/ScheduleEditor.aspx?idChannel="+idx.ToString() + "');</script>");
+    }
+}
 

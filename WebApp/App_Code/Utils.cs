@@ -17,6 +17,15 @@ using MediaPortal.TvServer.WebServices;
 
 namespace MediaPortal.TvServer.WebServices
 {
+  public struct DBLocations
+  {
+    public string db_movies;
+    public string db_music;
+    public string db_pictures;
+    public string db_tvseries;
+    public string db_movingpictures;
+  }
+
   public class Utils
   {
     public static List<EncoderConfig>  LoadConfig()
@@ -33,12 +42,12 @@ namespace MediaPortal.TvServer.WebServices
       }
       return encCfgs;
     }
-    public static string GetTvServerHostFromConfig()
+    public static string GetStreamURL()
     {
       XmlDocument doc = new XmlDocument();
       doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
-      return gNode.Attributes["tvserverhost"].Value;
+      return gNode.Attributes["streamurl"].Value;
     }
     public static void GetThumbDimensions(out int width,out int height)
     {
@@ -69,6 +78,35 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       uid=gNode.Attributes["username"].Value;
       pwd=gNode.Attributes["password"].Value;
+    }
+    public static DBLocations GetMPDbLocations()
+    {
+      DBLocations dbLocations = new DBLocations();
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNodeList dbNodes = doc.SelectNodes("/appconfig/mpdatabases/database");
+      foreach (XmlNode node in dbNodes)
+      {
+        switch (node.Attributes["name"].Value)
+        {
+          case "movies":
+            dbLocations.db_movies = node.Attributes["filename"].Value;
+            break;
+          case "music":
+            dbLocations.db_music = node.Attributes["filename"].Value;
+            break;
+          case "pictures":
+            dbLocations.db_pictures = node.Attributes["filename"].Value;
+            break;
+          case "tvseries":
+            dbLocations.db_tvseries = node.Attributes["filename"].Value;
+            break;
+          case "movingpictures":
+            dbLocations.db_movingpictures = node.Attributes["filename"].Value;
+            break;
+        }
+      }
+      return dbLocations;
     }
   }
 }

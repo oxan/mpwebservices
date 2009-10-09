@@ -35,8 +35,6 @@ public partial class Default : System.Web.UI.Page
 
   protected void CreateStreamBatch(string queryString)
   {
-    string url = Request.Url.ToString();
-    string baseUrl = url.Substring(0, url.Length - Request.Url.AbsolutePath.Length);
     string player = Utils.GetClientPlayerPath();
     string str = "\"" + player + "\"";
     string rtspProfile = "idProfile="+(cbRecordingProfiles.Items.Count - 1).ToString();
@@ -48,7 +46,7 @@ public partial class Default : System.Web.UI.Page
       str += " " + server.GetRecordingURL(Int32.Parse(idRecording));
     }
     else
-      str += " \"" + baseUrl + "/Streamer.aspx?" + queryString + "\"";
+      str += " \"" + Utils.GetStreamURL() + "/Streamer.aspx?" + queryString + "\"";
     Response.Clear();
     Response.AddHeader("Content-Disposition", "attachment;filename=StartStreaming.bat; charset=ASCII");
     Response.ContentType = "application/bat";
@@ -179,6 +177,11 @@ public partial class Default : System.Web.UI.Page
   {
     RefreshTv();
   }
+  protected void btnTvRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?idTvGroup=" + cbTvGroups.SelectedValue + "&idProfile=" + cbTvProfiles.SelectedIndex.ToString() + "&groupname=" + cbTvGroups.SelectedItem.Text;
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
+  }
   #endregion
 
   #region Radio
@@ -235,6 +238,11 @@ public partial class Default : System.Web.UI.Page
   {
     RefreshRadio();
   }
+  protected void btnRadioRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?idRadioGroup=" + cbRadioGroups.SelectedValue + "&idProfile=" + cbTvProfiles.SelectedIndex.ToString() + "&groupname=" + cbRadioGroups.SelectedItem.Text;
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
+  }
   #endregion
 
   #region Recordings
@@ -270,6 +278,11 @@ public partial class Default : System.Web.UI.Page
     int rowIndex = Int32.Parse((string)e.CommandArgument);
     int idx = (int)gridRecordings.DataKeys[rowIndex].Value;
     StartPlayer("idRecording=" + idx.ToString() + "&idProfile=" + cbRecordingProfiles.SelectedIndex, gridRecordings.Rows[rowIndex].Cells[4].Text);
+  }
+  protected void btnRecordingsRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?recordings=yes&idProfile=" + cbRecordingProfiles.SelectedIndex.ToString();
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
   }
   #endregion
 
@@ -350,6 +363,11 @@ public partial class Default : System.Web.UI.Page
     int idx = (int)gridMovies.DataKeys[rowIndex].Value;
     StartPlayer("idMovie=" + idx.ToString() + "&idProfile=" + cbMovieProfiles.SelectedIndex, gridMovies.Rows[rowIndex].Cells[2].Text);
   }
+  protected void btnMovieRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?movies=yes&idProfile=" + cbMovieProfiles.SelectedIndex.ToString();
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
+  }
   #endregion
 
   #region Music
@@ -383,6 +401,11 @@ public partial class Default : System.Web.UI.Page
     int idx = (int)gridMusic.DataKeys[rowIndex].Value;
     StartPlayer("idMusicTrack=" + idx.ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex, gridMusic.Rows[rowIndex].Cells[4].Text);
   }
+  protected void btnMusicRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?music=yes&idProfile=" + cbMusicProfiles.SelectedIndex.ToString();
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
+  }
   #endregion
 
   #region Pictures
@@ -404,7 +427,7 @@ public partial class Default : System.Web.UI.Page
     foreach (WebPicture pic in pics)
     {
       Image thumb = new Image();
-      thumb.ImageUrl = "PictureStreamer.aspx?thumb=" + Server.UrlEncode(pic.file);
+      thumb.ImageUrl = Utils.GetStreamURL()+"/PictureStreamer.aspx?thumb=" + Server.UrlEncode(pic.file);
       thumb.ImageAlign = ImageAlign.Top;
       thumb.AlternateText = System.IO.Path.GetFileNameWithoutExtension(pic.file) + Environment.NewLine + pic.taken.ToString();
       thumb.BorderStyle = BorderStyle.Outset;
@@ -414,7 +437,7 @@ public partial class Default : System.Web.UI.Page
       thumb.Height = new Unit(height);
       thumb.Attributes.Add("hspace", "4");
       thumb.Attributes.Add("vspace", "4");
-      thumb.Attributes.Add("onclick", "window.open('PictureViewer.aspx?picture=" + Server.UrlEncode(pic.file) + "');");
+      thumb.Attributes.Add("onclick", "window.open('"+Utils.GetStreamURL()+"/PictureViewer.aspx?picture=" + Server.UrlEncode(pic.file) + "');");
       thumb.Style.Add("cursor", "hand");
       picBox.Controls.Add(thumb);
     }
@@ -446,6 +469,11 @@ public partial class Default : System.Web.UI.Page
   {
     int rowIndex = Int32.Parse((string)e.CommandArgument);
     StartPlayer("idTvSeries=" + gridTvSeries.DataKeys[rowIndex].Value + "&idProfile=" + cbTvSeriesProfiles.SelectedIndex, gridTvSeries.Rows[rowIndex].Cells[2].Text);
+  }
+  protected void btnSeriesRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?tvseries=yes&idProfile=" + cbTvSeriesProfiles.SelectedIndex.ToString();
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
   }
   #endregion
 
@@ -481,6 +509,11 @@ public partial class Default : System.Web.UI.Page
     int rowIndex = Int32.Parse((string)e.CommandArgument);
     int idx = (int)gridMovingPictures.DataKeys[rowIndex].Value;
     StartPlayer("idMovingPicture=" + idx.ToString() + "&idProfile=" + cbMovingPicturesProfiles.SelectedIndex, gridMovingPictures.Rows[rowIndex].Cells[3].Text);
+  }
+  protected void btnMovingPicturesRSS_Click(object sender, ImageClickEventArgs e)
+  {
+    string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?movingpictures=yes&idProfile=" + cbMovingPicturesProfiles.SelectedIndex.ToString();
+    RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
   }
   #endregion
 

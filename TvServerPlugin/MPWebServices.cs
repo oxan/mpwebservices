@@ -6,10 +6,10 @@ using TvControl;
 
 namespace TvServerPlugin
 {
-  class MPWebServices: TvEngine.ITvServerPlugin
+  public class MPWebServices: TvEngine.ITvServerPlugin
   {
     private Cassini.Server webServer = null;
-
+    
     #region Properties
     /// <summary>
     /// returns the name of the plugin
@@ -30,7 +30,7 @@ namespace TvServerPlugin
     /// </summary>
     public string Author
     {
-      get { return "Andreas Kwasnik"; }
+      get { return "gemx (Andreas Kwasnik)"; }
     }
     /// <summary>
     /// returns if the plugin should only run on the master server
@@ -43,31 +43,51 @@ namespace TvServerPlugin
     #endregion Properties
 
     #region IPlugin Members
-    [CLSCompliant(false)]
     public void Start(IController controller)
     {
+      System.Threading.Thread th = new System.Threading.Thread(StartPlugin);
+      th.Start();
+    }
+    public void Stop()
+    {
+      StopPlugin();
+    }
+    public SetupTv.SectionSettings Setup
+    {
+      get { return new MPWebServicesSetup(); }
+    }
+    #endregion
+
+    private void StartPlugin()
+    {
       Log.Info("MPWebServices: start");
-      if (!LoadSettings())
+      if (!Settings.LoadSettings())
       {
         Log.Error("MPWebServices: settings are invalid. Can't start web server!!!");
         return;
       }
       Log.Info("MPWebServices: Starting web server...");
-      webServer = new Cassini.Server(port, "/", Application.StartupPath + "\\plugins\\MPWebServices\\htdocs");
-      webServer.Start();
+      try
+      {
+        webServer = new Cassini.Server(Settings.httpPort, "/", Settings.baseDir + "\\MPWebServices\\htdocs");
+        webServer.Start();
+      }
+      catch (Exception ex)
+      {
+        Log.Error("MPWebServices: Exception raised while trying to start webserver. " + ex.Message);
+        webServer = null;
+        return;
+      }
       Log.Info("MPWebServices: web server started.");
     }
-    public void Stop()
+    private void StopPlugin()
     {
-      Log.Info("plugin: MPWebServices stop");
-      webServer.Stop();
-      webServer = null;
+      if (webServer != null)
+      {
+        Log.Info("plugin: MPWebServices stop");
+        webServer.Stop();
+        webServer = null;
+      }
     }
-    [CLSCompliant(false)]
-    public SetupTv.SectionSettings Setup
-    {
-      get { return new SetupTv.Sections.ComSkipSetup(); }
-    }
-    #endregion
   }
 }
