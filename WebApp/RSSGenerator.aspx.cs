@@ -64,35 +64,35 @@ public partial class RSSGenerator : System.Web.UI.Page
     else if (Request.QueryString["recordings"] != null)
     {
       AddHeader("Recordings","");
-      List<WebRecording> recs = server.GetAllRecordings();
+      List<WebRecording> recs = server.GetAllRecordings("");
       foreach (WebRecording rec in recs)
         AddItem(rec.title,rec.description,streamURL + "/Streamer.aspx?idRecording=" + rec.idRecording.ToString() + "&idProfile=" + Request.QueryString["idProfile"]);
     }
     else if (Request.QueryString["movies"] != null)
     {
       AddHeader("Movies","");
-      List<WebMovie> movies=server.GetAllMovies();
+      List<WebMovie> movies=server.GetAllMovies("");
       foreach (WebMovie m in movies)
         AddItem(m.title,m.plot,streamURL + "/Streamer.aspx?idMovie=" + m.idMovie.ToString() + "&idProfile=" + Request.QueryString["idProfile"]);
     }
     else if (Request.QueryString["music"] != null)
     {
       AddHeader("Music","");
-      List<WebMusicTrack> tracks=server.GetAllMusicTracks();
+      List<WebMusicTrack> tracks=server.GetAllMusicTracks("","","");
       foreach (WebMusicTrack track in tracks)
         AddItem(track.album,track.title,streamURL + "/Streamer.aspx?idMusicTrack=" + track.idTrack.ToString() + "&idProfile=" + Request.QueryString["idProfile"]);
     }
     else if (Request.QueryString["tvseries"] != null)
     {
       AddHeader("TV Series","");
-      List<WebSeries> series=server.GetAllTvSeries();
+      List<WebSeries> series=server.GetAllTvSeries("","");
       foreach (WebSeries s in series)
         AddItem(s.seriesName,s.episodeName,streamURL + "/Streamer.aspx?idTvSeries=" + s.compositeId + "&idProfile=" + Request.QueryString["idProfile"]);
     }
     else if (Request.QueryString["movingpictures"] != null)
     {
       AddHeader("Moving Pictures","");
-      List<WebMovingPicture> mpics=server.GetAllMovingPictures();
+      List<WebMovingPicture> mpics=server.GetAllMovingPictures("");
       foreach (WebMovingPicture m in mpics)
         AddItem(m.title,m.plot,streamURL + "/Streamer.aspx?idMovingPicture=" + m.id.ToString() + "&idProfile=" + Request.QueryString["idProfile"]);
     }

@@ -322,6 +322,13 @@ namespace MediaPortal.TvServer.WebServices
       }
       return infos;
     }
+    [WebMethod]
+    public WebProgram GetEPG(int idProgram)
+    {
+      if (!ConnectToDatabase())
+        return new WebProgram();
+      return new WebProgram(Program.Retrieve(idProgram));
+    }
     #endregion
 
     #region Schedules
@@ -377,14 +384,20 @@ namespace MediaPortal.TvServer.WebServices
 
     #region Recordings
     [WebMethod]
-    public List<WebRecording> GetAllRecordings()
+    public List<WebRecording> GetAllRecordings(string title)
     {
        List<WebRecording> recInfos = new List<WebRecording>();
        if (!ConnectToDatabase())
          return recInfos;
-      IList<Recording> recordings = Recording.ListAll();
-      foreach (Recording rec in recordings)
-        recInfos.Add(new WebRecording(rec));
+      SqlBuilder sb = new SqlBuilder(Gentle.Framework.StatementType.Select, typeof(Recording));
+      sb.AddConstraint(Operator.Like,"title",title+"%");
+      SqlStatement stmt=sb.GetStatement(true);
+      IList recordings=ObjectFactory.GetCollection(typeof(Recording),stmt.Execute());
+      if (recordings!=null && recordings.Count>0)
+      {
+        foreach (Recording rec in recordings)
+          recInfos.Add(new WebRecording(rec));
+      }
       return recInfos;
     }
     [WebMethod]
@@ -601,7 +614,7 @@ namespace MediaPortal.TvServer.WebServices
       return movie;
     }
     [WebMethod]
-    public List<WebMovie> GetAllMovies()
+    public List<WebMovie> GetAllMovies(string title)
     {
       List<WebMovie> movies = new List<WebMovie>();
       DBLocations dbs = Utils.GetMPDbLocations();
@@ -615,7 +628,7 @@ namespace MediaPortal.TvServer.WebServices
         return movies;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT files.idMovie,movieinfo.strGenre,movieinfo.strTitle,movieinfo.strPlot,(path.strPath || files.strFilename) as filename FROM files LEFT OUTER JOIN movieinfo ON (movieinfo.idMovie=files.idMovie) INNER JOIN path ON (path.idPath=files.idPath)";
+      cmd.CommandText = "SELECT files.idMovie,movieinfo.strGenre,movieinfo.strTitle,movieinfo.strPlot,(path.strPath || files.strFilename) as filename FROM files LEFT OUTER JOIN movieinfo ON (movieinfo.idMovie=files.idMovie) INNER JOIN path ON (path.idPath=files.idPath) WHERE movieinfo.strTitle LIKE '"+title+"%'";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
         movies.Add(new WebMovie(reader.GetInt32(0), SafeStr(reader,1),SafeStr(reader,2),SafeStr(reader,3),SafeStr(reader,4)));
@@ -640,15 +653,15 @@ namespace MediaPortal.TvServer.WebServices
         return track;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT idTrack,strAlbum,strAlbumArtist,iTrack,strTitle,strPath FROM tracks WHERE idTrack=" + idTrack.ToString();
+      cmd.CommandText = "SELECT idTrack,strAlbum,strAlbumArtist,iTrack,strTitle,strPath,iDuration FROM tracks WHERE idTrack=" + idTrack.ToString();
       SQLiteDataReader reader = cmd.ExecuteReader();
       if (reader.Read())
-        track = new WebMusicTrack(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4),reader.GetString(5));
+        track = new WebMusicTrack(reader.GetInt32(0),reader.GetString(1),reader.GetString(2),reader.GetInt32(3),reader.GetString(4),reader.GetString(5),reader.GetInt32(6));
       reader.Close(); reader.Dispose(); cmd.Dispose(); db.Close(); db.Dispose();
       return track;
     }
     [WebMethod]
-    public List<WebMusicTrack> GetAllMusicTracks()
+    public List<WebMusicTrack> GetAllMusicTracks(string album, string artist, string title)
     {
       List<WebMusicTrack> tracks = new List<WebMusicTrack>();
       DBLocations dbs = Utils.GetMPDbLocations();
@@ -662,10 +675,10 @@ namespace MediaPortal.TvServer.WebServices
         return tracks;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT idTrack,strAlbum,strAlbumArtist,iTrack,strTitle,strPath FROM tracks";
+      cmd.CommandText = "SELECT idTrack,strAlbum,strAlbumArtist,iTrack,strTitle,strPath,iDuration FROM tracks WHERE strAlbum LIKE '" + album + "%' AND strAlbumArtist LIKE '" + artist + "%' AND strTitle LIKE '" + title + "%'";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
-        tracks.Add(new WebMusicTrack(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4), reader.GetString(5)));
+        tracks.Add(new WebMusicTrack(reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetInt32(3), reader.GetString(4), reader.GetString(5),reader.GetInt32(6)));
       reader.Close(); reader.Dispose(); cmd.Dispose(); db.Close(); db.Dispose();
       return tracks;
     }
@@ -771,7 +784,7 @@ namespace MediaPortal.TvServer.WebServices
 
     #region TvSeries
     [WebMethod]
-    public List<WebSeries> GetAllTvSeries()
+    public List<WebSeries> GetAllTvSeries(string seriesName,string episode)
     {
       List<WebSeries> series = new List<WebSeries>();
       DBLocations dbs = Utils.GetMPDbLocations();
@@ -785,7 +798,7 @@ namespace MediaPortal.TvServer.WebServices
         return series;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT online_episodes.SeasonIndex,online_episodes.EpisodeIndex,online_series.pretty_name,online_episodes.EpisodeName,online_episodes.Summary,local_episodes.EpisodeFilename,local_episodes.CompositeID FROM online_series,online_episodes,local_episodes WHERE online_series.ID=online_episodes.SeriesID AND online_episodes.CompositeID=local_episodes.CompositeID ORDER BY online_series.pretty_name,online_episodes.SeasonIndex,online_episodes.EpisodeIndex";
+      cmd.CommandText = "SELECT online_episodes.SeasonIndex,online_episodes.EpisodeIndex,online_series.pretty_name,online_episodes.EpisodeName,online_episodes.Summary,local_episodes.EpisodeFilename,local_episodes.CompositeID FROM online_series,online_episodes,local_episodes WHERE online_series.ID=online_episodes.SeriesID AND online_episodes.CompositeID=local_episodes.CompositeID AND online_series.pretty_name LIKE '" + seriesName + "%' AND online_episodes.EpisodeName LIKE '"+episode+"%'  ORDER BY online_series.pretty_name,online_episodes.SeasonIndex,online_episodes.EpisodeIndex";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
         series.Add(new WebSeries(SafeInt32(reader,0),SafeInt32(reader,1),SafeStr(reader,2),SafeStr(reader,3),SafeStr(reader,4),SafeStr(reader,5),SafeStr(reader,6)));
@@ -818,7 +831,7 @@ namespace MediaPortal.TvServer.WebServices
 
     #region MovingPictures
     [WebMethod]
-    public List<WebMovingPicture> GetAllMovingPictures()
+    public List<WebMovingPicture> GetAllMovingPictures(string title)
     {
       List<WebMovingPicture> pics = new List<WebMovingPicture>();
       DBLocations dbs = Utils.GetMPDbLocations();
@@ -832,7 +845,7 @@ namespace MediaPortal.TvServer.WebServices
         return pics;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT local_media.id,title,summary,fullpath,genres,certification,year FROM local_media,local_media__movie_info,movie_info WHERE local_media.id=local_media__movie_info.local_media_id AND local_media__movie_info.movie_info_id=movie_info.id";
+      cmd.CommandText = "SELECT local_media.id,title,summary,fullpath,genres,certification,year FROM local_media,local_media__movie_info,movie_info WHERE local_media.id=local_media__movie_info.local_media_id AND local_media__movie_info.movie_info_id=movie_info.id AND title LIKE '"+title+"%'";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
         pics.Add(new WebMovingPicture(SafeInt32(reader,0),SafeStr(reader,1),SafeStr(reader,2),SafeStr(reader,3),SafeStr(reader,4),SafeStr(reader,5),SafeInt32(reader,6)));

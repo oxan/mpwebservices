@@ -107,6 +107,7 @@ namespace MediaPortal.TvServer.WebServices.Classes
     public int starRating;
     public DateTime startTime;
     public string Title;
+    public string channelName;
 
     public WebProgram()
     {
@@ -129,6 +130,7 @@ namespace MediaPortal.TvServer.WebServices.Classes
       this.starRating = prog.StarRating;
       this.startTime = prog.StartTime;
       this.Title = prog.Title;
+      this.channelName = prog.ReferencedChannel().DisplayName;
     }
   }
   public class WebRecording
@@ -230,7 +232,7 @@ namespace MediaPortal.TvServer.WebServices.Classes
     public WebSchedule() { }
     public WebSchedule(Schedule sched)
     {
-      this.bitrateMode = (int)sched.BitRateMode;
+      //this.bitrateMode = (int)sched.BitRateMode;
       this.canceled = sched.Canceled;
       this.directory = sched.Directory;
       this.doesUseEpisodeManagement = sched.DoesUseEpisodeManagement;
@@ -319,9 +321,10 @@ namespace MediaPortal.TvServer.WebServices.Classes
     public int trackno;
     public string title;
     public string file;
+    public int duration;
 
     public WebMusicTrack() { }
-    public WebMusicTrack(int idTrack, string album, string artist, int trackno,string title, string file)
+    public WebMusicTrack(int idTrack, string album, string artist, int trackno,string title, string file,int duration)
     {
       this.idTrack = idTrack;
       this.album = album;
@@ -329,6 +332,7 @@ namespace MediaPortal.TvServer.WebServices.Classes
       this.trackno = trackno;
       this.title = title;
       this.file = file;
+      this.duration = duration;
     }
   }
   public class WebPicture

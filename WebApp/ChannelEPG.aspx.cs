@@ -26,14 +26,14 @@ using MediaPortal.TvServer.WebServices.Classes;
       dt.Columns.Add("time",typeof(string));
       dt.Columns.Add("genre", typeof(string));
       dt.Columns.Add("program",typeof(string));
-      dt.Columns.Add("idChannel", typeof(int));
+      dt.Columns.Add("idProgram", typeof(int));
       foreach (WebProgram p in progs)
       {
         DataRow row = dt.NewRow();
         row["time"] = p.startTime.ToString() + "-" + p.endTime.ToShortTimeString();
         row["genre"] = p.genre;
         row["program"] = "<b>" + p.Title + "</b><br/>" + p.description;
-        row["idChannel"] = p.idChannel;
+        row["idProgram"] = p.idProgram;
         dt.Rows.Add(row);
       }
       grid.DataSource = dt;
@@ -43,7 +43,7 @@ using MediaPortal.TvServer.WebServices.Classes;
     {
       int rowIndex = Int32.Parse((string)e.CommandArgument);
       int idx = (int)grid.DataKeys[rowIndex].Value;
-      RegisterStartupScript("newschedule", "<script>window.open('" + Utils.GetStreamURL()+"/ScheduleEditor.aspx?idChannel="+idx.ToString() + "');</script>");
+      RegisterStartupScript("newschedule", "<script>window.open('" + Utils.GetStreamURL()+"/ScheduleEditor.aspx?idProgram="+idx.ToString() + "');</script>");
     }
 }
 

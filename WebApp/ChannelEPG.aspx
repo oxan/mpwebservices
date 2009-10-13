@@ -14,7 +14,7 @@
     
         <asp:GridView ID="grid" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" 
-      DataKeyNames="idChannel" onrowcommand="grid_RowCommand">
+      DataKeyNames="idProgram" onrowcommand="grid_RowCommand">
           <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
           <Columns>
             <asp:BoundField HeaderText="Time" DataField="time" >

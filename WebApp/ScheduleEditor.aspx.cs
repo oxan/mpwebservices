@@ -20,63 +20,61 @@ public partial class ScheduleEditor : System.Web.UI.Page
       Response.Redirect("Login.aspx");
     if (IsPostBack)
       return;
+    ServiceInterface server = new ServiceInterface();
     if (Request.QueryString["idSchedule"] != null)
     {
-      ServiceInterface server = new ServiceInterface();
       lHeading.Text = "Edit Schedule";
       WebSchedule sched = server.GetSchedule(Int32.Parse(Request.QueryString["idSchedule"]));
-      WebChannel chan = server.GetChannel(sched.idChannel);
-      if (chan.isTv)
-        cbChannelType.SelectedIndex = 0;
-      else
-        cbChannelType.SelectedIndex = 1;
-      cbChannelType_SelectedIndexChanged(null, new EventArgs());
-      cbGroup.SelectedIndex = 0;
-      cbGroup_SelectedIndexChanged(null, new EventArgs());
-      cbChannel.SelectedValue = chan.idChannel.ToString();
+      lChannel.Text = sched.channelName;
+      hfIdChannel.Value = sched.idChannel.ToString();
       edStart.Text = sched.startTime.ToString();
       edEnd.Text = sched.endTime.ToString();
       edTitle.Text = sched.programName;
       cbScheduleType.SelectedValue = sched.scheduleType.ToString();
     }
-    else if (Request.QueryString["idChannel"] != null)
+    else if (Request.QueryString["idProgram"] != null)
     {
-      cbChannelType.SelectedIndex = 0;
-      cbChannelType_SelectedIndexChanged(null, new EventArgs());
-      cbGroup.SelectedIndex = 0;
-      cbGroup_SelectedIndexChanged(null, new EventArgs());
-      cbChannel.SelectedValue = Request.QueryString["idChannel"];
-    }
-    else
-    {
-      cbChannelType.SelectedIndex = 0;
-      cbChannelType_SelectedIndexChanged(null, new EventArgs());
+      WebProgram p = server.GetEPG(Int32.Parse(Request.QueryString["idProgram"]));
+      lChannel.Text = p.channelName;
+      hfIdChannel.Value = p.idChannel.ToString();
+      cbChannel.SelectedValue = p.idChannel.ToString();
+      edStart.Text = p.startTime.ToString();
+      edEnd.Text = p.endTime.ToString();
+      edTitle.Text = p.Title;
     }
   }
 
   protected void cbGroup_SelectedIndexChanged(object sender, EventArgs e)
   {
     ServiceInterface server = new ServiceInterface();
-    List<WebChannel> channels;
-    if (cbChannelType.SelectedIndex == 0)
+    List<WebChannel> channels=null;
+    if (cbChannelType.SelectedIndex == 1)
       channels = server.GetChannelsInTvGroup(Int32.Parse(cbGroup.SelectedValue));
-    else
+    else if (cbChannelType.SelectedIndex == 2)
       channels = server.GetChannelsInRadioGroup(Int32.Parse(cbGroup.SelectedValue));
     cbChannel.Items.Clear();
     foreach (WebChannel ch in channels)
       cbChannel.Items.Add(new ListItem(ch.displayName, ch.idChannel.ToString()));
     cbChannel.SelectedIndex = 0;
+    lChannel.Text = cbChannel.SelectedItem.Text;
+    hfIdChannel.Value = cbChannel.SelectedItem.Value;   
   }
 
   protected void cbChannelType_SelectedIndexChanged(object sender, EventArgs e)
   {
     ServiceInterface server = new ServiceInterface();
     cbGroup.Items.Clear();
-    List<WebChannelGroup> groups;
-    if (cbChannelType.SelectedIndex == 0)
+    List<WebChannelGroup> groups=null;
+    if (cbChannelType.SelectedIndex == 1)
       groups = server.GetTvChannelGroups();
-    else
+    else if (cbChannelType.SelectedIndex == 2)
       groups = server.GetRadioChannelGroups();
+    else
+    {
+      cbGroup.Items.Clear();
+      cbChannel.Items.Clear();
+      return;
+    }
 
     int idx = 0;
     int allIndex = -1;
@@ -103,17 +101,24 @@ public partial class ScheduleEditor : System.Web.UI.Page
     args.IsValid = DateTime.TryParse(args.Value, out dt);
   }
 
-  protected void CustomValidator3_ServerValidate(object source, ServerValidateEventArgs args)
-  {
-    args.IsValid = cbChannel.SelectedIndex != -1;
-  }
-
   protected void btnSave_Click(object sender, EventArgs e)
   {
+    int idChannel;
+    if (!Int32.TryParse(hfIdChannel.Value,out idChannel))
+    {
+      lChanError.Visible=true;
+      return;
+    }
     ServiceInterface server = new ServiceInterface();
     if (Request.QueryString["idSchedule"]!=null)
       server.DeleteSchedule(Int32.Parse(Request.QueryString["idSchedule"]));
-    server.AddSchedule(Int32.Parse(cbChannel.SelectedValue), edTitle.Text, DateTime.Parse(edStart.Text), DateTime.Parse(edEnd.Text), Int32.Parse(cbScheduleType.SelectedValue));
+    server.AddSchedule(idChannel, edTitle.Text, DateTime.Parse(edStart.Text), DateTime.Parse(edEnd.Text), Int32.Parse(cbScheduleType.SelectedValue));
     RegisterStartupScript("close", "<script>window.close();</script>");
+  }
+  protected void cbChannel_SelectedIndexChanged(object sender, EventArgs e)
+  {
+    lChannel.Text = cbChannel.SelectedItem.Text;
+    hfIdChannel.Value = cbChannel.SelectedItem.Value;
+    
   }
 }

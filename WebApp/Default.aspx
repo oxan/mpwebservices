@@ -36,6 +36,8 @@
       <asp:Button ID="btnMovingPictures" runat="server" Text="Moving Pictures" 
         Width="100px" onclick="btnMovingPictures_Click" />
       &nbsp;<a href="TvServerStatus.aspx" target="_blank">Tv Server Status</a>
+      <asp:Button ID="btnLogoff" runat="server" onclick="btnLogoff_Click" 
+        Text="Logoff" />
       
 
     </div>
@@ -130,7 +132,11 @@
         &nbsp;&nbsp;<asp:ImageButton ID="btnRecordingsRSS" runat="server" 
           AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" 
           onclick="btnRecordingsRSS_Click" />
-        <hr style="border: 1px solid #000000" />
+        <br />
+        WHERE title STARTS WITH&nbsp;<asp:TextBox ID="edRecTitle" runat="server"></asp:TextBox>
+        &nbsp;&nbsp;<asp:Button ID="btnSearchRecordings" runat="server" 
+          onclick="btnSearchRecordings_Click" Text="Search" />
+        &nbsp;<hr style="border: 1px solid #000000" />
         &nbsp;<asp:GridView ID="gridRecordings" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" 
           DataKeyNames="idRecording" onrowcommand="gridRecordings_RowCommand">
@@ -205,7 +211,12 @@
         &nbsp;
         <asp:ImageButton ID="btnMovieRSS" runat="server" AlternateText="RSS Feed" 
           ImageUrl="~/pics/rss-icon.gif" onclick="btnMovieRSS_Click" />
-        <hr style="border: 1px solid #000000" />
+        <br />
+        WHERE title STARTS WITH
+        <asp:TextBox ID="edMovieTitle" runat="server"></asp:TextBox>
+        &nbsp;&nbsp;<asp:Button ID="btnSearchMovie" runat="server" onclick="btnSearchMovie_Click" 
+          Text="Search" />
+        &nbsp;<hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridMovies" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" DataKeyNames="idMovie" ForeColor="#333333" GridLines="None" 
           onrowcommand="gridMovies_RowCommand">
@@ -244,7 +255,21 @@
         &nbsp;
         <asp:ImageButton ID="btnMusicRSS" runat="server" AlternateText="RSS Feed" 
           ImageUrl="~/pics/rss-icon.gif" onclick="btnMusicRSS_Click" />
-        <hr style="border: 1px solid #000000" />
+        <br />
+        WHERE album STARTS WITH
+        <asp:TextBox ID="edMusicAlbum" runat="server"></asp:TextBox>
+        &nbsp;<br />
+        AND artist STARTS WITH
+        <asp:TextBox ID="edMusicArtist" runat="server"></asp:TextBox>
+        &nbsp;<br />
+        AND title STARTS WITH
+        <asp:TextBox ID="edMusicTitle" runat="server"></asp:TextBox>
+        &nbsp;&nbsp;<asp:Button ID="btnSearchMusic" runat="server" Text="Search" 
+          onclick="btnSearchMusic_Click" />
+        &nbsp;
+        <asp:Button ID="btnMusicM3U" runat="server" onclick="btnMusicM3U_Click" 
+          Text="Get .m3u of selected tracks" />
+        &nbsp;<hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridMusic" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" DataKeyNames="idTrack" 
           onrowcommand="gridMusic_RowCommand">
@@ -253,9 +278,17 @@
             <asp:BoundField HeaderText="Album" DataField="album" />
             <asp:BoundField HeaderText="Artist" DataField="artist" />
             <asp:BoundField HeaderText="TrackNo" DataField="trackno" />
+            <asp:TemplateField>
+              <ItemTemplate>
+                <asp:CheckBox ID="cbPlayList" runat="server" />
+                <asp:HiddenField ID="hfDuration" runat="server" 
+                  Value='<%# Bind("duration") %>' />
+              </ItemTemplate>
+            </asp:TemplateField>
             <asp:ButtonField ButtonType="Image" CommandName="play" 
               ImageUrl="~/pics/play_enabled.gif" Text="play" />
             <asp:BoundField HeaderText="Title" DataField="title" />
+            <asp:BoundField DataField="durationStr" HeaderText="Duration" />
           </Columns>
           <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
           <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
@@ -268,7 +301,7 @@
       <asp:View ID="vPicures" runat="server">
       <h3>Pictures</h3>
       Path: <asp:DropDownList ID="cbPicturePath" runat="server"></asp:DropDownList>   &nbsp;   
-        <asp:Button ID="btnShowPictures" runat="server" Text="Anzeigen" 
+        <asp:Button ID="btnShowPictures" runat="server" Text="Show" 
           onclick="btnShowPictures_Click" />
       <hr style="border: 1px solid #000000" />
         <asp:PlaceHolder ID="picBox" runat="server"></asp:PlaceHolder>
@@ -282,7 +315,16 @@
         &nbsp;
         <asp:ImageButton ID="btnSeriesRSS" runat="server" AlternateText="RSS Feed" 
           ImageUrl="~/pics/rss-icon.gif" onclick="btnSeriesRSS_Click" />
-        <hr style="border: 1px solid #000000" />
+        <br />
+        WHERE series STARTS WITH
+        <asp:TextBox ID="edSeries" runat="server"></asp:TextBox>
+        <br />
+        AND episode STARTS WITH
+        <asp:TextBox ID="edEpisode" runat="server"></asp:TextBox>
+        &nbsp;
+        <asp:Button ID="btnSearchTvSeries" runat="server" 
+          onclick="btnSearchTvSeries_Click" Text="Search" />
+        &nbsp;<hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridTvSeries" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" DataKeyNames="compositeId" ForeColor="#333333" GridLines="None" 
           onrowcommand="gridTvSeries_RowCommand">
@@ -315,7 +357,13 @@
               <asp:ImageButton ID="btnMovingPicturesRSS" runat="server" 
                 AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" 
                 onclick="btnMovingPicturesRSS_Click" />
-        <hr style="border: 1px solid #000000" />
+              <br />
+              WHERE title STARTS WITH
+              <asp:TextBox ID="edMovingTitle" runat="server"></asp:TextBox>
+              &nbsp;
+              <asp:Button ID="btnMovingSearch" runat="server" onclick="btnMovingSearch_Click" 
+                Text="Search" />
+              &nbsp;<hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridMovingPictures" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" DataKeyNames="id" ForeColor="#333333" GridLines="None" 
           onrowcommand="gridMovingPictures_RowCommand">

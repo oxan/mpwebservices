@@ -14,14 +14,20 @@
       Channel: 
       <asp:DropDownList ID="cbChannelType" runat="server" AutoPostBack="True" 
         onselectedindexchanged="cbChannelType_SelectedIndexChanged">
+        <asp:ListItem></asp:ListItem>
         <asp:ListItem>Tv</asp:ListItem>
         <asp:ListItem>Radio</asp:ListItem>
       </asp:DropDownList>
 &nbsp;<asp:DropDownList ID="cbGroup" runat="server" AutoPostBack="True" 
-        onselectedindexchanged="cbGroup_SelectedIndexChanged"></asp:DropDownList>&nbsp;<asp:DropDownList ID="cbChannel" runat="server"></asp:DropDownList>&nbsp;<asp:CustomValidator 
-        ID="CustomValidator3" runat="server" ControlToValidate="cbChannel" 
-        ErrorMessage="* Please select a channel" 
-        onservervalidate="CustomValidator3_ServerValidate" ValidateEmptyText="True"></asp:CustomValidator>
+        onselectedindexchanged="cbGroup_SelectedIndexChanged"></asp:DropDownList>&nbsp;<asp:DropDownList 
+        ID="cbChannel" runat="server" 
+        onselectedindexchanged="cbChannel_SelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>&nbsp; 
+      <asp:Label ID="lChanError" runat="server" ForeColor="Red" 
+        Text="* Please select a channel" Visible="False"></asp:Label>
+      <br />
+      <br />
+        Selected Channel: <asp:Label ID="lChannel" runat="server" Font-Bold="True"></asp:Label><asp:HiddenField ID="hfIdChannel" runat="server" />
+      <br />
       <br />
       <table border="0">
         <tr>

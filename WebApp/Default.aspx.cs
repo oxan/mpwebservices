@@ -88,7 +88,8 @@ public partial class Default : System.Web.UI.Page
   protected void btnRecordings_Click(object sender, EventArgs e)
   {
     MultiView1.ActiveViewIndex = 2;
-    RefreshRecordings();
+    LoadStreamingProfiles(cbRecordingProfiles);
+    cbRecordingProfiles.Items.Add(new ListItem("[TvServer RTSP]"));
   }
   protected void btnSchedules_Click(object sender, EventArgs e)
   {
@@ -98,12 +99,12 @@ public partial class Default : System.Web.UI.Page
   protected void btnMovie_Click(object sender, EventArgs e)
   {
     MultiView1.ActiveViewIndex = 4;
-    RefreshMovies();
+    LoadStreamingProfiles(cbMovieProfiles);
   }
   protected void btnMusic_Click(object sender, EventArgs e)
   {
     MultiView1.ActiveViewIndex = 5;
-    RefreshMusicTracks();
+    LoadStreamingProfiles(cbMusicProfiles);
   }
   protected void btnPictures_Click(object sender, EventArgs e)
   {
@@ -113,12 +114,12 @@ public partial class Default : System.Web.UI.Page
   protected void btnTvSeries_Click(object sender, EventArgs e)
   {
     MultiView1.ActiveViewIndex = 7;
-    RefreshTvSeries();
+    LoadStreamingProfiles(cbTvSeriesProfiles);
   }
   protected void btnMovingPictures_Click(object sender, EventArgs e)
   {
     MultiView1.ActiveViewIndex = 8;
-    RefreshMovingPictures();
+    LoadStreamingProfiles(cbMovingPicturesProfiles);
   }
   #endregion
 
@@ -246,10 +247,14 @@ public partial class Default : System.Web.UI.Page
   #endregion
 
   #region Recordings
+  protected void btnSearchRecordings_Click(object sender, EventArgs e)
+  {
+    RefreshRecordings();
+  }
   protected void RefreshRecordings()
   {
     ServiceInterface server = new ServiceInterface();
-    List<WebRecording> recs = server.GetAllRecordings();
+    List<WebRecording> recs = server.GetAllRecordings(edRecTitle.Text);
     DataTable dt = new DataTable();
     dt.Columns.Add("time", typeof(string));
     dt.Columns.Add("channel", typeof(string));
@@ -268,8 +273,6 @@ public partial class Default : System.Web.UI.Page
     }
     gridRecordings.DataSource = dt;
     gridRecordings.DataBind();
-    LoadStreamingProfiles(cbRecordingProfiles);
-    cbRecordingProfiles.Items.Add(new ListItem("[TvServer RTSP]"));
   }
   protected void gridRecordings_RowCommand(object sender, GridViewCommandEventArgs e)
   {
@@ -333,10 +336,14 @@ public partial class Default : System.Web.UI.Page
   #endregion
 
   #region Movies
+  protected void btnSearchMovie_Click(object sender, EventArgs e)
+  {
+    RefreshMovies();
+  }
   protected void RefreshMovies()
   {
     ServiceInterface server = new ServiceInterface();
-    List<WebMovie> movies = server.GetAllMovies();
+    List<WebMovie> movies = server.GetAllMovies(edMovieTitle.Text);
     DataTable dt = new DataTable();
     dt.Columns.Add("genre", typeof(string));
     dt.Columns.Add("file", typeof(string));
@@ -371,16 +378,32 @@ public partial class Default : System.Web.UI.Page
   #endregion
 
   #region Music
+  protected void btnSearchMusic_Click(object sender, EventArgs e)
+  {
+    RefreshMusicTracks();
+  }
+  protected string GetDurationString(int duration)
+  {
+    int mins = duration / 60;
+    string secs = "0";
+    if (mins>0)
+      secs = (duration % mins).ToString();
+    if (secs.Length == 1)
+      secs = "0" + secs;
+    return mins.ToString() + ":" + secs;
+  }
   protected void RefreshMusicTracks()
   {
     ServiceInterface server = new ServiceInterface();
-    List<WebMusicTrack> tracks = server.GetAllMusicTracks();
+    List<WebMusicTrack> tracks = server.GetAllMusicTracks(edMusicAlbum.Text,edMusicArtist.Text,edMusicTitle.Text);
     DataTable dt = new DataTable();
     dt.Columns.Add("album", typeof(string));
     dt.Columns.Add("artist", typeof(string));
     dt.Columns.Add("trackno", typeof(int));
     dt.Columns.Add("title", typeof(string));
     dt.Columns.Add("idTrack", typeof(int));
+    dt.Columns.Add("duration", typeof(int));
+    dt.Columns.Add("durationStr", typeof(string));
     foreach (WebMusicTrack t in tracks)
     {
       DataRow row = dt.NewRow();
@@ -389,6 +412,8 @@ public partial class Default : System.Web.UI.Page
       row["trackno"] = t.trackno;
       row["title"] = t.title;
       row["idTrack"] = t.idTrack;
+      row["duration"] = t.duration;
+      row["durationStr"] = GetDurationString(t.duration);
       dt.Rows.Add(row);
     }
     gridMusic.DataSource = dt;
@@ -399,12 +424,33 @@ public partial class Default : System.Web.UI.Page
   {
     int rowIndex = Int32.Parse((string)e.CommandArgument);
     int idx = (int)gridMusic.DataKeys[rowIndex].Value;
-    StartPlayer("idMusicTrack=" + idx.ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex, gridMusic.Rows[rowIndex].Cells[4].Text);
+    StartPlayer("idMusicTrack=" + idx.ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex, gridMusic.Rows[rowIndex].Cells[5].Text);
   }
   protected void btnMusicRSS_Click(object sender, ImageClickEventArgs e)
   {
     string url = Utils.GetStreamURL() + "/RSSGenerator.aspx?music=yes&idProfile=" + cbMusicProfiles.SelectedIndex.ToString();
     RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
+  }
+  protected void btnMusicM3U_Click(object sender, EventArgs e)
+  {
+    string m3u="#EXTM3U"+Environment.NewLine;
+    int idx=0;
+    foreach (GridViewRow row in gridMusic.Rows)
+    {
+      CheckBox cb = (CheckBox)row.FindControl("cbPlayList");
+      HiddenField hf = (HiddenField)row.FindControl("hfDuration");
+      if (cb.Checked)
+      {
+        m3u += "#EXTINF:"+hf.Value+"," + row.Cells[0].Text + "/" + row.Cells[1].Text.Trim('|') + " - " + row.Cells[2].Text + " " + row.Cells[5].Text+Environment.NewLine;
+        m3u += Utils.GetStreamURL() + "/Streamer.aspx?idMusicTrack=" + ((int)gridMusic.DataKeys[idx].Value).ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex.ToString()+Environment.NewLine+Environment.NewLine;
+      }
+      idx++;
+    }
+    Response.Clear();
+    Response.AddHeader("Content-Disposition", "attachment;filename=Playlist.m3u; charset=ASCII");
+    Response.ContentType = "audio/x-mpegurl";
+    Response.Write(m3u);
+    Response.End();
   }
   #endregion
 
@@ -445,10 +491,14 @@ public partial class Default : System.Web.UI.Page
   #endregion
 
   #region TvSeries
+  protected void btnSearchTvSeries_Click(object sender, EventArgs e)
+  {
+    RefreshTvSeries();
+  }
   protected void RefreshTvSeries()
   {
     ServiceInterface server = new ServiceInterface();
-    List<WebSeries> series = server.GetAllTvSeries();
+    List<WebSeries> series = server.GetAllTvSeries(edSeries.Text,edEpisode.Text);
     DataTable dt = new DataTable();
     dt.Columns.Add("compositeId", typeof(string));
     dt.Columns.Add("series", typeof(string));
@@ -478,10 +528,14 @@ public partial class Default : System.Web.UI.Page
   #endregion
 
   #region MovingPictures
+  protected void btnMovingSearch_Click(object sender, EventArgs e)
+  {
+    RefreshMovingPictures();
+  }
   protected void RefreshMovingPictures()
   {
     ServiceInterface server = new ServiceInterface();
-    List<WebMovingPicture> pics = server.GetAllMovingPictures();
+    List<WebMovingPicture> pics = server.GetAllMovingPictures(edMovingTitle.Text);
     DataTable dt = new DataTable();
     dt.Columns.Add("id", typeof(int));
     dt.Columns.Add("genre", typeof(string));
@@ -516,5 +570,11 @@ public partial class Default : System.Web.UI.Page
     RegisterStartupScript("rss", "<script>window.open('" + url + "');</script>");
   }
   #endregion
+
+  protected void btnLogoff_Click(object sender, EventArgs e)
+  {
+    Session.Clear();
+    Response.Redirect("Login.aspx");
+  }
 
 }
