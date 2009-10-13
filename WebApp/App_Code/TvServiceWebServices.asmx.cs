@@ -105,17 +105,31 @@ namespace MediaPortal.TvServer.WebServices
     }
     private string SafeStr(SQLiteDataReader reader, int idx)
     {
-      if (reader.IsDBNull(idx))
-        return "";
-      else
-        return reader.GetString(idx);
+	  try
+	  {
+        if (reader.IsDBNull(idx))
+          return "";
+        else
+          return reader.GetString(idx);
+	  }
+	  catch (Exception)
+	  {
+	    return "";
+	  }
     }
     private Int32 SafeInt32(SQLiteDataReader reader, int idx)
     {
-      if (reader.IsDBNull(idx))
-        return 0;
-      else
-        return reader.GetInt32(idx);
+	  try
+	  {
+        if (reader.IsDBNull(idx))
+          return 0;
+        else
+          return reader.GetInt32(idx);
+	  }
+	  catch (Exception)
+	  {
+	    return 0;
+	  }
     }
     #endregion
 

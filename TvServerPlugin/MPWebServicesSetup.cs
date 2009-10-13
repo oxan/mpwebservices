@@ -68,6 +68,7 @@ namespace TvServerPlugin
       edTvSeries.Text = Settings.dbLocations.db_tvseries;
       edMovingPictures.Text = Settings.dbLocations.db_movingpictures;
 
+      grid.Rows.Clear();
       foreach (EncoderConfig cfg in Settings.encCfgs)
       {
         DataGridViewRow row = new DataGridViewRow();
