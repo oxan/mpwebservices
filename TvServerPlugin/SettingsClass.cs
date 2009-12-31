@@ -16,6 +16,12 @@ namespace TvServerPlugin
     public string db_tvseries;
     public string db_movingpictures;
   }
+  public struct ThumbPaths
+  {
+    public string tv;
+    public string radio;
+    public string pictures;
+  }
   class Settings
   {
     public static string baseDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
@@ -30,6 +36,7 @@ namespace TvServerPlugin
     public static string webUid;
     public static string webPwd;
     public static DBLocations dbLocations;
+    public static ThumbPaths thumbs;
     public static List<EncoderConfig> encCfgs;
 
     private static string SetDbLocation(XmlNode node, string dbName)
@@ -85,6 +92,22 @@ namespace TvServerPlugin
               break;
           }
         }
+        dbNodes = doc.SelectNodes("/appconfig/thumbpaths/thumb");
+        foreach (XmlNode node in dbNodes)
+        {
+          switch (node.Attributes["name"].Value)
+          {
+            case "tv":
+              thumbs.tv = node.Attributes["path"].Value;
+              break;
+            case "radio":
+              thumbs.radio = node.Attributes["path"].Value;
+              break;
+            case "pictures":
+              thumbs.pictures = node.Attributes["path"].Value;
+              break;
+          }
+        }
         XmlNodeList nodes = doc.SelectNodes("/appconfig/transcoders/transcoder");
         encCfgs = new List<EncoderConfig>();
         foreach (XmlNode node in nodes)
@@ -129,6 +152,13 @@ namespace TvServerPlugin
       NewAttribute(node, "filename", path);
       dbNode.AppendChild(node);
     }
+    private static void AddThumbPath(string name, string path, XmlNode dbNode, XmlDocument doc)
+    {
+      XmlNode node = doc.CreateElement("thumb");
+      NewAttribute(node, "name", name);
+      NewAttribute(node, "filename", path);
+      dbNode.AppendChild(node);
+    }
     public static void SaveSettings()
     {
       XmlDocument doc = new XmlDocument();
@@ -150,6 +180,11 @@ namespace TvServerPlugin
       AddDbPath("tvseries", dbLocations.db_tvseries, dbpaths, doc);
       AddDbPath("movingpictures", dbLocations.db_movingpictures, dbpaths, doc);
 
+      XmlNode thpaths = doc.CreateElement("thumbpaths");
+      AddThumbPath("tv", thumbs.tv, thpaths, doc);
+      AddThumbPath("radio", thumbs.radio, thpaths, doc);
+      AddThumbPath("pictures", thumbs.pictures, thpaths, doc);
+
       XmlNode transcoders = doc.CreateElement("transcoders");
       foreach (EncoderConfig cfg in encCfgs)
       {
@@ -165,6 +200,7 @@ namespace TvServerPlugin
       root.AppendChild(gNode);
       root.AppendChild(transcoders);
       root.AppendChild(dbpaths);
+      root.AppendChild(thpaths);
       doc.AppendChild(root);
       doc.Save(baseDir + "\\MPWebServices\\htdocs\\config.xml");
     }

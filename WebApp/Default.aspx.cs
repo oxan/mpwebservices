@@ -33,33 +33,57 @@ public partial class Default : System.Web.UI.Page
     }
   }
 
-  protected void CreateStreamBatch(string queryString)
+  protected string GetStreamingURL(string queryString)
   {
-    string player = Utils.GetClientPlayerPath();
-    string str = "\"" + player + "\"";
+    string url = "";
     string rtspProfile = "idProfile="+(cbRecordingProfiles.Items.Count - 1).ToString();
     if (queryString.Contains("idRecording") && queryString.Contains(rtspProfile))
     {
       ServiceInterface server = new ServiceInterface();
       string idRecording = queryString.Substring(0, queryString.IndexOf('&'));
       idRecording = idRecording.Remove(0, 12);
-      str += " " + server.GetRecordingURL(Int32.Parse(idRecording));
+      url = server.GetRecordingURL(Int32.Parse(idRecording));
     }
     else
-      str += " \"" + Utils.GetStreamURL() + "/Streamer.aspx?" + queryString + "\"";
+      url = "\""+Utils.GetStreamURL() + "/Streamer.aspx?" + queryString+"\"";
+    return url;
+  }
+  protected void CreateStreamBatch(string url)
+  {
     Response.Clear();
     Response.AddHeader("Content-Disposition", "attachment;filename=StartStreaming.bat; charset=ASCII");
     Response.ContentType = "application/bat";
-    Response.Write(str);
+    Response.Write("\"" + Utils.GetClientPlayerPath()+"\" "+url);
+    Response.End();
+  }
+  protected void CreateM3UFile(string url,string mediafile)
+  {
+    string m3u = "#EXTM3U" + Environment.NewLine;
+    m3u += "#EXTINF:0," + mediafile + Environment.NewLine;
+    m3u += url.Trim('\\');
+    Response.AddHeader("Content-Disposition", "attachment;filename=Playlist.m3u; charset=ASCII");
+    Response.ContentType = "audio/x-mpegurl";
+    Response.Write(m3u);
     Response.End();
   }
   protected void StartPlayer(string queryString, string mediafile)
   {
     int playerType = Utils.GetPlayerType();
-    if (playerType == 0)
-      CreateStreamBatch(queryString);
+    string sectoken=DateTime.Now.ToString("HH:mm:ss",new System.Globalization.CultureInfo("de-DE"));
+    string uid; string pwd;
+    Utils.GetLogin(out uid, out pwd);
+    sectoken+=uid+pwd;
+    queryString += "&sectoken=" + CryptoHelper.Crypt(sectoken, true);
+    if (playerType == 1)
+      RegisterStartupScript("firefoxvlc", "<script>window.open('VLCFirefox.htm?url=" + queryString.Replace('&', ',') + "&media=" + Server.HtmlEncode(mediafile) + "');</script>");
     else
-      RegisterStartupScript("firefoxvlc", "<script>window.open('VLCFirefox.htm?url=" + queryString.Replace('&',',') + "&media=" + Server.HtmlEncode(mediafile) + "');</script>");
+    {
+      string url = GetStreamingURL(queryString);
+      if (playerType == 0)
+        CreateStreamBatch(url);
+      else
+        CreateM3UFile(url, mediafile);
+    }
   }
   protected void LoadStreamingProfiles(DropDownList cb)
   {
@@ -72,6 +96,12 @@ public partial class Default : System.Web.UI.Page
       idx++;
     }
     cb.SelectedIndex = 0;
+  }
+  private string GetScraperLink(string s)
+  {
+    string url = Utils.GetScraperURL();
+    url = String.Format(url, s);
+    return "<a href=\"" + url + "\" target=_blank>" + s + "</a>";
   }
 
   #region Tab-Button handler
@@ -153,12 +183,14 @@ public partial class Default : System.Web.UI.Page
     dt.Columns.Add("channel", typeof(string));
     dt.Columns.Add("now_next", typeof(string));
     dt.Columns.Add("idChannel", typeof(int));
+    dt.Columns.Add("logo", typeof(string));
     foreach (WebMiniEPG epg in epgs)
     {
       DataRow row = dt.NewRow();
       row["channel"] = epg.name;
-      row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + epg.epgNow.title + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": " + epg.epgNext.title;
+      row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + GetScraperLink(epg.epgNow.title) + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": "+GetScraperLink(epg.epgNext.title);
       row["idChannel"] = epg.idChannel;
+      row["logo"] = Utils.GetStreamURL() + "/PictureStreamer.aspx?tvlogo=" + Server.HtmlEncode(epg.name);
       dt.Rows.Add(row);
     }
     gridTv.DataSource = dt;
@@ -214,12 +246,14 @@ public partial class Default : System.Web.UI.Page
     dt.Columns.Add("channel", typeof(string));
     dt.Columns.Add("now_next", typeof(string));
     dt.Columns.Add("idChannel", typeof(int));
+    dt.Columns.Add("logo", typeof(string));
     foreach (WebMiniEPG epg in epgs)
     {
       DataRow row = dt.NewRow();
       row["channel"] = epg.name;
       row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + epg.epgNow.title + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": " + epg.epgNext.title;
       row["idChannel"] = epg.idChannel;
+      row["logo"] = Utils.GetStreamURL() + "/PictureStreamer.aspx?radiologo=" + Server.HtmlEncode(epg.name);
       dt.Rows.Add(row);
     }
     gridRadio.DataSource = dt;
@@ -267,7 +301,7 @@ public partial class Default : System.Web.UI.Page
       row["time"] = rec.startTime.ToString() + "-" + rec.endTime.ToShortTimeString();
       row["channel"] = rec.channelName;
       row["genre"] = rec.genre;
-      row["program"] = "<b>" + rec.title + "</b><br/>" + rec.description;
+      row["program"] = "<b>" + GetScraperLink(rec.title) + "</b><br/>" + rec.description;
       row["idRecording"] = rec.idRecording;
       dt.Rows.Add(row);
     }
@@ -355,7 +389,7 @@ public partial class Default : System.Web.UI.Page
       DataRow row = dt.NewRow();
       row["genre"] = m.genre;
       row["file"] = System.IO.Path.GetFileName(m.file);
-      row["title"] = m.title;
+      row["title"] = GetScraperLink(m.title);
       row["plot"] = m.plot;
       row["idMovie"] = m.idMovie;
       dt.Rows.Add(row);
@@ -435,6 +469,11 @@ public partial class Default : System.Web.UI.Page
   {
     string m3u="#EXTM3U"+Environment.NewLine;
     int idx=0;
+    string sectoken = DateTime.Now.ToString("HH:mm:ss", new System.Globalization.CultureInfo("de-DE"));
+    string uid; string pwd;
+    Utils.GetLogin(out uid, out pwd);
+    sectoken += uid + pwd;
+    sectoken= "&sectoken=" + CryptoHelper.Crypt(sectoken, true);
     foreach (GridViewRow row in gridMusic.Rows)
     {
       CheckBox cb = (CheckBox)row.FindControl("cbPlayList");
@@ -442,7 +481,7 @@ public partial class Default : System.Web.UI.Page
       if (cb.Checked)
       {
         m3u += "#EXTINF:"+hf.Value+"," + row.Cells[0].Text + "/" + row.Cells[1].Text.Trim('|') + " - " + row.Cells[2].Text + " " + row.Cells[5].Text+Environment.NewLine;
-        m3u += Utils.GetStreamURL() + "/Streamer.aspx?idMusicTrack=" + ((int)gridMusic.DataKeys[idx].Value).ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex.ToString()+Environment.NewLine+Environment.NewLine;
+        m3u += Utils.GetStreamURL() + "/Streamer.aspx?idMusicTrack=" + ((int)gridMusic.DataKeys[idx].Value).ToString() + "&idProfile=" + cbMusicProfiles.SelectedIndex.ToString()+sectoken+Environment.NewLine+Environment.NewLine;
       }
       idx++;
     }

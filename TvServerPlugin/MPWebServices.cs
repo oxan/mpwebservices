@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using TvLibrary.Log;
 using TvControl;
+using System.Diagnostics;
+using System.IO;
 
 namespace TvServerPlugin
 {
@@ -58,6 +60,33 @@ namespace TvServerPlugin
     }
     #endregion
 
+    private void CheckUpdateDll(string dll)
+    {
+      Log.Info("MPWebServices: checking "+dll);
+      string source=Settings.baseDir.Substring(0,Settings.baseDir.Length-7)+dll;
+      string target=Settings.baseDir+"\\MPWebServices\\htdocs\\bin\\"+dll;
+
+      string sourceVersion = FileVersionInfo.GetVersionInfo(source).FileVersion;
+      string targetVersion = "";
+      if (File.Exists(target))
+        targetVersion = FileVersionInfo.GetVersionInfo(target).FileVersion;
+
+      if (sourceVersion != targetVersion)
+      {
+        try
+        {
+          File.Copy(source, target, true);
+        }
+        catch (Exception ex)
+        {
+
+        }
+        Log.Info("MPWebServices: Udapted " + dll);
+      }
+      else
+        Log.Info("MPWebServices: No update needed.");
+    }
+
     private void StartPlugin()
     {
       Log.Info("MPWebServices: start");
@@ -66,6 +95,12 @@ namespace TvServerPlugin
         Log.Error("MPWebServices: settings are invalid. Can't start web server!!!");
         return;
       }
+
+      CheckUpdateDll("DirectShowLib.dll");
+      CheckUpdateDll("TvControl.dll");
+      CheckUpdateDll("TvDatabase.dll");
+      CheckUpdateDll("TvLibrary.Interfaces.dll");
+
       Log.Info("MPWebServices: Starting web server...");
       try
       {

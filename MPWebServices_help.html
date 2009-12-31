@@ -1,0 +1,55 @@
+<html>
+<head>
+<title>MPWebServices--Help File</title>
+</head>
+<body>
+<h1>MPWebServices--Help file</h1>
+<br>
+<h2>Tab: WebServer</h2>
+<hr>
+<b>Http Port:</b></br>
+Set the http port where this wepapp should be available.
+If any other application is also listening on this port, starting the server will fail
+</br>
+<br/><b>Player Type:</b></br>
+Sets the type how content will be played back when streamed. Choose between the following 3 methods
+<ul>
+<li><b><i>Player installed on client</i></b> When clicking the play button you receive a .bat file which starts the player configured in <i>Client Streaming Player</i> and starts playback.</li>
+<li><b><i>VLC Browser Plugin</i></b> Plays the media file in special webpage. VLC Browser plugin is required on client side.</li>
+<li><b><i>.m3u playlist</i></b> Gives you an .m3u playlist file which can be played back with any player that is associated with .m3u files. This is probably the most flexible and preferred method</li>
+</ul>
+<br/><b>Client streaming player:</b><br/>
+You only need to fill in something here if you selected the <i>Player installed on client</i> player type. Just set the full path to the executable here. This has to be the same for all clients.
+<br>
+<br/><b>Username/Password</b><br/>
+Configure the authentication credentials to access the web app
+<br>
+<br/><b>Streaming URL</b><br/>
+Here you can override the streaming URL. This is only necessary if you access these pages from the internet. If you use e.g. something like dyndns.org you should set your dyndns name here
+<br>
+<h2>Tab: Thumbnails/Logos</h2>
+<hr>
+<br/>
+<b>Thumb width/height</b><br/>
+The dimensions of the thumbnails in pixels<br/>
+<br/><b>Tv / Radio / Pictures</b><br/>
+Configure the paths to your tv/radio logo directories and to your picture thumbnails<br/>
+<br>
+<h2>Tab: MP DB locations</h2>
+<hr>
+<br/>
+Here you can configure the full path and filename to some mp databases to be able to access them from the web app
+<br/>
+<h2>Tab: Transcoding</h2>
+<hr>
+<br/>
+In this section you can configure various streaming profiles.<br/>
+Each profile consists of the following fields:
+<ul>
+<li><b><i>Name</i></b> Just a descriptive name</li>
+<li><b><i>Transcode</i></b> If unchecked, all other fields are ignored and the content won't be transcoded. Otherwise you have to fill out the other fields</li>
+<li><b><i>Transcoder</i></b> Full path and filename of the transcoder e.g. mencoder on the server pc</li>
+<li><b><i>Params</i></b> The command line for the transcoder where {0} is a placeholder for the input and {1} is a placeholder for the output</li>
+<li><b><i>Input/Outputmethod</i></b> These are the available methods you can use for the {0} and {1} parameters not all methods are supported by every transcoder. e.g. inputmethod=namedpipe and output=namedpipe works good with mencoder but also input=filename will work. Just play around with these settings ;-)</li>
+</body>
+</html>

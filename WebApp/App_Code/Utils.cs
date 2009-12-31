@@ -25,10 +25,27 @@ namespace MediaPortal.TvServer.WebServices
     public string db_tvseries;
     public string db_movingpictures;
   }
+  public struct ThumbPaths
+  {
+    public string tv;
+    public string radio;
+    public string pictures;
+  }
 
   public class Utils
   {
-    public static List<EncoderConfig>  LoadConfig()
+    private static string logDir=AppDomain.CurrentDomain.BaseDirectory + "\\logs";
+
+    public static void Log(string msg)
+    {
+      if (!Directory.Exists(logDir))
+        Directory.CreateDirectory(logDir);
+      using (StreamWriter sw = new StreamWriter(logDir+"\\" + DateTime.Now.ToString("dd_MM_yy") + ".log"))
+      {
+        sw.WriteLine(DateTime.Now.ToString("HH:mm:ss") + "  " + msg);
+      }
+    }
+    public static List<EncoderConfig> LoadConfig()
     {
       List<EncoderConfig> encCfgs = new List<EncoderConfig>();
       XmlDocument doc = new XmlDocument();
@@ -49,12 +66,12 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["streamurl"].Value;
     }
-    public static void GetThumbDimensions(out int width,out int height)
+    public static void GetThumbDimensions(out int width, out int height)
     {
       XmlDocument doc = new XmlDocument();
       doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
-      width=Int32.Parse(gNode.Attributes["thumbwidth"].Value);
+      width = Int32.Parse(gNode.Attributes["thumbwidth"].Value);
       height = Int32.Parse(gNode.Attributes["thumbheight"].Value);
     }
     public static string GetClientPlayerPath()
@@ -64,6 +81,13 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["clientplayerpath"].Value;
     }
+    public static string GetScraperURL()
+    {
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
+      return gNode.Attributes["scraper_url"].Value;
+    }
     public static int GetPlayerType()
     {
       XmlDocument doc = new XmlDocument();
@@ -71,13 +95,13 @@ namespace MediaPortal.TvServer.WebServices
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return Int32.Parse(gNode.Attributes["playertype"].Value);
     }
-    public static void GetLogin(out string uid,out string pwd)
+    public static void GetLogin(out string uid, out string pwd)
     {
       XmlDocument doc = new XmlDocument();
       doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
-      uid=gNode.Attributes["username"].Value;
-      pwd=gNode.Attributes["password"].Value;
+      uid = gNode.Attributes["username"].Value;
+      pwd = gNode.Attributes["password"].Value;
     }
     public static DBLocations GetMPDbLocations()
     {
@@ -107,6 +131,29 @@ namespace MediaPortal.TvServer.WebServices
         }
       }
       return dbLocations;
+    }
+    public static ThumbPaths GetThumbPaths()
+    {
+      ThumbPaths thumbs = new ThumbPaths();
+      XmlDocument doc = new XmlDocument();
+      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      XmlNodeList dbNodes = doc.SelectNodes("/appconfig/thumbpaths/thumb");
+      foreach (XmlNode node in dbNodes)
+      {
+        switch (node.Attributes["name"].Value)
+        {
+          case "tv":
+            thumbs.tv = node.Attributes["path"].Value;
+            break;
+          case "radio":
+            thumbs.radio = node.Attributes["path"].Value;
+            break;
+          case "pictures":
+            thumbs.pictures = node.Attributes["path"].Value;
+            break;
+        }
+      }
+      return thumbs;
     }
   }
 }

@@ -60,10 +60,13 @@
           DataKeyNames="idChannel" onrowcommand="gridTv_RowCommand">
           <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
           <Columns>
+            <asp:ImageField DataImageUrlField="logo">
+              <ControlStyle Height="50px" Width="50px" />
+            </asp:ImageField>
             <asp:HyperLinkField DataNavigateUrlFields="idChannel,channel" 
-              DataNavigateUrlFormatString="ChannelEPG.aspx?idChannel={0}&amp;channelName={1}" 
+              DataNavigateUrlFormatString="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}" 
               DataTextField="channel" HeaderText="Channel" 
-              NavigateUrl="ChannelEPG.aspx?idChannel={0}&amp;channelName={1}" Target="_blank">
+              NavigateUrl="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}">
               <ItemStyle VerticalAlign="Top" />
             </asp:HyperLinkField>
             <asp:ButtonField ButtonType="Image" ImageUrl="~\pics\play_enabled.gif" 
@@ -102,6 +105,9 @@
           DataKeyNames="idChannel" onrowcommand="gridRadio_RowCommand">
           <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
           <Columns>
+            <asp:ImageField DataImageUrlField="logo">
+              <ControlStyle Height="50px" Width="50px" />
+            </asp:ImageField>
             <asp:HyperLinkField DataNavigateUrlFields="idChannel,channel" 
               DataNavigateUrlFormatString="ChannelEPG.aspx?idChannel={0}&amp;channelName={1}" 
               DataTextField="channel" HeaderText="Channel" 
@@ -232,7 +238,7 @@
             <asp:BoundField DataField="file" HeaderText="File">
               <ItemStyle VerticalAlign="Top" />
             </asp:BoundField>
-            <asp:BoundField DataField="title" HeaderText="Title">
+            <asp:BoundField DataField="title" HeaderText="Title" HtmlEncode="False">
               <ItemStyle VerticalAlign="Top" Wrap="False" />
             </asp:BoundField>
             <asp:BoundField DataField="plot" HeaderText="Plot">

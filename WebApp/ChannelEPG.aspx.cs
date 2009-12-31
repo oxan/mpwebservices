@@ -15,6 +15,12 @@ using MediaPortal.TvServer.WebServices.Classes;
 
   public partial class ChannelEPG : System.Web.UI.Page
   {
+    private string GetScraperLink(string s)
+    {
+      string url = Utils.GetScraperURL();
+      url = String.Format(url, s);
+      return "<a href=\"" + url + "\" target=_blank>" + s + "</a>";
+    }
     protected void Page_Load(object sender, EventArgs e)
     {
       if (Session["authenticated"] == null)
@@ -32,7 +38,7 @@ using MediaPortal.TvServer.WebServices.Classes;
         DataRow row = dt.NewRow();
         row["time"] = p.startTime.ToString() + "-" + p.endTime.ToShortTimeString();
         row["genre"] = p.genre;
-        row["program"] = "<b>" + p.Title + "</b><br/>" + p.description;
+        row["program"] = "<b>" + GetScraperLink(p.Title) + "</b><br/>" + p.description;
         row["idProgram"] = p.idProgram;
         dt.Rows.Add(row);
       }

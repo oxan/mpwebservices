@@ -28,7 +28,7 @@
     /// </summary>
     private void InitializeComponent()
     {
-      this.tabCtrl = new System.Windows.Forms.TabControl();
+      this.tabLogos = new System.Windows.Forms.TabControl();
       this.tabWebServer = new System.Windows.Forms.TabPage();
       this.button6 = new System.Windows.Forms.Button();
       this.label13 = new System.Windows.Forms.Label();
@@ -44,6 +44,15 @@
       this.nudPort = new System.Windows.Forms.NumericUpDown();
       this.label9 = new System.Windows.Forms.Label();
       this.tabThumbnails = new System.Windows.Forms.TabPage();
+      this.button10 = new System.Windows.Forms.Button();
+      this.thPictures = new System.Windows.Forms.TextBox();
+      this.label18 = new System.Windows.Forms.Label();
+      this.button11 = new System.Windows.Forms.Button();
+      this.button12 = new System.Windows.Forms.Button();
+      this.thRadio = new System.Windows.Forms.TextBox();
+      this.label19 = new System.Windows.Forms.Label();
+      this.thTv = new System.Windows.Forms.TextBox();
+      this.label20 = new System.Windows.Forms.Label();
       this.nudThumbHeight = new System.Windows.Forms.NumericUpDown();
       this.label6 = new System.Windows.Forms.Label();
       this.nudThumbWidth = new System.Windows.Forms.NumericUpDown();
@@ -74,7 +83,9 @@
       this.Column7 = new System.Windows.Forms.DataGridViewComboBoxColumn();
       this.openDlg = new System.Windows.Forms.OpenFileDialog();
       this.label14 = new System.Windows.Forms.Label();
-      this.tabCtrl.SuspendLayout();
+      this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
+      this.btnHelp = new System.Windows.Forms.Button();
+      this.tabLogos.SuspendLayout();
       this.tabWebServer.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
       this.tabThumbnails.SuspendLayout();
@@ -85,20 +96,20 @@
       ((System.ComponentModel.ISupportInitialize)(this.grid)).BeginInit();
       this.SuspendLayout();
       // 
-      // tabCtrl
+      // tabLogos
       // 
-      this.tabCtrl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+      this.tabLogos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
                   | System.Windows.Forms.AnchorStyles.Left)
                   | System.Windows.Forms.AnchorStyles.Right)));
-      this.tabCtrl.Controls.Add(this.tabWebServer);
-      this.tabCtrl.Controls.Add(this.tabThumbnails);
-      this.tabCtrl.Controls.Add(this.tabDBLocations);
-      this.tabCtrl.Controls.Add(this.tabTranscoding);
-      this.tabCtrl.Location = new System.Drawing.Point(0, 40);
-      this.tabCtrl.Name = "tabCtrl";
-      this.tabCtrl.SelectedIndex = 0;
-      this.tabCtrl.Size = new System.Drawing.Size(416, 229);
-      this.tabCtrl.TabIndex = 0;
+      this.tabLogos.Controls.Add(this.tabWebServer);
+      this.tabLogos.Controls.Add(this.tabThumbnails);
+      this.tabLogos.Controls.Add(this.tabDBLocations);
+      this.tabLogos.Controls.Add(this.tabTranscoding);
+      this.tabLogos.Location = new System.Drawing.Point(0, 40);
+      this.tabLogos.Name = "tabLogos";
+      this.tabLogos.SelectedIndex = 0;
+      this.tabLogos.Size = new System.Drawing.Size(423, 229);
+      this.tabLogos.TabIndex = 0;
       // 
       // tabWebServer
       // 
@@ -118,7 +129,7 @@
       this.tabWebServer.Location = new System.Drawing.Point(4, 22);
       this.tabWebServer.Name = "tabWebServer";
       this.tabWebServer.Padding = new System.Windows.Forms.Padding(3);
-      this.tabWebServer.Size = new System.Drawing.Size(408, 203);
+      this.tabWebServer.Size = new System.Drawing.Size(415, 203);
       this.tabWebServer.TabIndex = 0;
       this.tabWebServer.Text = "WebServer";
       this.tabWebServer.UseVisualStyleBackColor = true;
@@ -126,7 +137,7 @@
       // button6
       // 
       this.button6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.button6.Location = new System.Drawing.Point(363, 64);
+      this.button6.Location = new System.Drawing.Point(370, 64);
       this.button6.Name = "button6";
       this.button6.Size = new System.Drawing.Size(36, 23);
       this.button6.TabIndex = 34;
@@ -197,7 +208,7 @@
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.edPlayer.Location = new System.Drawing.Point(131, 66);
       this.edPlayer.Name = "edPlayer";
-      this.edPlayer.Size = new System.Drawing.Size(226, 20);
+      this.edPlayer.Size = new System.Drawing.Size(233, 20);
       this.edPlayer.TabIndex = 26;
       // 
       // label8
@@ -215,7 +226,8 @@
       this.cbPlayerType.FormattingEnabled = true;
       this.cbPlayerType.Items.AddRange(new object[] {
             "Player installed on client",
-            "VLC Browser plugin"});
+            "VLC Browser plugin",
+            ".m3u playlist"});
       this.cbPlayerType.Location = new System.Drawing.Point(131, 39);
       this.cbPlayerType.Name = "cbPlayerType";
       this.cbPlayerType.Size = new System.Drawing.Size(177, 21);
@@ -244,6 +256,15 @@
       // 
       // tabThumbnails
       // 
+      this.tabThumbnails.Controls.Add(this.button10);
+      this.tabThumbnails.Controls.Add(this.thPictures);
+      this.tabThumbnails.Controls.Add(this.label18);
+      this.tabThumbnails.Controls.Add(this.button11);
+      this.tabThumbnails.Controls.Add(this.button12);
+      this.tabThumbnails.Controls.Add(this.thRadio);
+      this.tabThumbnails.Controls.Add(this.label19);
+      this.tabThumbnails.Controls.Add(this.thTv);
+      this.tabThumbnails.Controls.Add(this.label20);
       this.tabThumbnails.Controls.Add(this.nudThumbHeight);
       this.tabThumbnails.Controls.Add(this.label6);
       this.tabThumbnails.Controls.Add(this.nudThumbWidth);
@@ -251,14 +272,101 @@
       this.tabThumbnails.Location = new System.Drawing.Point(4, 22);
       this.tabThumbnails.Name = "tabThumbnails";
       this.tabThumbnails.Padding = new System.Windows.Forms.Padding(3);
-      this.tabThumbnails.Size = new System.Drawing.Size(428, 247);
+      this.tabThumbnails.Size = new System.Drawing.Size(415, 203);
       this.tabThumbnails.TabIndex = 1;
-      this.tabThumbnails.Text = "Thumbnails";
+      this.tabThumbnails.Text = "Thumbnails/Logos";
       this.tabThumbnails.UseVisualStyleBackColor = true;
+      // 
+      // button10
+      // 
+      this.button10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.button10.Location = new System.Drawing.Point(372, 97);
+      this.button10.Name = "button10";
+      this.button10.Size = new System.Drawing.Size(36, 23);
+      this.button10.TabIndex = 30;
+      this.button10.Text = "...";
+      this.button10.UseVisualStyleBackColor = true;
+      this.button10.Click += new System.EventHandler(this.button10_Click);
+      // 
+      // thPictures
+      // 
+      this.thPictures.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.thPictures.Location = new System.Drawing.Point(65, 99);
+      this.thPictures.Name = "thPictures";
+      this.thPictures.Size = new System.Drawing.Size(301, 20);
+      this.thPictures.TabIndex = 29;
+      // 
+      // label18
+      // 
+      this.label18.AutoSize = true;
+      this.label18.Location = new System.Drawing.Point(6, 102);
+      this.label18.Name = "label18";
+      this.label18.Size = new System.Drawing.Size(48, 13);
+      this.label18.TabIndex = 28;
+      this.label18.Text = "Pictures:";
+      // 
+      // button11
+      // 
+      this.button11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.button11.Location = new System.Drawing.Point(372, 71);
+      this.button11.Name = "button11";
+      this.button11.Size = new System.Drawing.Size(36, 23);
+      this.button11.TabIndex = 27;
+      this.button11.Text = "...";
+      this.button11.UseVisualStyleBackColor = true;
+      this.button11.Click += new System.EventHandler(this.button11_Click);
+      // 
+      // button12
+      // 
+      this.button12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.button12.Location = new System.Drawing.Point(372, 46);
+      this.button12.Name = "button12";
+      this.button12.Size = new System.Drawing.Size(36, 23);
+      this.button12.TabIndex = 26;
+      this.button12.Text = "...";
+      this.button12.UseVisualStyleBackColor = true;
+      this.button12.Click += new System.EventHandler(this.button12_Click);
+      // 
+      // thRadio
+      // 
+      this.thRadio.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.thRadio.Location = new System.Drawing.Point(65, 73);
+      this.thRadio.Name = "thRadio";
+      this.thRadio.Size = new System.Drawing.Size(301, 20);
+      this.thRadio.TabIndex = 25;
+      // 
+      // label19
+      // 
+      this.label19.AutoSize = true;
+      this.label19.Location = new System.Drawing.Point(6, 76);
+      this.label19.Name = "label19";
+      this.label19.Size = new System.Drawing.Size(38, 13);
+      this.label19.TabIndex = 24;
+      this.label19.Text = "Radio:";
+      // 
+      // thTv
+      // 
+      this.thTv.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+                  | System.Windows.Forms.AnchorStyles.Right)));
+      this.thTv.Location = new System.Drawing.Point(65, 47);
+      this.thTv.Name = "thTv";
+      this.thTv.Size = new System.Drawing.Size(301, 20);
+      this.thTv.TabIndex = 23;
+      // 
+      // label20
+      // 
+      this.label20.AutoSize = true;
+      this.label20.Location = new System.Drawing.Point(6, 50);
+      this.label20.Name = "label20";
+      this.label20.Size = new System.Drawing.Size(24, 13);
+      this.label20.TabIndex = 22;
+      this.label20.Text = "TV:";
       // 
       // nudThumbHeight
       // 
-      this.nudThumbHeight.Location = new System.Drawing.Point(121, 44);
+      this.nudThumbHeight.Location = new System.Drawing.Point(234, 20);
       this.nudThumbHeight.Name = "nudThumbHeight";
       this.nudThumbHeight.Size = new System.Drawing.Size(53, 20);
       this.nudThumbHeight.TabIndex = 21;
@@ -266,7 +374,7 @@
       // label6
       // 
       this.label6.AutoSize = true;
-      this.label6.Location = new System.Drawing.Point(12, 48);
+      this.label6.Location = new System.Drawing.Point(151, 22);
       this.label6.Name = "label6";
       this.label6.Size = new System.Drawing.Size(77, 13);
       this.label6.TabIndex = 20;
@@ -274,7 +382,7 @@
       // 
       // nudThumbWidth
       // 
-      this.nudThumbWidth.Location = new System.Drawing.Point(121, 18);
+      this.nudThumbWidth.Location = new System.Drawing.Point(92, 20);
       this.nudThumbWidth.Name = "nudThumbWidth";
       this.nudThumbWidth.Size = new System.Drawing.Size(53, 20);
       this.nudThumbWidth.TabIndex = 19;
@@ -308,7 +416,7 @@
       this.tabDBLocations.Location = new System.Drawing.Point(4, 22);
       this.tabDBLocations.Name = "tabDBLocations";
       this.tabDBLocations.Padding = new System.Windows.Forms.Padding(3);
-      this.tabDBLocations.Size = new System.Drawing.Size(428, 247);
+      this.tabDBLocations.Size = new System.Drawing.Size(415, 203);
       this.tabDBLocations.TabIndex = 2;
       this.tabDBLocations.Text = "MP DB Locations";
       this.tabDBLocations.UseVisualStyleBackColor = true;
@@ -316,7 +424,7 @@
       // button5
       // 
       this.button5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.button5.Location = new System.Drawing.Point(384, 118);
+      this.button5.Location = new System.Drawing.Point(374, 118);
       this.button5.Name = "button5";
       this.button5.Size = new System.Drawing.Size(36, 23);
       this.button5.TabIndex = 14;
@@ -327,7 +435,7 @@
       // button4
       // 
       this.button4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.button4.Location = new System.Drawing.Point(384, 92);
+      this.button4.Location = new System.Drawing.Point(374, 92);
       this.button4.Name = "button4";
       this.button4.Size = new System.Drawing.Size(36, 23);
       this.button4.TabIndex = 13;
@@ -338,7 +446,7 @@
       // button3
       // 
       this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.button3.Location = new System.Drawing.Point(384, 67);
+      this.button3.Location = new System.Drawing.Point(374, 67);
       this.button3.Name = "button3";
       this.button3.Size = new System.Drawing.Size(36, 23);
       this.button3.TabIndex = 12;
@@ -349,7 +457,7 @@
       // button2
       // 
       this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.button2.Location = new System.Drawing.Point(384, 41);
+      this.button2.Location = new System.Drawing.Point(374, 41);
       this.button2.Name = "button2";
       this.button2.Size = new System.Drawing.Size(36, 23);
       this.button2.TabIndex = 11;
@@ -360,7 +468,7 @@
       // button1
       // 
       this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-      this.button1.Location = new System.Drawing.Point(384, 15);
+      this.button1.Location = new System.Drawing.Point(374, 15);
       this.button1.Name = "button1";
       this.button1.Size = new System.Drawing.Size(36, 23);
       this.button1.TabIndex = 10;
@@ -374,7 +482,7 @@
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.edMovingPictures.Location = new System.Drawing.Point(93, 120);
       this.edMovingPictures.Name = "edMovingPictures";
-      this.edMovingPictures.Size = new System.Drawing.Size(285, 20);
+      this.edMovingPictures.Size = new System.Drawing.Size(277, 20);
       this.edMovingPictures.TabIndex = 9;
       // 
       // label5
@@ -392,7 +500,7 @@
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.edTvSeries.Location = new System.Drawing.Point(93, 94);
       this.edTvSeries.Name = "edTvSeries";
-      this.edTvSeries.Size = new System.Drawing.Size(285, 20);
+      this.edTvSeries.Size = new System.Drawing.Size(277, 20);
       this.edTvSeries.TabIndex = 7;
       // 
       // label4
@@ -410,7 +518,7 @@
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.edPictures.Location = new System.Drawing.Point(93, 68);
       this.edPictures.Name = "edPictures";
-      this.edPictures.Size = new System.Drawing.Size(285, 20);
+      this.edPictures.Size = new System.Drawing.Size(277, 20);
       this.edPictures.TabIndex = 5;
       // 
       // label3
@@ -428,7 +536,7 @@
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.edMusic.Location = new System.Drawing.Point(93, 42);
       this.edMusic.Name = "edMusic";
-      this.edMusic.Size = new System.Drawing.Size(285, 20);
+      this.edMusic.Size = new System.Drawing.Size(277, 20);
       this.edMusic.TabIndex = 3;
       // 
       // label2
@@ -446,7 +554,7 @@
                   | System.Windows.Forms.AnchorStyles.Right)));
       this.edMovies.Location = new System.Drawing.Point(93, 16);
       this.edMovies.Name = "edMovies";
-      this.edMovies.Size = new System.Drawing.Size(285, 20);
+      this.edMovies.Size = new System.Drawing.Size(277, 20);
       this.edMovies.TabIndex = 1;
       // 
       // label1
@@ -464,7 +572,7 @@
       this.tabTranscoding.Location = new System.Drawing.Point(4, 22);
       this.tabTranscoding.Name = "tabTranscoding";
       this.tabTranscoding.Padding = new System.Windows.Forms.Padding(3);
-      this.tabTranscoding.Size = new System.Drawing.Size(428, 247);
+      this.tabTranscoding.Size = new System.Drawing.Size(415, 203);
       this.tabTranscoding.TabIndex = 3;
       this.tabTranscoding.Text = "Transcoding";
       this.tabTranscoding.UseVisualStyleBackColor = true;
@@ -482,7 +590,7 @@
       this.grid.Dock = System.Windows.Forms.DockStyle.Fill;
       this.grid.Location = new System.Drawing.Point(3, 3);
       this.grid.Name = "grid";
-      this.grid.Size = new System.Drawing.Size(422, 241);
+      this.grid.Size = new System.Drawing.Size(409, 197);
       this.grid.TabIndex = 7;
       // 
       // Column1
@@ -534,21 +642,38 @@
       this.label14.AutoSize = true;
       this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.label14.ForeColor = System.Drawing.Color.Red;
-      this.label14.Location = new System.Drawing.Point(4, 11);
+      this.label14.Location = new System.Drawing.Point(4, 4);
       this.label14.Name = "label14";
       this.label14.Size = new System.Drawing.Size(405, 13);
       this.label14.TabIndex = 1;
       this.label14.Text = "Important: If you change the HTTP Port you have to restart TvService";
       // 
+      // folderBrowserDialog1
+      // 
+      this.folderBrowserDialog1.RootFolder = System.Environment.SpecialFolder.CommonApplicationData;
+      this.folderBrowserDialog1.ShowNewFolderButton = false;
+      // 
+      // btnHelp
+      // 
+      this.btnHelp.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+      this.btnHelp.Location = new System.Drawing.Point(312, 18);
+      this.btnHelp.Name = "btnHelp";
+      this.btnHelp.Size = new System.Drawing.Size(97, 23);
+      this.btnHelp.TabIndex = 2;
+      this.btnHelp.Text = "Open Helpfile";
+      this.btnHelp.UseVisualStyleBackColor = true;
+      this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
+      // 
       // MPWebServicesSetup
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+      this.Controls.Add(this.btnHelp);
       this.Controls.Add(this.label14);
-      this.Controls.Add(this.tabCtrl);
+      this.Controls.Add(this.tabLogos);
       this.Name = "MPWebServicesSetup";
-      this.Size = new System.Drawing.Size(416, 269);
-      this.tabCtrl.ResumeLayout(false);
+      this.Size = new System.Drawing.Size(426, 269);
+      this.tabLogos.ResumeLayout(false);
       this.tabWebServer.ResumeLayout(false);
       this.tabWebServer.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudPort)).EndInit();
@@ -567,7 +692,7 @@
 
     #endregion
 
-    private System.Windows.Forms.TabControl tabCtrl;
+    private System.Windows.Forms.TabControl tabLogos;
     private System.Windows.Forms.TabPage tabWebServer;
     private System.Windows.Forms.TabPage tabThumbnails;
     private System.Windows.Forms.TabPage tabDBLocations;
@@ -613,6 +738,17 @@
     private System.Windows.Forms.TextBox edPwd;
     private System.Windows.Forms.Button button6;
     private System.Windows.Forms.Label label14;
+    private System.Windows.Forms.Button button10;
+    private System.Windows.Forms.TextBox thPictures;
+    private System.Windows.Forms.Label label18;
+    private System.Windows.Forms.Button button11;
+    private System.Windows.Forms.Button button12;
+    private System.Windows.Forms.TextBox thRadio;
+    private System.Windows.Forms.Label label19;
+    private System.Windows.Forms.TextBox thTv;
+    private System.Windows.Forms.Label label20;
+    private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
+    private System.Windows.Forms.Button btnHelp;
   }
 }
 

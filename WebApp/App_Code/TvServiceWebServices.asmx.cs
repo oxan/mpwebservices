@@ -700,7 +700,7 @@ namespace MediaPortal.TvServer.WebServices
         return paths;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT strFile FROM picture";
+      cmd.CommandText = "SELECT strFile FROM picture ORDER BY strFile";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
       {
@@ -747,7 +747,7 @@ namespace MediaPortal.TvServer.WebServices
         return pics;
       }
       SQLiteCommand cmd = db.CreateCommand();
-      cmd.CommandText = "SELECT * FROM picture WHERE strFile LIKE '"+path+"%'";
+      cmd.CommandText = "SELECT * FROM picture WHERE strFile LIKE '"+path+"%' ORDER by strFile";
       SQLiteDataReader reader = cmd.ExecuteReader();
       while (reader.Read())
       {

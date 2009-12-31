@@ -27,6 +27,27 @@ using System.IO;
     protected void Page_Load(object sender, EventArgs e)
     {
       string filename="";
+
+      if (Request.QueryString["sectoken"] == null)
+      {
+        Utils.Log("Streamer.aspx: ERROR: No sectoken for authentication provided");
+        return;
+      }
+      string uid; string pwd;
+      Utils.GetLogin(out uid, out pwd);
+      string sectoken = Request.QueryString["sectoken"];
+      string decrypt = CryptoHelper.Crypt(sectoken, false);
+      if (decrypt.Length < 10)
+      {
+        Utils.Log("Streamer.aspx: ERROR: Invalid sectoken");
+        return;
+      }
+      decrypt = decrypt.Remove(0, 8);
+      if (decrypt != uid + pwd)
+      {
+        Utils.Log("Streamer.aspx: ERROR: Invalid sectoken");
+        return;
+      }
       
       List<EncoderConfig> cfgs = Utils.LoadConfig();
       EncoderConfig cfg = cfgs[Int32.Parse(Request.QueryString["idProfile"])];
@@ -39,6 +60,7 @@ using System.IO;
         WebTvResult res = server.StartTimeShifting(Int32.Parse(Request.QueryString["idChannel"]));
         if (res.result != 0)
         {
+          Utils.Log("Streamer.aspx: ERROR: StartTimeShifting failed with error: " + res.result.ToString());
           Response.Output.WriteLine("ERROR: StartTimeShifting failed with error: " + res.result.ToString());
           Response.End();
           return;
@@ -77,7 +99,10 @@ using System.IO;
         filename = pic.filename;
       }
       if (!File.Exists(filename) && !filename.StartsWith("rtsp://"))
+      {
+        Utils.Log("Streamer.aspx: Requested file " + filename + " does not exist.");
         return;
+      }
       Response.Clear();
       Response.Buffer=false;
       Response.BufferOutput=false;
@@ -125,8 +150,9 @@ using System.IO;
             server.SendHeartBeat(usedChannel, usedCard, tvServerUsername);
         }
       }
-      catch (Exception)
+      catch (Exception ex)
       {
+        Utils.Log("Streamer.aspx: Exception raised="+ex.Message+Environment.NewLine+ex.StackTrace);
       }
       if (mediaStream!=null)
         mediaStream.Close();

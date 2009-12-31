@@ -10,6 +10,7 @@ using System.Web.UI.WebControls;
 using System.Web.UI.WebControls.WebParts;
 using System.IO;
 using MediaPortal.Util;
+using MediaPortal.TvServer.WebServices;
 
 
   public partial class PictureStreamer : System.Web.UI.Page
@@ -33,16 +34,27 @@ using MediaPortal.Util;
       string thumb = "";
       if (Request.QueryString["thumb"] != null)
       {
+        ThumbPaths thumbs=Utils.GetThumbPaths();
         filename = Server.HtmlDecode(Request.QueryString["thumb"]);
         thumb = filename;
         thumb = EncryptLine(thumb);
-        thumb = String.Format(Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Team MediaPortal\MediaPortal\thumbs\Pictures\" + thumb + Path.GetExtension(filename));
+        thumb = String.Format(thumbs.pictures+"\\" + thumb + Path.GetExtension(filename));
       }
-      else
+      else if (Request.QueryString["picture"]!=null)
       {
         filename = Server.HtmlDecode(Request.QueryString["picture"]);
         thumb = filename;
         Response.AddHeader("Content-Disposition", "attachment;filename="+Path.GetFileName(filename)+";");
+      }
+      else if (Request.QueryString["tvlogo"] != null)
+      {
+        ThumbPaths paths=Utils.GetThumbPaths();
+        thumb = paths.tv + "\\" + Server.HtmlDecode(Request.QueryString["tvlogo"])+".png";
+      }
+      else if (Request.QueryString["radiologo"] != null)
+      {
+        ThumbPaths paths = Utils.GetThumbPaths();
+        thumb = paths.radio + "\\" + Server.HtmlDecode(Request.QueryString["radiologo"]) + ".png";
       }
       if (!File.Exists(thumb))
         return;

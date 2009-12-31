@@ -62,6 +62,10 @@ namespace TvServerPlugin
       nudThumbHeight.Value = Settings.thumbHeight;
       nudThumbWidth.Value = Settings.thumbWidth;
 
+      thTv.Text = Settings.thumbs.tv;
+      thRadio.Text = Settings.thumbs.radio;
+      thPictures.Text = Settings.thumbs.pictures;
+
       edMovies.Text = Settings.dbLocations.db_movies;
       edMusic.Text = Settings.dbLocations.db_music;
       edPictures.Text = Settings.dbLocations.db_pictures;
@@ -94,6 +98,9 @@ namespace TvServerPlugin
 
       Settings.thumbHeight = (int)nudThumbHeight.Value;
       Settings.thumbWidth = (int)nudThumbWidth.Value;
+      Settings.thumbs.tv = thTv.Text;
+      Settings.thumbs.radio = thRadio.Text;
+      Settings.thumbs.pictures = thPictures.Text;
 
       Settings.dbLocations.db_movies = edMovies.Text;
       Settings.dbLocations.db_music = edMusic.Text;
@@ -139,6 +146,24 @@ namespace TvServerPlugin
     }
     #endregion
 
+    #region Thumbs
+    private void button12_Click(object sender, EventArgs e)
+    {
+      if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+        thTv.Text = folderBrowserDialog1.SelectedPath;
+    }
+    private void button11_Click(object sender, EventArgs e)
+    {
+      if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+        thRadio.Text = folderBrowserDialog1.SelectedPath;
+    }
+    private void button10_Click(object sender, EventArgs e)
+    {
+      if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+        thPictures.Text = folderBrowserDialog1.SelectedPath;
+    }
+    #endregion
+
     private void button6_Click(object sender, EventArgs e)
     {
       string filter = openDlg.Filter;
@@ -146,6 +171,14 @@ namespace TvServerPlugin
       if (openDlg.ShowDialog() == DialogResult.OK)
         edPlayer.Text = openDlg.FileName;
       openDlg.Filter = filter;
+    }
+
+    private void btnHelp_Click(object sender, EventArgs e)
+    {
+      System.Diagnostics.Process proc = new System.Diagnostics.Process();
+      proc.StartInfo.FileName = Settings.baseDir + "\\MPWebServices\\MPWebServices_help.html";
+      proc.StartInfo.UseShellExecute = true;
+      proc.Start();
     }
   }
 

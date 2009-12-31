@@ -28,6 +28,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebServerHost", "WebServerH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TvServerPlugin", "TvServerPlugin\TvServerPlugin.csproj", "{3AF279BE-D359-483F-924E-185AA4162400}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{77F609F8-28B5-455E-BB90-D8EA691706BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|.NET = Debug|.NET
@@ -88,6 +90,14 @@ Global
 		{3AF279BE-D359-483F-924E-185AA4162400}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3AF279BE-D359-483F-924E-185AA4162400}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3AF279BE-D359-483F-924E-185AA4162400}.Release|x86.ActiveCfg = Release|x86
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Debug|.NET.ActiveCfg = Debug
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Debug|Any CPU.ActiveCfg = Debug
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Debug|Mixed Platforms.ActiveCfg = Debug
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Debug|x86.ActiveCfg = Debug
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Release|.NET.ActiveCfg = Release
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Release|Any CPU.ActiveCfg = Release
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Release|Mixed Platforms.ActiveCfg = Release
+		{77F609F8-28B5-455E-BB90-D8EA691706BC}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
