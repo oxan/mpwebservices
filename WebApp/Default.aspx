@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>Untitled Page</title>
+    <title>MediaPortal WebServices</title>
 </head>
 <body style="background: /pics/Background.png">
     <form id="form1" runat="server">
@@ -53,8 +53,10 @@
         </asp:DropDownList>
         &nbsp;&nbsp;
         <asp:ImageButton ID="btnTvRSS" runat="server" AlternateText="RSS Feed" 
-          ImageUrl="~/pics/rss-icon.gif" onclick="btnTvRSS_Click" />
-        &nbsp;<hr style="border: 1px solid #000000" />
+          ImageUrl="~/pics/rss-icon.gif" onclick="btnTvRSS_Click" />  &nbsp;
+        <input onclick="window.open('EPGSearch.aspx');" type="button" 
+          value="Search EPG" />
+        &nbsp;&nbsp; <hr style="border: 1px solid #000000" />
         <asp:GridView ID="gridTv" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None" 
           DataKeyNames="idChannel" onrowcommand="gridTv_RowCommand">
@@ -66,7 +68,8 @@
             <asp:HyperLinkField DataNavigateUrlFields="idChannel,channel" 
               DataNavigateUrlFormatString="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}" 
               DataTextField="channel" HeaderText="Channel" 
-              NavigateUrl="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}">
+              NavigateUrl="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}" 
+              Target="_blank">
               <ItemStyle VerticalAlign="Top" />
             </asp:HyperLinkField>
             <asp:ButtonField ButtonType="Image" ImageUrl="~\pics\play_enabled.gif" 

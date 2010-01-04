@@ -2,7 +2,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Untitled Page</title>
+    <title>MediaPortal WebServices--VLC Player</title>
     <script language=javascript>
       function getQuerystring(key, default_)
       {
@@ -15,12 +15,20 @@
         else
           return qs[1];
       }
+
+      function getVlcPlayer(vlc_id)
+      {
+ 	if (document.all) vlc_id += '_ie';
+	return document.getElementById(vlc_id);
+      }
+
       function Init()
       {
         document.getElementById('medianame').innerHTML=getQuerystring("media","");
         var qUrl=getQuerystring("url","");
-        url="Streamer.aspx?"+qUrl.replace(",","&");
-        var vlc=document.getElementById('vlcplayer');
+        url="Streamer.aspx?"+qUrl.replace(/,/g,"&");
+
+        var vlc = getVlcPlayer('vlcplayer');
         vlc.playlist.add(url);
         vlc.playlist.play();
       }
@@ -28,8 +36,17 @@
 </head>
 <body onload="Init()">
   <b>Media:</b> <span id="medianame"></span><br /><br />
-  <input type="button" value="play" onclick="document.getElementById('vlcplayer').playlist.play();" />&nbsp; <input type="button" value="pause" onclick="document.getElementById('vlcplayer').playlist.togglePause();" />&nbsp; <input type="button" value="stop" onclick="document.getElementById('vlcplayer').playlist.stop();" />&nbsp; <input type="button" value="switch fullscreen" onclick="document.getElementById('vlcplayer').video.fullscreen=true;" />
+  <input type="button" value="play" onclick="getVlcPlayer('vlcplayer').playlist.play();" />&nbsp; <input type="button" value="pause" onclick="getVlcPlayer('vlcplayer').playlist.togglePause();" />&nbsp; <input type="button" value="stop" onclick="getVlcPlayer('vlcplayer').playlist.stop();" />&nbsp; <input type="button" value="switch fullscreen" onclick="getVlcPlayer('vlcplayer').video.fullscreen=true;" />
   <hr style="border: solid 1px black" />
-  <embed type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2" id="vlcplayer" autoplay="no" loop="no" width="400" height="300" />
+
+
+<object id="vlcplayer_ie" classid="clsid:9BE31822-FDAD-461B-AD51-BE1D1C159921" width="400" height="300" events="True">
+        <param name="ShowDisplay" value="false" ></param>
+        <param name="AutoLoop" value="no"></param>
+        <param name="AutoPlay" value="no"></param>
+  <embed id="vlcplayer" type="application/x-vlc-plugin" pluginspage="http://www.videolan.org" version="VideoLAN.VLCPlugin.2"
+   autoplay="no" loop="no" width="400" height="300" />
+</object>
+
 </body>
 </html>

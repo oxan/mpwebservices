@@ -82,6 +82,8 @@ namespace MediaPortal.TvServer.WebServices.Classes
     public WebMiniEPG() { }
     public WebMiniEPG(Channel ch)
     {
+      if (ch == null)
+        return;
       this.idChannel = ch.IdChannel;
       this.name = ch.DisplayName;
       this.isWebStream = ch.IsWebstream();

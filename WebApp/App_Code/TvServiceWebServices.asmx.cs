@@ -323,6 +323,30 @@ namespace MediaPortal.TvServer.WebServices
       return infos;
     }
     [WebMethod]
+    public List<WebProgram> SearchEPG(string show)
+    {
+      List<WebProgram> infos = new List<WebProgram>();
+      if (!ConnectToDatabase())
+        return infos;
+      try
+      {
+        SqlBuilder sb = new SqlBuilder(Gentle.Framework.StatementType.Select, typeof(Program));
+        sb.AddConstraint(Operator.Like, "title", show );
+        sb.AddOrderByField(true, "startTime");
+        SqlStatement stmt = sb.GetStatement(true);
+        IList programs = ObjectFactory.GetCollection(typeof(Program), stmt.Execute());
+        if (programs != null && programs.Count > 0)
+        {
+          foreach (Program prog in programs)
+            infos.Add(new WebProgram(prog));
+        }
+      }
+      catch (Exception)
+      {
+      }
+      return infos;
+    }
+    [WebMethod]
     public WebProgram GetEPG(int idProgram)
     {
       if (!ConnectToDatabase())

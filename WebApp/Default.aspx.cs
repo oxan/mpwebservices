@@ -60,7 +60,7 @@ public partial class Default : System.Web.UI.Page
   {
     string m3u = "#EXTM3U" + Environment.NewLine;
     m3u += "#EXTINF:0," + mediafile + Environment.NewLine;
-    m3u += url.Trim('\\');
+    m3u += url.Trim('\\').Trim('\"');
     Response.AddHeader("Content-Disposition", "attachment;filename=Playlist.m3u; charset=ASCII");
     Response.ContentType = "audio/x-mpegurl";
     Response.Write(m3u);
@@ -188,13 +188,18 @@ public partial class Default : System.Web.UI.Page
     {
       DataRow row = dt.NewRow();
       row["channel"] = epg.name;
-      row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + GetScraperLink(epg.epgNow.title) + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": "+GetScraperLink(epg.epgNext.title);
+      row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + GetScraperLink(epg.epgNow.title) + "  <a href=EPGSearch.aspx?title=" + Server.UrlEncode(epg.epgNow.title) + " target=_blank><img border=0 src=\"pics/btnrecurrences.gif\" alt=\"Find recurrences\" title=\"Find recurrences\" /></a><br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": " + GetScraperLink(epg.epgNext.title) + "  <a href=EPGSearch.aspx?title=" + Server.UrlEncode(epg.epgNext.title) + " target=_blank><img border=0 src=\"pics/btnrecurrences.gif\" alt=\"Find recurrences\" title=\"Find recurrences\" /></a>";
+      //find recurrences
       row["idChannel"] = epg.idChannel;
       row["logo"] = Utils.GetStreamURL() + "/PictureStreamer.aspx?tvlogo=" + Server.HtmlEncode(epg.name);
       dt.Rows.Add(row);
     }
     gridTv.DataSource = dt;
     gridTv.DataBind();
+    int width; int height;
+    Utils.GetThumbDimensions(out width, out height);
+    gridTv.Columns[0].ControlStyle.Width = width;
+    gridTv.Columns[0].ControlStyle.Height = height;
     LoadStreamingProfiles(cbTvProfiles);
   }
   protected void gridTv_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -258,6 +263,10 @@ public partial class Default : System.Web.UI.Page
     }
     gridRadio.DataSource = dt;
     gridRadio.DataBind();
+    int width; int height;
+    Utils.GetThumbDimensions(out width, out height);
+    gridRadio.Columns[0].ControlStyle.Width = width;
+    gridRadio.Columns[0].ControlStyle.Height = height;
     LoadStreamingProfiles(cbRadioProfiles);
   }
   protected void gridRadio_RowCommand(object sender, GridViewCommandEventArgs e)
@@ -501,7 +510,8 @@ public partial class Default : System.Web.UI.Page
     cbPicturePath.Items.Clear();
     foreach (string s in p)
       cbPicturePath.Items.Add(s);
-    cbPicturePath.SelectedIndex = 0;
+    if (p.Count>0)
+      cbPicturePath.SelectedIndex = 0;
   }
   protected void btnShowPictures_Click(object sender, EventArgs e)
   {

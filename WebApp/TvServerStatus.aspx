@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>Untitled Page</title>
+    <title>MediaPortal WebServices--Server status</title>
     <meta http-equiv="refresh" content="5" />
     <script language="javascript">
     function KickSession(idCard,idChannel,username,actionType)
