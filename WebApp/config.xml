@@ -1,10 +1,10 @@
 <appconfig>
-  <config httpport="8080" thumbwidth="70" thumbheight="70" clientplayerpath="c:\program files\Videolan\VLC\vlc.exe" playertype="0" streamurl="" username="admin" password="admin" scraper_url="http://www.imdb.de/find?s=all&amp;q={0}" />
+  <config httpport="8080" thumbwidth="70" thumbheight="70" clientplayerpath="c:\program files\Videolan\VLC\vlc.exe" playertype="2" streamurl="" username="admin" password="admin" scraper_url="http://www.imdb.de/find?s=all&amp;q={0}" />
   <transcoders>
     <transcoder name="direct" usetranscoding="0" filename=" " args="" inputmethod="1" outputmethod="1" />
     <transcoder name="divx (320x200)" usetranscoding="1" filename="c:\mencoder\mencoder.exe" args="&quot;{0}&quot; -quiet -cache 8192 -ovc lavc -vf scale=320:200,harddup -ffourcc DX50 -oac mp3lame -o {1}" inputmethod="0" outputmethod="1" />
     <transcoder name="mpeg2 (240x160)" usetranscoding="1" filename="c:\mencoder\mencoder.exe" args="&quot;{0}&quot; -quiet -cache 8192 -vf scale=240:160 -oac lavc -of lavf -lavfopts format=dvd -ovc lavc -lavcopts vcodec=mpeg2video:vbitrate=512:threads=2:acodec=ac3:abitrate=128 -ofps 24000/1001 -o {1}" inputmethod="0" outputmethod="1" />
-    <transcoder name="flv" usetranscoding="1" filename="c:\mencoder\mencoder.exe" args="&quot;{0}&quot; -quiet -cache 8192 -forceidx -of lavf -oac mp3lame -lameopts abr:br=56 -srate 22050 -ovc lavc -lavcopts vcodec=flv:vbitrate=250:mbd=2:mv0:trell:v4mv:cbp:last_pred=3 -vf scale=360:240 -o {1}" inputmethod="0" outputmethod="1" />
+    <transcoder name="vlc" usetranscoding="1" filename="c:\program files\videolan\vlc\vlc.exe" args="&quot;{0}&quot; --sout=#transcode{vcodec=mp4v,vb=1024,acodec=mp3,ab=64,channels=1,deinterlace,scale=0.50}:std{access=f ile,mux=ts,dst={1}}" inputmethod="0" outputmethod="1" />
   </transcoders>
   <mpdatabases>
     <database name="movies" filename="C:\ProgramData\Team MediaPortal\MediaPortal\database\VideoDatabaseV5.db3" />

@@ -32,6 +32,7 @@ namespace TvServerPlugin
     public static int thumbHeight;
     public static string clientPlayer;
     public static string streamURL;
+    public static string scraperURL;
     public static int playerType;
     public static string webUid;
     public static string webPwd;
@@ -66,6 +67,7 @@ namespace TvServerPlugin
         clientPlayer = gNode.Attributes["clientplayerpath"].Value;
         playerType = Int32.Parse(gNode.Attributes["playertype"].Value);
         streamURL = gNode.Attributes["streamurl"].Value;
+        scraperURL = gNode.Attributes["scraper_url"].Value;
         if (streamURL == "")
           streamURL = "http://" + Environment.MachineName + ":" + httpPort.ToString();
         webUid = gNode.Attributes["username"].Value;
@@ -156,7 +158,7 @@ namespace TvServerPlugin
     {
       XmlNode node = doc.CreateElement("thumb");
       NewAttribute(node, "name", name);
-      NewAttribute(node, "filename", path);
+      NewAttribute(node, "path", path);
       dbNode.AppendChild(node);
     }
     public static void SaveSettings()
@@ -170,6 +172,7 @@ namespace TvServerPlugin
       NewAttribute(gNode, "clientplayerpath", clientPlayer);
       NewAttribute(gNode, "playertype", playerType);
       NewAttribute(gNode, "streamurl", streamURL);
+      NewAttribute(gNode, "scraper_url", scraperURL);
       NewAttribute(gNode, "username", webUid);
       NewAttribute(gNode, "password", webPwd);
 

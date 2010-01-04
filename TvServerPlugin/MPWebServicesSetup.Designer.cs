@@ -85,6 +85,8 @@
       this.label14 = new System.Windows.Forms.Label();
       this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
       this.btnHelp = new System.Windows.Forms.Button();
+      this.label15 = new System.Windows.Forms.Label();
+      this.edScraper = new System.Windows.Forms.TextBox();
       this.tabLogos.SuspendLayout();
       this.tabWebServer.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.nudPort)).BeginInit();
@@ -113,6 +115,8 @@
       // 
       // tabWebServer
       // 
+      this.tabWebServer.Controls.Add(this.label15);
+      this.tabWebServer.Controls.Add(this.edScraper);
       this.tabWebServer.Controls.Add(this.button6);
       this.tabWebServer.Controls.Add(this.label13);
       this.tabWebServer.Controls.Add(this.edURL);
@@ -664,6 +668,22 @@
       this.btnHelp.UseVisualStyleBackColor = true;
       this.btnHelp.Click += new System.EventHandler(this.btnHelp_Click);
       // 
+      // label15
+      // 
+      this.label15.AutoSize = true;
+      this.label15.Location = new System.Drawing.Point(11, 173);
+      this.label15.Name = "label15";
+      this.label15.Size = new System.Drawing.Size(99, 13);
+      this.label15.TabIndex = 36;
+      this.label15.Text = "Movie scraper URL";
+      // 
+      // edScraper
+      // 
+      this.edScraper.Location = new System.Drawing.Point(131, 170);
+      this.edScraper.Name = "edScraper";
+      this.edScraper.Size = new System.Drawing.Size(274, 20);
+      this.edScraper.TabIndex = 35;
+      // 
       // MPWebServicesSetup
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -749,6 +769,8 @@
     private System.Windows.Forms.Label label20;
     private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
     private System.Windows.Forms.Button btnHelp;
+    private System.Windows.Forms.Label label15;
+    private System.Windows.Forms.TextBox edScraper;
   }
 }
 

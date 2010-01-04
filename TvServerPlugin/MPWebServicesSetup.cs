@@ -58,6 +58,7 @@ namespace TvServerPlugin
       edUid.Text = Settings.webUid;
       edPwd.Text = Settings.webPwd;
       edURL.Text = Settings.streamURL;
+      edScraper.Text = Settings.scraperURL;
 
       nudThumbHeight.Value = Settings.thumbHeight;
       nudThumbWidth.Value = Settings.thumbWidth;
@@ -95,6 +96,7 @@ namespace TvServerPlugin
       Settings.webUid = edUid.Text;
       Settings.webPwd = edPwd.Text;
       Settings.streamURL = edURL.Text;
+      Settings.scraperURL = edScraper.Text;
 
       Settings.thumbHeight = (int)nudThumbHeight.Value;
       Settings.thumbWidth = (int)nudThumbWidth.Value;
