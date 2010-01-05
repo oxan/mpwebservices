@@ -13,6 +13,7 @@ using System.Xml.Linq;
 using System.Collections.Generic;
 using MediaPortal.TvServer.WebServices;
 using MediaPortal.TvServer.WebServices.Classes;
+using System.IO;
 
 
 public partial class Default : System.Web.UI.Page
@@ -189,9 +190,8 @@ public partial class Default : System.Web.UI.Page
       DataRow row = dt.NewRow();
       row["channel"] = epg.name;
       row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + GetScraperLink(epg.epgNow.title) + "  <a href=EPGSearch.aspx?title=" + Server.UrlEncode(epg.epgNow.title) + " target=_blank><img border=0 src=\"pics/btnrecurrences.gif\" alt=\"Find recurrences\" title=\"Find recurrences\" /></a><br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": " + GetScraperLink(epg.epgNext.title) + "  <a href=EPGSearch.aspx?title=" + Server.UrlEncode(epg.epgNext.title) + " target=_blank><img border=0 src=\"pics/btnrecurrences.gif\" alt=\"Find recurrences\" title=\"Find recurrences\" /></a>";
-      //find recurrences
       row["idChannel"] = epg.idChannel;
-      row["logo"] = Utils.GetStreamURL() + "/PictureStreamer.aspx?tvlogo=" + Server.HtmlEncode(epg.name);
+      row["logo"] = Utils.GetLogoURL(epg.name,true);
       dt.Rows.Add(row);
     }
     gridTv.DataSource = dt;
@@ -258,7 +258,7 @@ public partial class Default : System.Web.UI.Page
       row["channel"] = epg.name;
       row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + epg.epgNow.title + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": " + epg.epgNext.title;
       row["idChannel"] = epg.idChannel;
-      row["logo"] = Utils.GetStreamURL() + "/PictureStreamer.aspx?radiologo=" + Server.HtmlEncode(epg.name);
+      row["logo"] = Utils.GetLogoURL(epg.name,false);
       dt.Rows.Add(row);
     }
     gridRadio.DataSource = dt;
@@ -323,7 +323,7 @@ public partial class Default : System.Web.UI.Page
       return;
     int rowIndex = Int32.Parse((string)e.CommandArgument);
     int idx = (int)gridRecordings.DataKeys[rowIndex].Value;
-    StartPlayer("idRecording=" + idx.ToString() + "&idProfile=" + cbRecordingProfiles.SelectedIndex, gridRecordings.Rows[rowIndex].Cells[4].Text);
+    StartPlayer("idRecording=" + idx.ToString() + "&idProfile=" + cbRecordingProfiles.SelectedIndex, gridRecordings.Rows[rowIndex].Cells[3].Text);
   }
   protected void btnRecordingsRSS_Click(object sender, ImageClickEventArgs e)
   {

@@ -22,6 +22,40 @@
     <h3>Tv Server Status (page will reload every 5 seconds)</h3>
     <hr style="border: solid 1px black" />
     
+        <br />
+        <table>
+          <tr>
+            <td><b>Machinename/Model:</b></td>
+            <td>
+              <asp:Label ID="lMachinename" runat="server" Text="Label"></asp:Label>
+            </td>
+          </tr>
+          <tr>
+            <td><b>Operation system:</b></td>
+            <td>
+              <asp:Label ID="lOS" runat="server" Text="Label"></asp:Label>
+            </td>
+          </tr>          
+          <tr>
+            <td><b>CPU usage:</b></td>
+            <td>
+              <asp:Label ID="lCPU" runat="server" Text="Label"></asp:Label>
+            </td>
+          </tr>          
+          <tr>
+            <td><b>Memory used:</b></td>
+            <td>
+              <asp:Label ID="lMemory" runat="server" Text="Label"></asp:Label>
+            </td>
+          </tr>          
+          <tr>
+            <td><b>Recording folders:</b></td>
+            <td>
+              <asp:Label ID="lSpace" runat="server" Text="Label"></asp:Label>
+            </td>
+          </tr>          
+        </table>
+        <br />
         <asp:GridView ID="grid" runat="server" AutoGenerateColumns="False" 
           CellPadding="4" ForeColor="#333333" GridLines="None">
           <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />

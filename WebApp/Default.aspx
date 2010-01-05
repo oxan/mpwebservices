@@ -6,7 +6,7 @@
 <head runat="server">
     <title>MediaPortal WebServices</title>
 </head>
-<body style="background: /pics/Background.png">
+<body>
     <form id="form1" runat="server">
     <div>
     <asp:Button ID="btnTv" runat="server" Text="Tv" 
@@ -66,9 +66,9 @@
               <ControlStyle Height="50px" Width="50px" />
             </asp:ImageField>
             <asp:HyperLinkField DataNavigateUrlFields="idChannel,channel" 
-              DataNavigateUrlFormatString="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}" 
+              DataNavigateUrlFormatString="ChannelEPG.aspx?idChannel={0}&amp;channelName={1}" 
               DataTextField="channel" HeaderText="Channel" 
-              NavigateUrl="ChannelEPG.aspx?idChannel={0}&amp;amp;channelName={1}" 
+              NavigateUrl="ChannelEPG.aspx?idChannel={0}&amp;channelName={1}" 
               Target="_blank">
               <ItemStyle VerticalAlign="Top" />
             </asp:HyperLinkField>

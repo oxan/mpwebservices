@@ -204,6 +204,8 @@ namespace MediaPortal.TvServer.WebServices.Classes
     public int idChannel;
     public string channel;
     public string userName;
+    public string recordingFolder;
+    public string timeshiftFolder;
   }
   public class WebSchedule
   {

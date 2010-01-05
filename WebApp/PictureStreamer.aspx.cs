@@ -49,12 +49,12 @@ using MediaPortal.TvServer.WebServices;
       else if (Request.QueryString["tvlogo"] != null)
       {
         ThumbPaths paths=Utils.GetThumbPaths();
-        thumb = paths.tv + "\\" + Server.HtmlDecode(Request.QueryString["tvlogo"])+".png";
+        thumb = paths.tv + "\\" + Request.QueryString["tvlogo"]+".png";
       }
       else if (Request.QueryString["radiologo"] != null)
       {
         ThumbPaths paths = Utils.GetThumbPaths();
-        thumb = paths.radio + "\\" + Server.HtmlDecode(Request.QueryString["radiologo"]) + ".png";
+        thumb = paths.radio + "\\" + Request.QueryString["radiologo"] + ".png";
       }
       if (!File.Exists(thumb))
         return;

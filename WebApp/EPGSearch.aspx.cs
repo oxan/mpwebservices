@@ -56,7 +56,7 @@ using MediaPortal.TvServer.WebServices.Classes;
         row["genre"] = p.genre;
         row["channel"] = p.channelName;
         row["program"] = "<b>" + GetScraperLink(p.Title) + "</b><br/>" + p.description;
-        row["logo"]=Utils.GetStreamURL() + "/PictureStreamer.aspx?tvlogo=" + Server.HtmlEncode(p.channelName);
+        row["logo"]=Utils.GetLogoURL(p.channelName,true);
         row["idProgram"] = p.idProgram;
         dt.Rows.Add(row);
       }

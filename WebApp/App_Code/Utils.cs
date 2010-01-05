@@ -40,7 +40,7 @@ namespace MediaPortal.TvServer.WebServices
     {
       if (!Directory.Exists(logDir))
         Directory.CreateDirectory(logDir);
-      using (StreamWriter sw = new StreamWriter(logDir+"\\" + DateTime.Now.ToString("dd_MM_yy") + ".log"))
+      using (StreamWriter sw = new StreamWriter(logDir+"\\" + DateTime.Now.ToString("dd_MM_yy") + ".log",true))
       {
         sw.WriteLine(DateTime.Now.ToString("HH:mm:ss") + "  " + msg);
       }
@@ -154,6 +154,24 @@ namespace MediaPortal.TvServer.WebServices
         }
       }
       return thumbs;
+    }
+    public static string GetLogoURL( string name, bool isTv)
+    {
+      string ret = "";
+      ThumbPaths paths = Utils.GetThumbPaths();
+      if (isTv)
+      {
+        string fn = paths.tv + "\\" + name + ".png";
+        if (File.Exists(fn))
+          ret = Utils.GetStreamURL() + "/PictureStreamer.aspx?tvlogo=" + HttpUtility.UrlEncode(name);
+      }
+      else
+      {
+        string fn = paths.radio + "\\" + name + ".png";
+        if (File.Exists(fn))
+          ret = Utils.GetStreamURL() + "/PictureStreamer.aspx?radiologo=" + HttpUtility.UrlEncode(name);
+      }
+      return ret;
     }
   }
 }

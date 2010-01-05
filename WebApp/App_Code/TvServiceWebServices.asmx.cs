@@ -502,6 +502,8 @@ namespace MediaPortal.TvServer.WebServices
           if (usersForCard == null)
           {
             WebTvServerStatus state = new WebTvServerStatus();
+            state.recordingFolder = card.RecordingFolder;
+            state.timeshiftFolder = card.TimeShiftFolder;
             vcard = new VirtualCard(user, RemoteControl.HostName);
             string tmp = "idle";
             state.status = (int)CardStatus.Idle;
@@ -528,6 +530,8 @@ namespace MediaPortal.TvServer.WebServices
           if (usersForCard.Length == 0)
           {
             WebTvServerStatus state = new WebTvServerStatus();
+            state.recordingFolder = card.RecordingFolder;
+            state.timeshiftFolder = card.TimeShiftFolder;
             vcard = new VirtualCard(user, RemoteControl.HostName);
             string tmp = "idle";
             state.status = (int)CardStatus.Idle;
@@ -554,6 +558,8 @@ namespace MediaPortal.TvServer.WebServices
           for (int i = 0; i < usersForCard.Length; ++i)
           {
             WebTvServerStatus state = new WebTvServerStatus();
+            state.recordingFolder = card.RecordingFolder;
+            state.timeshiftFolder = card.TimeShiftFolder;
             string tmp = "idle";
             state.status = (int)CardStatus.Idle;
             vcard = new VirtualCard(usersForCard[i], RemoteControl.HostName);
