@@ -70,7 +70,7 @@ using System.Management;
       string manufacturer = "";
       string model = "";
       string computername = "";
-      int totalPhysicalMem = 0;
+      UInt64 totalPhysicalMem = 0;
 
       ManagementObjectSearcher query = new ManagementObjectSearcher("SELECT model,manufacturer,name,totalPhysicalMemory FROM Win32_ComputerSystem");
       ManagementObjectCollection queryCollection = query.Get();
@@ -79,7 +79,7 @@ using System.Management;
         model = mo["model"].ToString();
         manufacturer = mo["manufacturer"].ToString();
         computername = mo["name"].ToString();
-        totalPhysicalMem = Convert.ToInt32(mo["totalphysicalmemory"]);
+        totalPhysicalMem = Convert.ToUInt64(mo["totalphysicalmemory"]);
         totalPhysicalMem = (totalPhysicalMem / 1024) / 1024;
       }
 
@@ -100,7 +100,10 @@ using System.Management;
 
       string usages="";
       foreach (string drive in recPaths)
-        usages+=GetDriveUsageStr(drive.Substring(0,2))+"<br/>";
+      {
+        if (drive.Length > 0)
+          usages += GetDriveUsageStr(drive.Substring(0, 2)) + "<br/>";
+      }
       lSpace.Text=usages;
     }
     protected string GetOSVersionStr()
