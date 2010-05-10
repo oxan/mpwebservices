@@ -49,6 +49,10 @@
     <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="aspNETserve, Version=1.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\aspNETserve.dll</HintPath>
+    </Reference>
     <Reference Include="PluginBase, Version=1.0.4.20532, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\Team MediaPortal\TvEngine3\TVLibrary\Plugins\PluginBase\bin\Release\PluginBase.dll</HintPath>
