@@ -2,3 +2,4 @@
 */obj/*
 *.suo
 WebApp/Bin/*.dll
+Setup/Debug/*
