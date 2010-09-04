@@ -3,3 +3,4 @@
 *.suo
 WebApp/Bin/*.dll
 Setup/Debug/*
+Setup/Release/*
