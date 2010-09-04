@@ -164,6 +164,9 @@ namespace Cassini {
                 int bodyLength = (body != null) ? Encoding.UTF8.GetByteCount(body) : 0;
                 String headers = MakeResponseHeaders(statusCode, extraHeaders, bodyLength, keepAlive);
                 _socket.Send(Encoding.UTF8.GetBytes(headers + body));
+            } 
+            catch (SocketException) {
+                // writing failed, probably because of something on client side, doesn't matter that much
             }
             finally {
                 if (!keepAlive)
@@ -192,6 +195,9 @@ namespace Cassini {
                 _socket.Send(fileBytes, 0, bytesRead, SocketFlags.None);
 
                 completed = true;
+            } 
+            catch (SocketException) {
+                // writing failed, probably because of something on client side, doesn't matter much
             }
             finally {
                 if (!keepAlive || !completed)
