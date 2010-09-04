@@ -10,7 +10,7 @@ namespace TvServerPlugin
 {
   public class MPWebServices: TvEngine.ITvServerPlugin
   {
-    private aspNETserve.Server webServer = null;
+    private Cassini.Server webServer = null;
     
     #region Properties
     /// <summary>
@@ -104,8 +104,7 @@ namespace TvServerPlugin
       Log.Info("MPWebServices: Starting web server...");
       try
       {
-        webServer=new aspNETserve.Server(System.Net.IPAddress.Any,"/", Settings.baseDir + "\\MPWebServices\\htdocs",Settings.httpPort);
-        //webServer = new Cassini.Server(Settings.httpPort, );
+        webServer = new Cassini.Server(Settings.httpPort, "/", Settings.baseDir + "\\MPWebServices\\htdocs");
         webServer.Start();
       }
       catch (Exception ex)
