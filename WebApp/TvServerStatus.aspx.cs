@@ -52,11 +52,11 @@ using System.Management;
         row["user"] = state.userName;
         if ((CardStatus)state.status == CardStatus.TimeShifting)
         {
-          row["action"]="<input type=button ID=\"btn\" Value=\"Stop timeshift\" onclick=KickSession("+state.idCard.ToString()+","+state.idChannel.ToString()+",'"+state.userName+"',0); />";
+          row["action"]="<input type=\"button\" ID=\"btn\" Value=\"Stop timeshift\" onclick=KickSession("+state.idCard.ToString()+","+state.idChannel.ToString()+",'"+state.userName+"',0); />";
         }
         else if ((CardStatus)state.status == CardStatus.Recording)
         {
-          row["action"] = "<input type=button ID=\"btn\" Value=\"Stop recording\" onclick=KickSession(" + state.idCard.ToString() + "," + state.idChannel.ToString() + ",'" + state.userName + "',1); />";
+          row["action"] = "<input type=\"button\" ID=\"btn\" Value=\"Stop recording\" onclick=KickSession(" + state.idCard.ToString() + "," + state.idChannel.ToString() + ",'" + state.userName + "',1); />";
         }
         dt.Rows.Add(row);
       }
@@ -100,10 +100,7 @@ using System.Management;
 
       string usages="";
       foreach (string drive in recPaths)
-      {
-        if (drive.Length > 0)
-          usages += GetDriveUsageStr(drive.Substring(0, 2)) + "<br/>";
-      }
+        usages+=GetDriveUsageStr(drive.Substring(0,2))+"<br/>";
       lSpace.Text=usages;
     }
     protected string GetOSVersionStr()
