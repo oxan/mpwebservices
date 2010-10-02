@@ -56,7 +56,7 @@ namespace WebServerHost
     private void LoadConfig()
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(Application.StartupPath + "\\htdocs\\config.xml");
+      doc.Load(Application.StartupPath + "\\config.xml");
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       httpPort = Int32.Parse(gNode.Attributes["httpport"].Value);
       tvServerHost = gNode.Attributes["tvserverhost"].Value;
@@ -128,7 +128,7 @@ namespace WebServerHost
       root.AppendChild(gNode);
       root.AppendChild(transcoders);
       doc.AppendChild(root);
-      doc.Save(Application.StartupPath + "\\htdocs\\config.xml");
+      doc.Save(Application.StartupPath + "\\config.xml");
     }
     #endregion
 

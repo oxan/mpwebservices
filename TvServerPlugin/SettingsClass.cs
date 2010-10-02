@@ -58,8 +58,8 @@ namespace TvServerPlugin
       try
       {
         XmlDocument doc = new XmlDocument();
-        Log.Info("MPWebServices: config.xml=" + baseDir + "\\MPWebServices\\htdocs\\config.xml");
-        doc.Load(baseDir + "\\MPWebServices\\htdocs\\config.xml");
+        Log.Info("MPWebServices: config.xml=" + baseDir + "\\MPWebServices\\config.xml");
+        doc.Load(baseDir + "\\MPWebServices\\config.xml");
         XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
         httpPort = Int32.Parse(gNode.Attributes["httpport"].Value);
         thumbHeight = Int32.Parse(gNode.Attributes["thumbheight"].Value);
@@ -205,7 +205,7 @@ namespace TvServerPlugin
       root.AppendChild(dbpaths);
       root.AppendChild(thpaths);
       doc.AppendChild(root);
-      doc.Save(baseDir + "\\MPWebServices\\htdocs\\config.xml");
+      doc.Save(baseDir + "\\MPWebServices\\config.xml");
     }
   }
 }

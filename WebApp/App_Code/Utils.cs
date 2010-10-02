@@ -35,6 +35,7 @@ namespace MediaPortal.TvServer.WebServices
   public class Utils
   {
     private static string logDir=AppDomain.CurrentDomain.BaseDirectory + "\\logs";
+    private static string configFile = AppDomain.CurrentDomain.BaseDirectory + "\\..\\config.xml";
 
     public static void Log(string msg)
     {
@@ -49,7 +50,7 @@ namespace MediaPortal.TvServer.WebServices
     {
       List<EncoderConfig> encCfgs = new List<EncoderConfig>();
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNodeList nodes = doc.SelectNodes("/appconfig/transcoders/transcoder");
       encCfgs = new List<EncoderConfig>();
       foreach (XmlNode node in nodes)
@@ -62,14 +63,14 @@ namespace MediaPortal.TvServer.WebServices
     public static string GetStreamURL()
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["streamurl"].Value;
     }
     public static void GetThumbDimensions(out int width, out int height)
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       width = Int32.Parse(gNode.Attributes["thumbwidth"].Value);
       height = Int32.Parse(gNode.Attributes["thumbheight"].Value);
@@ -77,28 +78,28 @@ namespace MediaPortal.TvServer.WebServices
     public static string GetClientPlayerPath()
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["clientplayerpath"].Value;
     }
     public static string GetScraperURL()
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return gNode.Attributes["scraper_url"].Value;
     }
     public static int GetPlayerType()
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       return Int32.Parse(gNode.Attributes["playertype"].Value);
     }
     public static void GetLogin(out string uid, out string pwd)
     {
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNode gNode = doc.SelectSingleNode("/appconfig/config");
       uid = gNode.Attributes["username"].Value;
       pwd = gNode.Attributes["password"].Value;
@@ -107,7 +108,7 @@ namespace MediaPortal.TvServer.WebServices
     {
       DBLocations dbLocations = new DBLocations();
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNodeList dbNodes = doc.SelectNodes("/appconfig/mpdatabases/database");
       foreach (XmlNode node in dbNodes)
       {
@@ -136,7 +137,7 @@ namespace MediaPortal.TvServer.WebServices
     {
       ThumbPaths thumbs = new ThumbPaths();
       XmlDocument doc = new XmlDocument();
-      doc.Load(AppDomain.CurrentDomain.BaseDirectory + "config.xml");
+      doc.Load(configFile);
       XmlNodeList dbNodes = doc.SelectNodes("/appconfig/thumbpaths/thumb");
       foreach (XmlNode node in dbNodes)
       {
