@@ -25,7 +25,7 @@ namespace TvServerPlugin
     /// </summary>
     public string Version
     {
-      get { return "1.0.0.2"; }
+      get { return "1.0.0.2+o1"; }
     }
     /// <summary>
     /// returns the author of the plugin
@@ -81,7 +81,7 @@ namespace TvServerPlugin
         {
 
         }
-        Log.Info("MPWebServices: Udapted " + dll);
+        Log.Info("MPWebServices: Updated " + dll);
       }
       else
         Log.Info("MPWebServices: No update needed.");
