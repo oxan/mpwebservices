@@ -27,10 +27,10 @@
 					<asp:View ID="vTv" runat="server">
 						<div id="actions">
 							Group: 
-							<asp:DropDownList ID="cbTvGroups" runat="server" AutoPostBack="True" onselectedindexchanged="cbTvGroups_SelectedIndexChanged" /></asp:DropDownList>					
+							<asp:DropDownList ID="cbTvGroups" runat="server" AutoPostBack="True" onselectedindexchanged="cbTvGroups_SelectedIndexChanged" />
 							Streaming Profile:
 							<asp:DropDownList ID="cbTvProfiles" runat="server"></asp:DropDownList>
-							<!-- <asp:ImageButton ID="btnTvRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnTvRSS_Click" />  -->
+							<!-- <asp:ImageButton ID="btnTvRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnTvRSS_Click" />  -->
 							<input onclick="window.open('EPGSearch.aspx');" type="button" value="Search EPG" />
 						</div>
 						<asp:GridView ID="gridTv" runat="server" AutoGenerateColumns="False" GridLines="None" DataKeyNames="idChannel" onrowcommand="gridTv_RowCommand">
@@ -47,7 +47,7 @@
 									Target="_blank">
 									<ItemStyle VerticalAlign="Top" />
 								</asp:HyperLinkField>
-								<asp:ButtonField ButtonType="Image" ImageUrl="~\pics\play.png" Text="play" CommandName="play">
+								<asp:ButtonField ButtonType="Image" ImageUrl="~/pics/play_enabled.gif" Text="play" CommandName="play">
 									<ItemStyle VerticalAlign="Top" />
 								</asp:ButtonField>
 								<asp:BoundField DataField="now_next" HeaderText="Now/Next" HtmlEncode="False">
@@ -66,7 +66,7 @@
 							<asp:DropDownList ID="cbRadioGroups" runat="server" AutoPostBack="True" onselectedindexchanged="cbRadioGroups_SelectedIndexChanged"></asp:DropDownList>
 							Streaming Profile:
 							<asp:DropDownList ID="cbRadioProfiles" runat="server"></asp:DropDownList>
-							<!-- <asp:ImageButton ID="btnRadioRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnRadioRSS_Click" /> -->
+							<!-- <asp:ImageButton ID="btnRadioRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnRadioRSS_Click" /> -->
 						</div>
 						<asp:GridView ID="gridRadio" runat="server" AutoGenerateColumns="False" CellPadding="4" ForeColor="#333333" GridLines="None" DataKeyNames="idChannel" onrowcommand="gridRadio_RowCommand">
 							<RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
@@ -80,7 +80,7 @@
 									Target="_blank">
 									<ItemStyle VerticalAlign="Top" />
 								</asp:HyperLinkField>
-								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~\pics\play.png" Text="play" />
+								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play_enabled.gif" Text="play" />
 								<asp:BoundField DataField="now_next" HeaderText="Now/Next" HtmlEncode="False">
 									<HeaderStyle HorizontalAlign="Left" />
 									<ItemStyle VerticalAlign="Top" />
@@ -99,7 +99,7 @@
 						<div id="actions">
 							Streaming Profile:
 							<asp:DropDownList ID="cbRecordingProfiles" runat="server"></asp:DropDownList>
-							<!-- <asp:ImageButton ID="btnRecordingsRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnRecordingsRSS_Click" /> -->
+							<!-- <asp:ImageButton ID="btnRecordingsRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnRecordingsRSS_Click" /> -->
 							Title starts with: <asp:TextBox ID="edRecTitle" runat="server"></asp:TextBox>
 							<asp:Button ID="btnSearchRecordings" runat="server" onclick="btnSearchRecordings_Click" Text="Search" />
 						</div>
@@ -117,7 +117,7 @@
 								<asp:BoundField DataField="time" HeaderText="Time"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 								<asp:BoundField DataField="channel" HeaderText="Channel"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 								<asp:BoundField DataField="genre" HeaderText="Genre"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
-								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~\pics\play.png" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
+								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play_enabled.gif" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
 								<asp:BoundField HeaderText="Description" DataField="program" HtmlEncode="False" />
 							</Columns>
 							<FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -148,7 +148,7 @@
 							<Columns>
 								<asp:BoundField DataField="startTime" HeaderText="Start"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 								<asp:BoundField DataField="endTime" HeaderText="End"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
-								<asp:CommandField ButtonType="Image" DeleteImageUrl="~/pics/btnDelete.png" EditImageUrl="~/pics/btnEdit.png" ShowCancelButton="False" ShowDeleteButton="True" ShowEditButton="True" />
+								<asp:CommandField ButtonType="Image" DeleteImageUrl="~/pics/btnDelete.gif" EditImageUrl="~/pics/btnEdit.gif" ShowCancelButton="False" ShowDeleteButton="True" ShowEditButton="True" />
 								<asp:BoundField DataField="channel" HeaderText="Channel"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 								<asp:BoundField HeaderText="Title" DataField="title" HtmlEncode="False" />
 								<asp:BoundField DataField="type" HeaderText="Type" />
@@ -166,7 +166,7 @@
 						<div id="actions">
 							Streaming Profile:
 							<asp:DropDownList ID="cbMovieProfiles" runat="server"></asp:DropDownList>					
-							<!-- <asp:ImageButton ID="btnMovieRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnMovieRSS_Click" /> -->
+							<!-- <asp:ImageButton ID="btnMovieRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnMovieRSS_Click" /> -->
 							Title starts with:
 							<asp:TextBox ID="edMovieTitle" runat="server"></asp:TextBox>
 							<asp:Button ID="btnSearchMovie" runat="server" onclick="btnSearchMovie_Click" Text="Search" />
@@ -175,7 +175,7 @@
 							<RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
 							<Columns>
 								<asp:BoundField DataField="genre" HeaderText="Genre"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
-								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play.png" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
+								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play_enabled.gif" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
 								<asp:BoundField DataField="file" HeaderText="File"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 								<asp:BoundField DataField="title" HeaderText="Title" HtmlEncode="False"><ItemStyle VerticalAlign="Top" Wrap="False" /></asp:BoundField>
 								<asp:BoundField DataField="plot" HeaderText="Plot"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
@@ -196,7 +196,7 @@
 									<td>Streaming Profile:</td>
 									<td>
 										<asp:DropDownList ID="cbMusicProfiles" runat="server"></asp:DropDownList>						
-										<!-- <asp:ImageButton ID="btnMusicRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnMusicRSS_Click" /> -->
+										<!-- <asp:ImageButton ID="btnMusicRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnMusicRSS_Click" /> -->
 									</td>
 								</tr>
 								<tr>
@@ -236,7 +236,7 @@
 										Value='<%# Bind("duration") %>' />
 									</ItemTemplate>
 								</asp:TemplateField>
-								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play.png" Text="play" />
+								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play_enabled.gif" Text="play" />
 								<asp:BoundField HeaderText="Title" DataField="title" />
 								<asp:BoundField DataField="durationStr" HeaderText="Duration" />
 							</Columns>
@@ -262,7 +262,7 @@
 						<div id="actions">
 							Streaming Profile:
 							<asp:DropDownList ID="cbTvSeriesProfiles" runat="server"></asp:DropDownList>					
-							<!-- <asp:ImageButton ID="btnSeriesRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnSeriesRSS_Click" /> -->
+							<!-- <asp:ImageButton ID="btnSeriesRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnSeriesRSS_Click" /> -->
 							Serie starts with:
 							<asp:TextBox ID="edSeries" runat="server"></asp:TextBox>
 							Episode starts with:
@@ -281,7 +281,7 @@
 							<RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
 							<Columns>
 								<asp:BoundField DataField="series" HeaderText="Series"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
-								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play.png" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
+								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play_enabled.gif" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
 								<asp:BoundField DataField="episode" HeaderText="Episode" HtmlEncode="False" />
 							</Columns>
 							<FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
@@ -298,7 +298,7 @@
 							<p>
 								Streaming Profile:
 								<asp:DropDownList ID="cbMovingPicturesProfiles" runat="server"></asp:DropDownList>					
-								<asp:ImageButton ID="btnMovingPicturesRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.png" onclick="btnMovingPicturesRSS_Click" />
+								<asp:ImageButton ID="btnMovingPicturesRSS" runat="server" AlternateText="RSS Feed" ImageUrl="~/pics/rss-icon.gif" onclick="btnMovingPicturesRSS_Click" />
 							</p>
 							<p>
 								WHERE title STARTS WITH
@@ -319,7 +319,7 @@
 							<Columns>
 								<asp:BoundField DataField="genre" HeaderText="Genre" ><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 								<asp:BoundField DataField="parentalRating" HeaderText="Parental Rating"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
-								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play.png" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
+								<asp:ButtonField ButtonType="Image" CommandName="play" ImageUrl="~/pics/play_enabled.gif" Text="play"><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
 								<asp:BoundField DataField="movie" HeaderText="Movie" HtmlEncode="False" />
 							</Columns>
 							<FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
