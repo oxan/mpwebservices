@@ -109,11 +109,11 @@ using System.Management;
     protected string GetOSVersionStr()
     {
       string ret = "";
-      ManagementObjectSearcher query = new ManagementObjectSearcher("SELECT Caption,BuildNumber,BuildType,OSArchitecture FROM Win32_OperatingSystem");
+      ManagementObjectSearcher query = new ManagementObjectSearcher("SELECT Caption,CSDVersion,BuildNumber,BuildType FROM Win32_OperatingSystem");
       ManagementObjectCollection queryCollection=query.Get();
 
       foreach (ManagementObject os in queryCollection)
-        ret=os["Caption"].ToString() + " (Build " + os["BuildNumber"].ToString() + " - " + os["BuildType"] + " - " + os["OSArchitecture"]+")";
+        ret=os["Caption"].ToString() + " " + os["CSDVersion"].ToString() + " (Build " + os["BuildNumber"].ToString() + " - " + os["BuildType"] + ")";
       return ret;
     }
 
