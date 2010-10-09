@@ -111,8 +111,10 @@ using System.Management;
       ManagementObjectSearcher query = new ManagementObjectSearcher("SELECT Caption,CSDVersion,BuildNumber,BuildType FROM Win32_OperatingSystem");
       ManagementObjectCollection queryCollection=query.Get();
 
-      foreach (ManagementObject os in queryCollection)
-        ret=os["Caption"].ToString() + " " + os["CSDVersion"].ToString() + " (Build " + os["BuildNumber"].ToString() + " - " + os["BuildType"] + ")";
+      foreach (ManagementObject os in queryCollection) {
+        ret = os["Caption"].ToString() + (os["CSDVersion"] == null ? "" : " " + os["CSDVersion"].ToString());
+        ret += " (Build " + os["BuildNumber"].ToString() + " - " + os["BuildType"] + ")";
+      }
       return ret;
     }
 
