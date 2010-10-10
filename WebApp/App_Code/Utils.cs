@@ -35,7 +35,7 @@ namespace MediaPortal.TvServer.WebServices
   public class Utils
   {
     private static string logDir=AppDomain.CurrentDomain.BaseDirectory + "\\logs";
-    private static string configFile = AppDomain.CurrentDomain.BaseDirectory + "\\..\\config.xml";
+    private static string configFile = AppDomain.CurrentDomain.BaseDirectory.Substring(0, AppDomain.CurrentDomain.BaseDirectory.IndexOf("htdocs") - 1) + "\\config.xml";
 
     public static void Log(string msg)
     {

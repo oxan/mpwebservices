@@ -99,8 +99,10 @@ using System.Management;
       lMemory.Text = ramCounter.NextValue() + " Mb / "+totalPhysicalMem.ToString()+ "Mb";
 
       string usages="";
-      foreach (string drive in recPaths)
-        usages+=GetDriveUsageStr(drive.Substring(0,2))+"<br/>";
+      foreach (string drive in recPaths) {
+        if(drive.Length > 0)
+          usages += GetDriveUsageStr(drive.Substring(0, 2)) + "<br/>";
+      }
       lSpace.Text=usages;
     }
     protected string GetOSVersionStr()

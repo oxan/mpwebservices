@@ -187,6 +187,7 @@ public partial class Default : System.Web.UI.Page
     dt.Columns.Add("logo", typeof(string));
     foreach (WebMiniEPG epg in epgs)
     {
+      if (epg.idChannel == 0) continue;
       DataRow row = dt.NewRow();
       row["channel"] = epg.name;
       row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": <a href=EPGSearch.aspx?title=" + Server.UrlEncode(epg.epgNow.title) + " target=_blank><img border=0 src=\"pics/btnrecurrences.png\" alt=\"Find recurrences\" style=\"margin-right:5px;vertical-align:middle\" title=\"Find recurrences\" /></a>" + GetScraperLink(epg.epgNow.title) + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": <a href=EPGSearch.aspx?title=" + Server.UrlEncode(epg.epgNext.title) + " target=_blank><img border=0 src=\"pics/btnrecurrences.png\" alt=\"Find recurrences\" style=\"margin-right:5px;vertical-align:middle\" title=\"Find recurrences\" /></a>" + GetScraperLink(epg.epgNext.title);
@@ -254,6 +255,7 @@ public partial class Default : System.Web.UI.Page
     dt.Columns.Add("logo", typeof(string));
     foreach (WebMiniEPG epg in epgs)
     {
+      if (epg.idChannel == 0) continue;
       DataRow row = dt.NewRow();
       row["channel"] = epg.name;
       row["now_next"] = epg.epgNow.startTime.ToShortTimeString() + " - " + epg.epgNow.endTime.ToShortTimeString() + ": " + epg.epgNow.title + "<br/>" + epg.epgNext.startTime.ToShortTimeString() + " - " + epg.epgNext.endTime.ToShortTimeString() + ": " + epg.epgNext.title;
