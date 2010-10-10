@@ -4,12 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head runat="server">
-    <title>Untitled Page</title>
+    <title>ERROR</title>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
-    
+    If you read this, there failed something with setting up the streamer. Check the server logs.
     </div>
     </form>
 </body>
