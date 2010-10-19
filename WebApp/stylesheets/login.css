@@ -1,0 +1,32 @@
+body {
+	background: #5D7B9D;
+	font-family: Verdana, Arial;
+	font-size: 12px;
+	text-align: center;
+}
+
+div#main {
+	margin: 50px auto;
+	text-align: center;
+	width: 300px;
+}
+
+h1 {
+	border: 1px dashed #ffffff;
+	padding: 10px;
+}
+
+table {
+	margin: 20px auto;
+}
+
+td {
+	padding: 5px;
+}
+
+span {
+	border: 1px dashed #ffffff;
+	display: block;
+	padding: 10px;
+	text-align: center;
+}

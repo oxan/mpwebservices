@@ -1,0 +1,51 @@
+body {
+	font-family: Verdana, Arial;
+	font-size: 12px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+a {
+	color: #5D7B9D;
+	text-decoration: none;
+}
+
+p {
+	margin-bottom: 10px;
+}
+
+div#main {
+	margin: auto;
+	text-align: left;
+	width: 990px;
+}
+
+div#head {
+	background: #5D7B9D;
+	padding: 15px;
+	text-align: center;
+}
+
+div#actions {
+	background: #5D7B9D;
+	color: #ffffff;
+	margin-bottom: 15px;
+	padding: 15px;
+	text-align: center;
+	
+	border-radius: 0px 0px 10px 10px;
+	-moz-border-radius: 0px 0px 10px 10px;
+	-webkit-border-radius: 0px 0px 10px 10px;
+	-opera-border-radius: 0px 0px 10px 10px;
+	-khtml-border-radius: 0px 0px 10px 10px;
+}
+
+table {
+	margin: auto;
+}
+
+th, td {
+	padding: 5px;
+	text-align: left;
+	vertical-align: middle;
+}

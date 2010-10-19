@@ -16,7 +16,7 @@
 					<Columns>
 						<asp:BoundField HeaderText="Time" DataField="time" HtmlEncode="False" ><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 						<asp:BoundField DataField="genre" HeaderText="Genre"><ItemStyle VerticalAlign="Top" /></asp:BoundField>
-						<asp:ButtonField ButtonType="Image" CommandName="record" HeaderText="Action" ImageUrl="~/pics/rec.gif" Text="record" ><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
+						<asp:ButtonField ButtonType="Image" CommandName="record" HeaderText="Action" ImageUrl="~/pics/rec.png" Text="record" ><ItemStyle VerticalAlign="Top" /></asp:ButtonField>
 						<asp:BoundField DataField="program" HeaderText="Program" HtmlEncode="False"><HeaderStyle HorizontalAlign="Left" /><ItemStyle VerticalAlign="Top" /></asp:BoundField>
 					</Columns>
 					<FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />

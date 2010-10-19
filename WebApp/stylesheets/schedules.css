@@ -1,0 +1,27 @@
+body {
+	font-family: Verdana, Arial;
+	font-size: 12px;
+	text-align: center;
+}
+
+div#main {
+	margin: auto;
+	text-align: left;
+	width: 500px;
+}
+
+h1 {
+	background: #5D7B9D;
+	color: #ffffff;
+	line-height: 30px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+table {
+	margin: auto;
+}
+
+td {
+	padding: 5px;
+}

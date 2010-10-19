@@ -1,0 +1,21 @@
+body {
+	font-family: Verdana, Arial;
+	font-size: 12px;
+	text-align: center;
+}
+
+a {
+	color: #5D7B9D;
+	text-decoration: none;
+}
+
+div#main {
+	margin: auto;
+	text-align: left;
+	width: 980px;
+}
+
+th, td {
+	padding: 10px;
+	vertical-align: middle;
+}

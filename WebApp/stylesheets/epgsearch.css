@@ -1,0 +1,35 @@
+body {
+	font-family: Verdana, Arial;
+	font-size: 12px;
+	line-height: 1.5;
+	text-align: center;
+}
+
+a {
+	color: #5D7B9D;
+	text-decoration: none;
+}
+
+div#main {
+	margin: auto;
+	text-align: left;
+	width: 980px;
+}
+
+h1 {
+	background: #5D7B9D;
+	color: #ffffff;
+	line-height: 70px;
+	margin-bottom: 20px;
+	text-align: center;
+	
+	border-radius: 0px 0px 10px 10px;
+	-moz-border-radius: 0px 0px 10px 10px;
+	-webkit-border-radius: 0px 0px 10px 10px;
+	-opera-border-radius: 0px 0px 10px 10px;
+	-khtml-border-radius: 0px 0px 10px 10px;
+}
+
+th, td {
+	padding: 10px;
+}

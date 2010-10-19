@@ -24,7 +24,7 @@
 						<asp:BoundField DataField="genre" HeaderText="Genre"></asp:BoundField>
 						<asp:ImageField DataImageUrlField="logo"><ControlStyle Height="50px" Width="50px" /></asp:ImageField>
 						<asp:BoundField DataField="channel" HeaderText="Channel"></asp:BoundField>
-						<asp:ButtonField ButtonType="Image" CommandName="record" HeaderText="Action" ImageUrl="~/pics/rec.gif" Text="record"></asp:ButtonField>
+						<asp:ButtonField ButtonType="Image" CommandName="record" HeaderText="Action" ImageUrl="~/pics/rec.png" Text="record"></asp:ButtonField>
 						<asp:BoundField DataField="program" HeaderText="Program" HtmlEncode="False"><HeaderStyle HorizontalAlign="Left" /></asp:BoundField>
 					</Columns>
 					<HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
