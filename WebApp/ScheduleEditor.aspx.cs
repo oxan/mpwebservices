@@ -35,9 +35,14 @@ public partial class ScheduleEditor : System.Web.UI.Page
     else if (Request.QueryString["idProgram"] != null)
     {
       WebProgram p = server.GetEPG(Int32.Parse(Request.QueryString["idProgram"]));
+
+      WebChannel c = server.GetChannel(p.idChannel);
+      cbChannelType.SelectedIndex = c.isTv ? 1 : 2;
+      populateChannelGroups();
+      cbChannel.SelectedValue = p.idChannel.ToString();
       lChannel.Text = p.channelName;
       hfIdChannel.Value = p.idChannel.ToString();
-      cbChannel.SelectedValue = p.idChannel.ToString();
+
       edStart.Text = p.startTime.ToString();
       edEnd.Text = p.endTime.ToString();
       edTitle.Text = p.Title;
@@ -45,6 +50,11 @@ public partial class ScheduleEditor : System.Web.UI.Page
   }
 
   protected void cbGroup_SelectedIndexChanged(object sender, EventArgs e)
+  {
+    populateChannels();
+  }
+
+  protected void populateChannels() 
   {
     ServiceInterface server = new ServiceInterface();
     List<WebChannel> channels=null;
@@ -62,6 +72,11 @@ public partial class ScheduleEditor : System.Web.UI.Page
 
   protected void cbChannelType_SelectedIndexChanged(object sender, EventArgs e)
   {
+    populateChannelGroups();
+  }
+
+  protected void populateChannelGroups() 
+  {
     ServiceInterface server = new ServiceInterface();
     cbGroup.Items.Clear();
     List<WebChannelGroup> groups=null;
@@ -78,21 +93,15 @@ public partial class ScheduleEditor : System.Web.UI.Page
 
     int idx = 0;
     int allIndex = -1;
-    int index = -1;
     foreach (WebChannelGroup g in groups)
     {
       if (g.name == "All Channels" && allIndex == -1)
         allIndex = idx;
-      if (g.name != "All Channels" && index == -1)
-        index = idx;
       cbGroup.Items.Add(new ListItem(g.name, g.idGroup.ToString()));
       idx++;
     }
-    if (index != -1)
-      cbGroup.SelectedIndex = index;
-    else
-      cbGroup.SelectedIndex = allIndex;
-    cbGroup_SelectedIndexChanged(sender, e);
+    cbGroup.SelectedIndex = allIndex;
+    populateChannels();
   }
 
   protected void CustomValidator1_ServerValidate(object source, ServerValidateEventArgs args)
