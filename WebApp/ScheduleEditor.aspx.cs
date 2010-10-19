@@ -99,12 +99,14 @@ public partial class ScheduleEditor : System.Web.UI.Page
   {
     DateTime dt;
     args.IsValid = DateTime.TryParse(args.Value, out dt);
+    if(args.IsValid)
+      args.IsValid = dt > DateTime.Now;
   }
 
   protected void btnSave_Click(object sender, EventArgs e)
   {
     int idChannel;
-    if (!Int32.TryParse(hfIdChannel.Value,out idChannel))
+    if (!Int32.TryParse(cbChannel.SelectedValue,out idChannel))
     {
       lChanError.Visible=true;
       return;
