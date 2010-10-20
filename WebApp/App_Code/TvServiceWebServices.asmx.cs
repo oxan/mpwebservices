@@ -603,6 +603,58 @@ namespace MediaPortal.TvServer.WebServices
       }
       return states;
     }
+    [WebMethod]
+    public List<WebActiveStream> GetActiveStreams()
+    {
+      IList<Card> cards = Card.ListAll();
+      List<Channel> channels = new List<Channel>();
+      TvControl.TvServer server = new TvControl.TvServer();
+      List<User> _users = new List<User>();
+      List<WebActiveStream> activestream = new List<WebActiveStream>();
+      if(!ConnectToDatabase())
+        return activestream;
+
+      foreach (Card card in cards)
+      {
+        if (card.Enabled == false)
+          continue;
+        if (!RemoteControl.Instance.CardPresent(card.IdCard))
+          continue;
+        User[] users = RemoteControl.Instance.GetUsersForCard(card.IdCard);
+        if (users == null)
+          return activestream;
+
+        for (int i = 0; i < users.Length; ++i)
+        {
+          User user = users[i];
+          if (card.IdCard != user.CardId)
+            continue;
+
+          bool isRecording;
+          bool isTimeShifting;
+
+          VirtualCard tvcard = new VirtualCard(user, RemoteControl.HostName);
+          isRecording = tvcard.IsRecording;
+          isTimeShifting = tvcard.IsTimeShifting;
+          if (isTimeShifting || (isRecording && !isTimeShifting))
+          {
+            int idChannel = tvcard.IdChannel;
+            try
+            {
+              WebChannel channel = new WebChannel(Channel.Retrieve(idChannel));
+              WebTvServerUser tvServerUser = new WebTvServerUser(tvcard.User);
+              WebActiveStream stream = new WebActiveStream(tvServerUser, channel);
+              activestream.Add(stream);
+            }
+            catch (Exception ex)
+            { 
+              // FIXME: handle it
+            }
+          }
+        }
+      }
+      return activestream;
+    }
     #endregion
 
     #region MPFunctions

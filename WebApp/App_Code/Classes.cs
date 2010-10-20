@@ -399,6 +399,22 @@ namespace MediaPortal.TvServer.WebServices.Classes
       this.year = year;
     }
   }
+  public class WebActiveStream
+  {
+    public int idChannel;
+    public int idCard;
+    public string channel;
+    public string user;
+
+    public WebActiveStream() { }
+    public WebActiveStream(WebTvServerUser user, WebChannel channel)
+    {
+      this.idChannel = user.idChannel;
+      this.idCard = user.idCard;
+      this.user = user.name;
+      this.channel = channel.displayName;
+    }
+  }
   public class SupportedMPFunctions
   {
     public bool myVideos;
