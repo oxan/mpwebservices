@@ -375,17 +375,23 @@ namespace MediaPortal.TvServer.WebServices
       return new WebSchedule(Schedule.Retrieve(idSchedule));
     }
     [WebMethod]
-    public bool AddSchedule(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInterval = null, int postRecordInterval = null)
+    public bool AddScheduleAdvanced(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInteraval, int postRecordInterval)
     {
       if (!ConnectToDatabase())
         return false;
       Schedule sched = new Schedule(idChannel, programName, startTime, endTime);
-      sched.PreRecordInterval = preRecordInterval == null ? Int32.Parse(GetSetting("preRecordInterval", "5").Value) : preRecordInterval;
-      sched.PostRecordInterval = postRecordInterval == null ? Int32.Parse(GetSetting("postRecordInterval", "5").Value) : postRecordInterval;
+      // using negative numbers instead of null because non-primitive types (which a Nullable<int> is) and SOAP don't mix easily
+      sched.PreRecordInterval = preRecordInterval < 0 ? Int32.Parse(GetSetting("preRecordInterval", "5").Value) : preRecordInterval;
+      sched.PostRecordInterval = postRecordInterval < 0 ? Int32.Parse(GetSetting("postRecordInterval", "5").Value) : postRecordInterval;
       sched.ScheduleType = scheduleType;
       sched.Persist();
       RemoteControl.Instance.OnNewSchedule();
       return true;
+    }
+    [WebMethod]
+    public bool AddSchedule(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType)
+    {
+      return AddScheduleAdvanced(idChannel, programName, startTime, endTime, scheduleType, -1, -1);
     }
     [WebMethod]
     public bool DeleteSchedule(int idSchedule)
