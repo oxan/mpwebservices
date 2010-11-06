@@ -375,13 +375,13 @@ namespace MediaPortal.TvServer.WebServices
       return new WebSchedule(Schedule.Retrieve(idSchedule));
     }
     [WebMethod]
-    public bool AddSchedule(int idChannel,string programName,DateTime startTime,DateTime endTime,int scheduleType)
+    public bool AddSchedule(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInterval = null, int postRecordInterval = null)
     {
       if (!ConnectToDatabase())
         return false;
       Schedule sched = new Schedule(idChannel, programName, startTime, endTime);
-      sched.PreRecordInterval = Int32.Parse(GetSetting("preRecordInterval", "5").Value);
-      sched.PostRecordInterval = Int32.Parse(GetSetting("postRecordInterval", "5").Value);
+      sched.PreRecordInterval = preRecordInterval == null ? Int32.Parse(GetSetting("preRecordInterval", "5").Value) : preRecordInterval;
+      sched.PostRecordInterval = postRecordInterval == null ? Int32.Parse(GetSetting("postRecordInterval", "5").Value) : postRecordInterval;
       sched.ScheduleType = scheduleType;
       sched.Persist();
       RemoteControl.Instance.OnNewSchedule();
