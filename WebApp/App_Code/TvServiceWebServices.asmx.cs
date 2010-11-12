@@ -375,7 +375,7 @@ namespace MediaPortal.TvServer.WebServices
       return new WebSchedule(Schedule.Retrieve(idSchedule));
     }
     [WebMethod]
-    public bool AddScheduleAdvanced(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInteraval, int postRecordInterval)
+    public bool AddScheduleAdvanced(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInteraval, int postRecordInterval, string directory, int keepMethod)
     {
       if (!ConnectToDatabase())
         return false;
@@ -384,6 +384,8 @@ namespace MediaPortal.TvServer.WebServices
       sched.PreRecordInterval = preRecordInterval < 0 ? Int32.Parse(GetSetting("preRecordInterval", "5").Value) : preRecordInterval;
       sched.PostRecordInterval = postRecordInterval < 0 ? Int32.Parse(GetSetting("postRecordInterval", "5").Value) : postRecordInterval;
       sched.ScheduleType = scheduleType;
+      sched.Directory = directory;
+      sched.KeepMethod = keepMethod;
       sched.Persist();
       RemoteControl.Instance.OnNewSchedule();
       return true;
@@ -391,7 +393,7 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public bool AddSchedule(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType)
     {
-      return AddScheduleAdvanced(idChannel, programName, startTime, endTime, scheduleType, -1, -1);
+      return AddScheduleAdvanced(idChannel, programName, startTime, endTime, scheduleType, -1, -1, "", TvDatabase.UntilSpaceNeeded);
     }
     [WebMethod]
     public bool DeleteSchedule(int idSchedule)
