@@ -375,7 +375,7 @@ namespace MediaPortal.TvServer.WebServices
       return new WebSchedule(Schedule.Retrieve(idSchedule));
     }
     [WebMethod]
-    public bool AddScheduleAdvanced(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInteraval, int postRecordInterval, string directory, int keepMethod)
+    public bool AddScheduleAdvanced(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType, int preRecordInterval, int postRecordInterval, string directory, int keepMethod)
     {
       if (!ConnectToDatabase())
         return false;
@@ -393,7 +393,7 @@ namespace MediaPortal.TvServer.WebServices
     [WebMethod]
     public bool AddSchedule(int idChannel, string programName, DateTime startTime, DateTime endTime, int scheduleType)
     {
-      return AddScheduleAdvanced(idChannel, programName, startTime, endTime, scheduleType, -1, -1, "", TvDatabase.UntilSpaceNeeded);
+      return AddScheduleAdvanced(idChannel, programName, startTime, endTime, scheduleType, -1, -1, "", (int)TvDatabase.KeepMethodType.UntilSpaceNeeded);
     }
     [WebMethod]
     public bool DeleteSchedule(int idSchedule)
