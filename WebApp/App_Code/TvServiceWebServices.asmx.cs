@@ -141,8 +141,10 @@ namespace MediaPortal.TvServer.WebServices
       if (!ConnectToDatabase())
         return channels;
       IList<Channel> dbChannels = Channel.ListAll();
-      foreach (Channel ch in dbChannels)
-        channels.Add(new WebChannel(ch));
+      foreach (Channel ch in dbChannels) {
+        if(ch.VisibleInGuide)
+          channels.Add(new WebChannel(ch));
+      }
       return channels;
     }
     [WebMethod]
@@ -169,8 +171,10 @@ namespace MediaPortal.TvServer.WebServices
       if (group == null)
         return channels;
       IList<GroupMap> maps = group.ReferringGroupMap();
-      foreach (GroupMap map in maps)
-        channels.Add(new WebChannel(map.ReferencedChannel()));
+      foreach (GroupMap map in maps) {
+        if (map.ReferencedChannel().VisibleInGuide)
+          channels.Add(new WebChannel(map.ReferencedChannel()));
+      }
       return channels;
     }
     [WebMethod]
@@ -190,8 +194,10 @@ namespace MediaPortal.TvServer.WebServices
       if (group == null)
         return channels;
       IList<RadioGroupMap> maps = group.ReferringRadioGroupMap();
-      foreach (RadioGroupMap map in maps)
-        channels.Add(new WebChannel(map.ReferencedChannel()));
+      foreach (RadioGroupMap map in maps) {
+        if(map.ReferencedChannel().VisibleInGuide)
+          channels.Add(new WebChannel(map.ReferencedChannel()));
+      }
       return channels;
     }
     #endregion
