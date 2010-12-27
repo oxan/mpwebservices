@@ -25,7 +25,7 @@ namespace TvServerPlugin
     /// </summary>
     public string Version
     {
-      get { return "1.0.0.2+o2"; }
+      get { return "1.0.0.2+o4"; }
     }
     /// <summary>
     /// returns the author of the plugin
