@@ -82,6 +82,10 @@ namespace MediaPortal.TvServer.WebServices
     {
       if (isDBConnected)
         return true;
+
+      // read gentle configuration
+      string gentleConfigFile = Environment.GetFolderPath(Environment.SpecialFolder.CommonApplicationData) + @"\Team MediaPortal\MediaPortal TV Server\Gentle.config";
+      Gentle.Common.Configurator.AddFileHandler(gentleConfigFile);
       
       string provider = "";
       RemoteControl.HostName = Environment.MachineName;
@@ -96,7 +100,7 @@ namespace MediaPortal.TvServer.WebServices
       }
       isDBConnected=true;
       return true;
-    }
+    } 
     private string GetDateTimeString()
     {
       string provider = Gentle.Framework.ProviderFactory.GetDefaultProvider().Name.ToLower();
