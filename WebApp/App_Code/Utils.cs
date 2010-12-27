@@ -164,13 +164,13 @@ namespace MediaPortal.TvServer.WebServices
       {
         string fn = paths.tv + "\\" + name + ".png";
         if (File.Exists(fn))
-          ret = Utils.GetStreamURL() + "/PictureStreamer.aspx?tvlogo=" + HttpUtility.UrlEncode(name);
+          ret = "/PictureStreamer.aspx?tvlogo=" + HttpUtility.UrlEncode(name);
       }
       else
       {
         string fn = paths.radio + "\\" + name + ".png";
         if (File.Exists(fn))
-          ret = Utils.GetStreamURL() + "/PictureStreamer.aspx?radiologo=" + HttpUtility.UrlEncode(name);
+          ret = "/PictureStreamer.aspx?radiologo=" + HttpUtility.UrlEncode(name);
       }
       return ret;
     }
